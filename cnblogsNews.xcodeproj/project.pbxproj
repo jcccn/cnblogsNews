@@ -11,11 +11,11 @@
 		900F23D6143358F80090BB49 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 900F23D5143358F80090BB49 /* Foundation.framework */; };
 		900F23D8143358F80090BB49 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 900F23D7143358F80090BB49 /* CoreGraphics.framework */; };
 		900F23DE143358F80090BB49 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 900F23DC143358F80090BB49 /* InfoPlist.strings */; };
-		900F23E0143358F80090BB49 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 900F23DF143358F80090BB49 /* main.m */; };
 		900F23E4143358F80090BB49 /* cnblogsNewsAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 900F23E3143358F80090BB49 /* cnblogsNewsAppDelegate.m */; };
-		900F23E7143358F80090BB49 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 900F23E5143358F80090BB49 /* MainWindow.xib */; };
-		900F23EA143358F80090BB49 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 900F23E9143358F80090BB49 /* RootViewController.m */; };
-		900F23ED143358F80090BB49 /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 900F23EB143358F80090BB49 /* RootViewController.xib */; };
+		900F2408143364C90090BB49 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 900F240A143364C90090BB49 /* main.m */; };
+		900F240F143365440090BB49 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 900F2411143365440090BB49 /* Localizable.strings */; };
+		900F2416143367740090BB49 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 900F2415143367740090BB49 /* MainViewController.m */; };
+		900F248114336C9F0090BB49 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 900F248014336C9F0090BB49 /* MainWindow.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,16 +23,20 @@
 		900F23D3143358F80090BB49 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		900F23D5143358F80090BB49 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		900F23D7143358F80090BB49 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		900F23DB143358F80090BB49 /* cnblogsNews-Info.plist */ = {isa = PBXFileReference; path = "cnblogsNews-Info.plist"; sourceTree = "<group>"; };
+		900F23DB143358F80090BB49 /* cnblogsNews-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "cnblogsNews-Info.plist"; sourceTree = "<group>"; };
 		900F23DD143358F80090BB49 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		900F23DF143358F80090BB49 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		900F23E1143358F80090BB49 /* cnblogsNews-Prefix.pch */ = {isa = PBXFileReference; path = "cnblogsNews-Prefix.pch"; sourceTree = "<group>"; };
-		900F23E2143358F80090BB49 /* cnblogsNewsAppDelegate.h */ = {isa = PBXFileReference; path = cnblogsNewsAppDelegate.h; sourceTree = "<group>"; };
+		900F23E1143358F80090BB49 /* cnblogsNews-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "cnblogsNews-Prefix.pch"; sourceTree = "<group>"; };
+		900F23E2143358F80090BB49 /* cnblogsNewsAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cnblogsNewsAppDelegate.h; sourceTree = "<group>"; };
 		900F23E3143358F80090BB49 /* cnblogsNewsAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = cnblogsNewsAppDelegate.m; sourceTree = "<group>"; };
-		900F23E6143358F80090BB49 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
-		900F23E8143358F80090BB49 /* RootViewController.h */ = {isa = PBXFileReference; path = RootViewController.h; sourceTree = "<group>"; };
-		900F23E9143358F80090BB49 /* RootViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
-		900F23EC143358F80090BB49 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/RootViewController.xib; sourceTree = "<group>"; };
+		900F23F914335AA30090BB49 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "/Users/jcccn/Projects/Interesting/cnblogsNews/cnblogsNews/zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<absolute>"; };
+		900F23FC14335AAE0090BB49 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "/Users/jcccn/Projects/Interesting/cnblogsNews/cnblogsNews/zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<absolute>"; };
+		900F2409143364C90090BB49 /* en */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = en; path = en.lproj/main.m; sourceTree = "<group>"; };
+		900F2410143365440090BB49 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		900F24121433654A0090BB49 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		900F24131433654C0090BB49 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		900F2414143367740090BB49 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		900F2415143367740090BB49 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		900F248014336C9F0090BB49 /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,10 +85,9 @@
 			children = (
 				900F23E2143358F80090BB49 /* cnblogsNewsAppDelegate.h */,
 				900F23E3143358F80090BB49 /* cnblogsNewsAppDelegate.m */,
-				900F23E5143358F80090BB49 /* MainWindow.xib */,
-				900F23E8143358F80090BB49 /* RootViewController.h */,
-				900F23E9143358F80090BB49 /* RootViewController.m */,
-				900F23EB143358F80090BB49 /* RootViewController.xib */,
+				900F2414143367740090BB49 /* MainViewController.h */,
+				900F2415143367740090BB49 /* MainViewController.m */,
+				900F248014336C9F0090BB49 /* MainWindow.xib */,
 				900F23DA143358F80090BB49 /* Supporting Files */,
 			);
 			path = cnblogsNews;
@@ -95,8 +98,9 @@
 			children = (
 				900F23DB143358F80090BB49 /* cnblogsNews-Info.plist */,
 				900F23DC143358F80090BB49 /* InfoPlist.strings */,
-				900F23DF143358F80090BB49 /* main.m */,
+				900F240A143364C90090BB49 /* main.m */,
 				900F23E1143358F80090BB49 /* cnblogsNews-Prefix.pch */,
+				900F2411143365440090BB49 /* Localizable.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -135,6 +139,8 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				"zh-Hans",
+				"zh-Hant",
 			);
 			mainGroup = 900F23C4143358F80090BB49;
 			productRefGroup = 900F23D0143358F80090BB49 /* Products */;
@@ -152,8 +158,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				900F23DE143358F80090BB49 /* InfoPlist.strings in Resources */,
-				900F23E7143358F80090BB49 /* MainWindow.xib in Resources */,
-				900F23ED143358F80090BB49 /* RootViewController.xib in Resources */,
+				900F240F143365440090BB49 /* Localizable.strings in Resources */,
+				900F248114336C9F0090BB49 /* MainWindow.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -164,9 +170,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				900F23E0143358F80090BB49 /* main.m in Sources */,
+				900F2408143364C90090BB49 /* main.m in Sources */,
 				900F23E4143358F80090BB49 /* cnblogsNewsAppDelegate.m in Sources */,
-				900F23EA143358F80090BB49 /* RootViewController.m in Sources */,
+				900F2416143367740090BB49 /* MainViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -177,24 +183,28 @@
 			isa = PBXVariantGroup;
 			children = (
 				900F23DD143358F80090BB49 /* en */,
+				900F23F914335AA30090BB49 /* zh-Hans */,
+				900F23FC14335AAE0090BB49 /* zh-Hant */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		900F23E5143358F80090BB49 /* MainWindow.xib */ = {
+		900F240A143364C90090BB49 /* main.m */ = {
 			isa = PBXVariantGroup;
 			children = (
-				900F23E6143358F80090BB49 /* en */,
+				900F2409143364C90090BB49 /* en */,
 			);
-			name = MainWindow.xib;
+			name = main.m;
 			sourceTree = "<group>";
 		};
-		900F23EB143358F80090BB49 /* RootViewController.xib */ = {
+		900F2411143365440090BB49 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				900F23EC143358F80090BB49 /* en */,
+				900F2410143365440090BB49 /* en */,
+				900F24121433654A0090BB49 /* zh-Hans */,
+				900F24131433654C0090BB49 /* zh-Hant */,
 			);
-			name = RootViewController.xib;
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -205,6 +215,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -219,7 +230,8 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -229,6 +241,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -236,8 +249,9 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -284,6 +298,7 @@
 				900F23F2143358F80090BB49 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
