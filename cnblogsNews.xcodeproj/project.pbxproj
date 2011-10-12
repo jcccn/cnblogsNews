@@ -9,13 +9,26 @@
 /* Begin PBXBuildFile section */
 		900F23D4143358F80090BB49 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 900F23D3143358F80090BB49 /* UIKit.framework */; };
 		900F23D6143358F80090BB49 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 900F23D5143358F80090BB49 /* Foundation.framework */; };
-		900F23D8143358F80090BB49 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 900F23D7143358F80090BB49 /* CoreGraphics.framework */; };
 		900F23DE143358F80090BB49 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 900F23DC143358F80090BB49 /* InfoPlist.strings */; };
 		900F23E4143358F80090BB49 /* cnblogsNewsAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 900F23E3143358F80090BB49 /* cnblogsNewsAppDelegate.m */; };
 		900F2408143364C90090BB49 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 900F240A143364C90090BB49 /* main.m */; };
 		900F240F143365440090BB49 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 900F2411143365440090BB49 /* Localizable.strings */; };
 		900F2416143367740090BB49 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 900F2415143367740090BB49 /* MainViewController.m */; };
 		900F248114336C9F0090BB49 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 900F248014336C9F0090BB49 /* MainWindow.xib */; };
+		9072911C1445E8D0001DEC1C /* TFHpple.m in Sources */ = {isa = PBXBuildFile; fileRef = 9072910C1445E8D0001DEC1C /* TFHpple.m */; };
+		9072911D1445E8D0001DEC1C /* TFHppleElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9072910E1445E8D0001DEC1C /* TFHppleElement.m */; };
+		9072911E1445E8D0001DEC1C /* XPathQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 907291101445E8D0001DEC1C /* XPathQuery.m */; };
+		9072911F1445E8D0001DEC1C /* blackArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 907291121445E8D0001DEC1C /* blackArrow.png */; };
+		907291201445E8D0001DEC1C /* blackArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 907291131445E8D0001DEC1C /* blackArrow@2x.png */; };
+		907291211445E8D0001DEC1C /* blueArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 907291141445E8D0001DEC1C /* blueArrow.png */; };
+		907291221445E8D0001DEC1C /* blueArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 907291151445E8D0001DEC1C /* blueArrow@2x.png */; };
+		907291231445E8D0001DEC1C /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 907291171445E8D0001DEC1C /* EGORefreshTableHeaderView.m */; };
+		907291241445E8D0001DEC1C /* grayArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 907291181445E8D0001DEC1C /* grayArrow.png */; };
+		907291251445E8D0001DEC1C /* grayArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 907291191445E8D0001DEC1C /* grayArrow@2x.png */; };
+		907291261445E8D0001DEC1C /* whiteArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 9072911A1445E8D0001DEC1C /* whiteArrow.png */; };
+		907291271445E8D0001DEC1C /* whiteArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9072911B1445E8D0001DEC1C /* whiteArrow@2x.png */; };
+		907291321445EAE5001DEC1C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 907291311445EAE5001DEC1C /* QuartzCore.framework */; };
+		907291381445F313001DEC1C /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 907291371445F313001DEC1C /* libxml2.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +50,24 @@
 		900F2414143367740090BB49 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		900F2415143367740090BB49 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		900F248014336C9F0090BB49 /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
+		9072910B1445E8D0001DEC1C /* TFHpple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHpple.h; sourceTree = "<group>"; };
+		9072910C1445E8D0001DEC1C /* TFHpple.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFHpple.m; sourceTree = "<group>"; };
+		9072910D1445E8D0001DEC1C /* TFHppleElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHppleElement.h; sourceTree = "<group>"; };
+		9072910E1445E8D0001DEC1C /* TFHppleElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFHppleElement.m; sourceTree = "<group>"; };
+		9072910F1445E8D0001DEC1C /* XPathQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPathQuery.h; sourceTree = "<group>"; };
+		907291101445E8D0001DEC1C /* XPathQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XPathQuery.m; sourceTree = "<group>"; };
+		907291121445E8D0001DEC1C /* blackArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blackArrow.png; sourceTree = "<group>"; };
+		907291131445E8D0001DEC1C /* blackArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blackArrow@2x.png"; sourceTree = "<group>"; };
+		907291141445E8D0001DEC1C /* blueArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blueArrow.png; sourceTree = "<group>"; };
+		907291151445E8D0001DEC1C /* blueArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blueArrow@2x.png"; sourceTree = "<group>"; };
+		907291161445E8D0001DEC1C /* EGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGORefreshTableHeaderView.h; sourceTree = "<group>"; };
+		907291171445E8D0001DEC1C /* EGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGORefreshTableHeaderView.m; sourceTree = "<group>"; };
+		907291181445E8D0001DEC1C /* grayArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grayArrow.png; sourceTree = "<group>"; };
+		907291191445E8D0001DEC1C /* grayArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grayArrow@2x.png"; sourceTree = "<group>"; };
+		9072911A1445E8D0001DEC1C /* whiteArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whiteArrow.png; sourceTree = "<group>"; };
+		9072911B1445E8D0001DEC1C /* whiteArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "whiteArrow@2x.png"; sourceTree = "<group>"; };
+		907291311445EAE5001DEC1C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		907291371445F313001DEC1C /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,9 +75,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				907291381445F313001DEC1C /* libxml2.dylib in Frameworks */,
+				907291321445EAE5001DEC1C /* QuartzCore.framework in Frameworks */,
 				900F23D4143358F80090BB49 /* UIKit.framework in Frameworks */,
 				900F23D6143358F80090BB49 /* Foundation.framework in Frameworks */,
-				900F23D8143358F80090BB49 /* CoreGraphics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -73,6 +105,8 @@
 		900F23D2143358F80090BB49 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				907291371445F313001DEC1C /* libxml2.dylib */,
+				907291311445EAE5001DEC1C /* QuartzCore.framework */,
 				900F23D3143358F80090BB49 /* UIKit.framework */,
 				900F23D5143358F80090BB49 /* Foundation.framework */,
 				900F23D7143358F80090BB49 /* CoreGraphics.framework */,
@@ -83,6 +117,8 @@
 		900F23D9143358F80090BB49 /* cnblogsNews */ = {
 			isa = PBXGroup;
 			children = (
+				9072910A1445E8D0001DEC1C /* Hpple */,
+				907291111445E8D0001DEC1C /* RefreshTableHeaderView */,
 				900F23E2143358F80090BB49 /* cnblogsNewsAppDelegate.h */,
 				900F23E3143358F80090BB49 /* cnblogsNewsAppDelegate.m */,
 				900F2414143367740090BB49 /* MainViewController.h */,
@@ -103,6 +139,36 @@
 				900F2411143365440090BB49 /* Localizable.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		9072910A1445E8D0001DEC1C /* Hpple */ = {
+			isa = PBXGroup;
+			children = (
+				9072910B1445E8D0001DEC1C /* TFHpple.h */,
+				9072910C1445E8D0001DEC1C /* TFHpple.m */,
+				9072910D1445E8D0001DEC1C /* TFHppleElement.h */,
+				9072910E1445E8D0001DEC1C /* TFHppleElement.m */,
+				9072910F1445E8D0001DEC1C /* XPathQuery.h */,
+				907291101445E8D0001DEC1C /* XPathQuery.m */,
+			);
+			path = Hpple;
+			sourceTree = "<group>";
+		};
+		907291111445E8D0001DEC1C /* RefreshTableHeaderView */ = {
+			isa = PBXGroup;
+			children = (
+				907291161445E8D0001DEC1C /* EGORefreshTableHeaderView.h */,
+				907291171445E8D0001DEC1C /* EGORefreshTableHeaderView.m */,
+				907291121445E8D0001DEC1C /* blackArrow.png */,
+				907291131445E8D0001DEC1C /* blackArrow@2x.png */,
+				907291141445E8D0001DEC1C /* blueArrow.png */,
+				907291151445E8D0001DEC1C /* blueArrow@2x.png */,
+				907291181445E8D0001DEC1C /* grayArrow.png */,
+				907291191445E8D0001DEC1C /* grayArrow@2x.png */,
+				9072911A1445E8D0001DEC1C /* whiteArrow.png */,
+				9072911B1445E8D0001DEC1C /* whiteArrow@2x.png */,
+			);
+			path = RefreshTableHeaderView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -160,6 +226,14 @@
 				900F23DE143358F80090BB49 /* InfoPlist.strings in Resources */,
 				900F240F143365440090BB49 /* Localizable.strings in Resources */,
 				900F248114336C9F0090BB49 /* MainWindow.xib in Resources */,
+				9072911F1445E8D0001DEC1C /* blackArrow.png in Resources */,
+				907291201445E8D0001DEC1C /* blackArrow@2x.png in Resources */,
+				907291211445E8D0001DEC1C /* blueArrow.png in Resources */,
+				907291221445E8D0001DEC1C /* blueArrow@2x.png in Resources */,
+				907291241445E8D0001DEC1C /* grayArrow.png in Resources */,
+				907291251445E8D0001DEC1C /* grayArrow@2x.png in Resources */,
+				907291261445E8D0001DEC1C /* whiteArrow.png in Resources */,
+				907291271445E8D0001DEC1C /* whiteArrow@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -173,6 +247,10 @@
 				900F2408143364C90090BB49 /* main.m in Sources */,
 				900F23E4143358F80090BB49 /* cnblogsNewsAppDelegate.m in Sources */,
 				900F2416143367740090BB49 /* MainViewController.m in Sources */,
+				9072911C1445E8D0001DEC1C /* TFHpple.m in Sources */,
+				9072911D1445E8D0001DEC1C /* TFHppleElement.m in Sources */,
+				9072911E1445E8D0001DEC1C /* XPathQuery.m in Sources */,
+				907291231445E8D0001DEC1C /* EGORefreshTableHeaderView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -230,9 +308,11 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "${SDKROOT}/usr/include/libxml2/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Debug;
 		};
@@ -249,10 +329,12 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "${SDKROOT}/usr/include/libxml2/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
+				USER_HEADER_SEARCH_PATHS = "";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -260,8 +342,10 @@
 		900F23F1143358F80090BB49 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "cnblogsNews/cnblogsNews-Prefix.pch";
+				HEADER_SEARCH_PATHS = "${SDKROOT}/usr/include/libxml2/**";
 				INFOPLIST_FILE = "cnblogsNews/cnblogsNews-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -271,8 +355,10 @@
 		900F23F2143358F80090BB49 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "cnblogsNews/cnblogsNews-Prefix.pch";
+				HEADER_SEARCH_PATHS = "${SDKROOT}/usr/include/libxml2/**";
 				INFOPLIST_FILE = "cnblogsNews/cnblogsNews-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
