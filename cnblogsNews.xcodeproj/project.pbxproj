@@ -15,6 +15,7 @@
 		900F240F143365440090BB49 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 900F2411143365440090BB49 /* Localizable.strings */; };
 		900F2416143367740090BB49 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 900F2415143367740090BB49 /* MainViewController.m */; };
 		900F248114336C9F0090BB49 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 900F248014336C9F0090BB49 /* MainWindow.xib */; };
+		905E3FC414476030009F865B /* NewsDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 905E3FC314476030009F865B /* NewsDetailViewController.m */; };
 		9072911C1445E8D0001DEC1C /* TFHpple.m in Sources */ = {isa = PBXBuildFile; fileRef = 9072910C1445E8D0001DEC1C /* TFHpple.m */; };
 		9072911D1445E8D0001DEC1C /* TFHppleElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9072910E1445E8D0001DEC1C /* TFHppleElement.m */; };
 		9072911E1445E8D0001DEC1C /* XPathQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 907291101445E8D0001DEC1C /* XPathQuery.m */; };
@@ -51,6 +52,8 @@
 		900F2414143367740090BB49 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		900F2415143367740090BB49 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		900F248014336C9F0090BB49 /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
+		905E3FC214476030009F865B /* NewsDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsDetailViewController.h; sourceTree = "<group>"; };
+		905E3FC314476030009F865B /* NewsDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsDetailViewController.m; sourceTree = "<group>"; };
 		9072910B1445E8D0001DEC1C /* TFHpple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHpple.h; sourceTree = "<group>"; };
 		9072910C1445E8D0001DEC1C /* TFHpple.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFHpple.m; sourceTree = "<group>"; };
 		9072910D1445E8D0001DEC1C /* TFHppleElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHppleElement.h; sourceTree = "<group>"; };
@@ -129,6 +132,8 @@
 				900F248014336C9F0090BB49 /* MainWindow.xib */,
 				90995C38144727AA00644B83 /* MTableViewCell.h */,
 				90995C39144727AA00644B83 /* MTableViewCell.m */,
+				905E3FC214476030009F865B /* NewsDetailViewController.h */,
+				905E3FC314476030009F865B /* NewsDetailViewController.m */,
 				900F23DA143358F80090BB49 /* Supporting Files */,
 			);
 			path = cnblogsNews;
@@ -257,6 +262,7 @@
 				9072911E1445E8D0001DEC1C /* XPathQuery.m in Sources */,
 				907291231445E8D0001DEC1C /* EGORefreshTableHeaderView.m in Sources */,
 				90995C3A144727AA00644B83 /* MTableViewCell.m in Sources */,
+				905E3FC414476030009F865B /* NewsDetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,3 +8,9 @@
 
 MainTitle = "cnblogs News";
 DiggText = "diggs";
+AMSymbol = "AM";
+PMSymbol = "PM";
+LastUpdateText = "Last Updated: ";
+ReleaseRrefresh = "Release to refresh";
+PullRefresh = "Pull down to refresh";
+LoadingStatus = "Loading...";

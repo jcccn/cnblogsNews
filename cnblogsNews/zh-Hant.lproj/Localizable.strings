@@ -8,3 +8,9 @@
 
 MainTitle = "博客園新聞";
 DiggText = "人頂";
+AMSymbol = "上午";
+PMSymbol = "下午";
+LastUpdateText = "最近更新：";
+ReleaseRrefresh = "鬆開即可更新";
+PullRefresh = "下拉可以更新";
+LoadingStatus = "正在更新...";

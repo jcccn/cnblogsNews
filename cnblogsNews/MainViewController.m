@@ -7,7 +7,7 @@
 //
 
 #import "MainViewController.h"
-
+#import "NewsDetailViewController.h"
 #import "EGORefreshTableHeaderView.h"
 
 @interface MainViewController (Private)
@@ -16,9 +16,10 @@
 
 @end
 
-#define WebSite @"http://news.cnblogs.com/n/page/2/"
+#define WebSite @"http://news.cnblogs.com"
 
 #define KeyTitle    @"KeyTitle"
+#define KeyUrl      @"KeyUrl"
 #define KeySummary  @"KeySummary"
 #define KeyContributer      @"KeyContributer"
 #define KeyTag      @"KeyTag"
@@ -27,11 +28,15 @@
 #define KeyTime     @"KeyTime"
 #define KeyDigg     @"KeyDigg"
 
+#define KeyNews     @"KeyNews"
+
 #define TagLabel        10000
 #define TagDetailLabel  10001
 #define TagTimeLabel    10002
 
 #define TableViewCellHeight 70.0f
+
+#define LoadNoneNotification    @"LoadNoneNotification"
 
 @implementation MainViewController
 
@@ -41,82 +46,6 @@
 #pragma mark -
 #pragma mark View lifecycle
 
-- (void)setLoadData{
-	NSData *siteData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:WebSite]];
-	
-	TFHpple *xpathParser = [[TFHpple alloc] initWithHTMLData:siteData];
-    NSMutableArray *newsArray = [[NSMutableArray alloc] initWithCapacity:30];
-    NSArray *elements = [xpathParser searchWithXPathQuery:@"//div[@class='news_block']"];
-    for (TFHppleElement *element in elements) {
-        NSMutableDictionary *news = [NSMutableDictionary dictionaryWithCapacity:3];
-        
-        //Digg
-        TFHppleElement *elementDigg = [[[element firstChild] firstChild] firstChild];
-        [news setValue:[elementDigg content] forKey:KeyDigg];
-        
-        NSArray *children = nil;
-        for (TFHppleElement *ele in [element children]) {
-            if ([[[ele attributes] objectForKey:@"class"] isEqualToString:@"content"]) {
-                children = [ele children];
-            }
-        }
-
-        //Title
-        TFHppleElement *elementTitle = [[[children objectAtIndex:0] children] objectAtIndex:0];
-        NSString *newsTitle = [elementTitle content];
-        [news setValue:newsTitle forKey:KeyTitle];
-        
-        //Summary
-        TFHppleElement *elementSummary = [children objectAtIndex:1];
-        NSString *newsSummary = [elementSummary content];
-        [news setValue:newsSummary forKey:KeySummary];
-        
-        NSArray *elementsFooter = [[children objectAtIndex:2] children];
-        for (TFHppleElement *elementFooter in elementsFooter) {
-            
-            //Comment
-            if ([[[elementFooter attributes] objectForKey:@"class"] isEqualToString:@"comment"]) {
-                NSString *newsComment = [[[elementFooter children] objectAtIndex:0] content];
-                [news setValue:newsComment forKey:KeyComment]; 
-            }
-            
-            //View
-            else if ([[[elementFooter attributes] objectForKey:@"class"] isEqualToString:@"view"]) {
-                NSString *newsView = [elementFooter content];
-                [news setValue:newsView forKey:KeyView]; 
-            }
-            
-            //Tag
-            else if ([[[elementFooter attributes] objectForKey:@"class"] isEqualToString:@"tag"]) {
-                NSString *newsTag = @"";
-                for (TFHppleElement *tagElement in [elementFooter children]) {
-                    newsTag = [newsTag stringByAppendingFormat:@" %@",[tagElement content]];
-                }
-                [news setValue:newsTag forKey:KeyTag]; 
-            }
-            
-            else if ([[[elementFooter attributes] objectForKey:@"class"] isEqualToString:@"gray"]) {
-                //Contributer
-                if ([[elementFooter tagName] isEqualToString:@"a"]) {
-                    NSString *newsContributer = [elementFooter content];
-                    [news setValue:newsContributer forKey:KeyContributer];
-                }
-                //Time
-                else if ([[elementFooter tagName] isEqualToString:@"span"]) {
-                    NSString *newsTime = [elementFooter content];
-                    [news setValue:newsTime forKey:KeyTime];
-                }
-            }
-        }
-        
-        [newsArray addObject:news];
-    }
-    
-    self.listData = newsArray;
-	[newsArray release];
-	
-	[xpathParser release];
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -133,18 +62,23 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                             selector:@selector(doneLoading:)
+                                                 name:LoadNoneNotification
+                                               object:nil];
 }
 
 
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self setLoadData];
 }
 
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    [self performSelectorInBackground:@selector(setLoadData) withObject:nil];
 }
 
 /*
@@ -164,6 +98,78 @@
 	// Return YES for supported orientations.
 	return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
+
+#pragma mark -
+#pragma mark Table view delegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    NSString *urlString = [NSString stringWithFormat:@"%@%@",WebSite,
+    [(NSDictionary *)[listData objectAtIndex:indexPath.row] objectForKey:KeyUrl]];
+    
+    NewsDetailViewController *detailViewController = [[NewsDetailViewController alloc] init];
+    detailViewController.urlString = urlString;
+    detailViewController.newsTitle = [(NSDictionary *)[listData objectAtIndex:indexPath.row] objectForKey:KeyTitle];
+    [self.navigationController pushViewController:detailViewController animated:YES];
+    [detailViewController release];
+    
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return TableViewCellHeight;
+}
+
+
+/*
+ // Override to support row selection in the table view.
+ - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+ 
+ // Navigation logic may go here -- for example, create and push another view controller.
+ // AnotherViewController *anotherViewController = [[AnotherViewController alloc] initWithNibName:@"AnotherView" bundle:nil];
+ // [self.navigationController pushViewController:anotherViewController animated:YES];
+ // [anotherViewController release];
+ }
+ */
+
+
+/*
+ // Override to support conditional editing of the table view.
+ - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+ // Return NO if you do not want the specified item to be editable.
+ return YES;
+ }
+ */
+
+
+/*
+ // Override to support editing the table view.
+ - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+ 
+ if (editingStyle == UITableViewCellEditingStyleDelete) {
+ // Delete the row from the data source.
+ [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+ }   
+ else if (editingStyle == UITableViewCellEditingStyleInsert) {
+ // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
+ }   
+ }
+ */
+
+
+/*
+ // Override to support rearranging the table view.
+ - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
+ }
+ */
+
+
+/*
+ // Override to support conditional rearranging of the table view.
+ - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
+ // Return NO if you do not want the item to be re-orderable.
+ return YES;
+ }
+ */
 
 #pragma mark -
 #pragma mark Table view data source
@@ -292,11 +298,96 @@
  }
  */
 
+#pragma mark-
+#pragma mark data conduction
+
+- (void)setLoadData{
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	NSData *siteData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:WebSite]];
+	
+	TFHpple *xpathParser = [TFHpple hppleWithHTMLData:siteData];
+    NSMutableArray *newsArray = [NSMutableArray arrayWithCapacity:30];
+    NSArray *elements = [xpathParser searchWithXPathQuery:@"//div[@class='news_block']"];
+    for (TFHppleElement *element in elements) {
+        NSMutableDictionary *news = [NSMutableDictionary dictionaryWithCapacity:3];
+        
+        //Digg
+        TFHppleElement *elementDigg = [[[element firstChild] firstChild] firstChild];
+        [news setValue:[elementDigg content] forKey:KeyDigg];
+        
+        NSArray *children = nil;
+        for (TFHppleElement *ele in [element children]) {
+            if ([[[ele attributes] objectForKey:@"class"] isEqualToString:@"content"]) {
+                children = [ele children];
+            }
+        }
+        
+        //Title
+        TFHppleElement *elementTitle = [[[children objectAtIndex:0] children] objectAtIndex:0];
+        NSString *newsTitle = [elementTitle content];
+        [news setValue:newsTitle forKey:KeyTitle];
+        
+        //Url
+        NSString *newsUrl = [elementTitle objectForKey:@"href"];
+        [news setValue:newsUrl forKey:KeyUrl];
+        
+        //Summary
+        TFHppleElement *elementSummary = [children objectAtIndex:1];
+        NSString *newsSummary = [elementSummary content];
+        [news setValue:newsSummary forKey:KeySummary];
+        
+        NSArray *elementsFooter = [[children objectAtIndex:2] children];
+        for (TFHppleElement *elementFooter in elementsFooter) {
+            
+            //Comment
+            if ([[[elementFooter attributes] objectForKey:@"class"] isEqualToString:@"comment"]) {
+                NSString *newsComment = [[[elementFooter children] objectAtIndex:0] content];
+                [news setValue:newsComment forKey:KeyComment]; 
+            }
+            
+            //View
+            else if ([[[elementFooter attributes] objectForKey:@"class"] isEqualToString:@"view"]) {
+                NSString *newsView = [elementFooter content];
+                [news setValue:newsView forKey:KeyView]; 
+            }
+            
+            //Tag
+            else if ([[[elementFooter attributes] objectForKey:@"class"] isEqualToString:@"tag"]) {
+                NSString *newsTag = @"";
+                for (TFHppleElement *tagElement in [elementFooter children]) {
+                    newsTag = [newsTag stringByAppendingFormat:@" %@",[tagElement content]];
+                }
+                [news setValue:newsTag forKey:KeyTag]; 
+            }
+            
+            else if ([[[elementFooter attributes] objectForKey:@"class"] isEqualToString:@"gray"]) {
+                //Contributer
+                if ([[elementFooter tagName] isEqualToString:@"a"]) {
+                    NSString *newsContributer = [elementFooter content];
+                    [news setValue:newsContributer forKey:KeyContributer];
+                }
+                //Time
+                else if ([[elementFooter tagName] isEqualToString:@"span"]) {
+                    NSString *newsTime = [elementFooter content];
+                    [news setValue:newsTime forKey:KeyTime];
+                }
+            }
+        }
+        
+        [newsArray addObject:news];
+    }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:LoadNoneNotification
+                                                        object:self
+                                                      userInfo:[NSDictionary dictionaryWithObject:newsArray forKey:KeyNews]];
+    [pool release];
+}
+
 - (void)reloadTableViewDataSource{
 	//  should be calling your tableviews model to reload
 	//  put here just for demo
-    [self setLoadData];
-	[self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:3.0];
+    [self performSelectorInBackground:@selector(setLoadData) withObject:nil];
+//	[self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:3.0];
 	
 }
 
@@ -304,6 +395,14 @@
 - (void)doneLoadingTableViewData{
 	//  model should call this when its done loading
 	[self dataSourceDidFinishLoadingNewData];
+}
+     
+- (void)doneLoading:(NSNotification *)notification {
+    if (notification) {
+        NSMutableArray *newsArray = [[notification userInfo] objectForKey:KeyNews];
+        self.listData = newsArray;
+    }
+    [self performSelector:@selector(doneLoadingTableViewData)];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{	
@@ -343,73 +442,6 @@
 	[refreshHeaderView setCurrentDate];  //  should check if data reload was successful 
 }
 
-
-#pragma mark -
-#pragma mark Table view delegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-//	 <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // Pass the selected object to the new view controller.
-//	 [self.navigationController pushViewController:detailViewController animated:YES];
-//	 [detailViewController release];
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return TableViewCellHeight;
-}
-
-
-/*
- // Override to support row selection in the table view.
- - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
- 
- // Navigation logic may go here -- for example, create and push another view controller.
- // AnotherViewController *anotherViewController = [[AnotherViewController alloc] initWithNibName:@"AnotherView" bundle:nil];
- // [self.navigationController pushViewController:anotherViewController animated:YES];
- // [anotherViewController release];
- }
- */
-
-
-/*
- // Override to support conditional editing of the table view.
- - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
- // Return NO if you do not want the specified item to be editable.
- return YES;
- }
- */
-
-
-/*
- // Override to support editing the table view.
- - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
- 
- if (editingStyle == UITableViewCellEditingStyleDelete) {
- // Delete the row from the data source.
- [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
- }   
- else if (editingStyle == UITableViewCellEditingStyleInsert) {
- // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
- }   
- }
- */
-
-
-/*
- // Override to support rearranging the table view.
- - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
- }
- */
-
-
-/*
- // Override to support conditional rearranging of the table view.
- - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
- // Return NO if you do not want the item to be re-orderable.
- return YES;
- }
- */
 
 
 #pragma mark -
