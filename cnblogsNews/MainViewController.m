@@ -16,10 +16,11 @@
 
 @end
 
-#define WebSite @"http://news.cnblogs.com"
+#define WebSite @"http://news.cnblogs.com/n/page/2/"
 
 #define KeyTitle    @"KeyTitle"
 #define KeySummary  @"KeySummary"
+#define KeyContributer      @"KeyContributer"
 #define KeyTag      @"KeyTag"
 #define KeyComment  @"KeyComment"
 #define KeyView     @"KeyView"
@@ -44,31 +45,76 @@
 	NSData *siteData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:WebSite]];
 	
 	TFHpple *xpathParser = [[TFHpple alloc] initWithHTMLData:siteData];
-    NSArray *elements = [xpathParser search:@"//h2[@class='news_entry']/a"];
-//    NSArray *elementsTag = [xpathParser search:@"//div[@class='entry_footer']/span[@class='tag']/a[1]"];
-    NSArray *elementsView = [xpathParser search:@"//div[@class='entry_footer']/span[@class='view']"];
-    NSArray *elementsTime = [xpathParser search:@"//div[@class='entry_footer']/span[@class='gray']"];
-    NSArray *elementsDigg = [xpathParser search:@"//span[@class='diggnum']"];
-	NSMutableArray *arr = [[NSMutableArray alloc] init];
-    
-    int newsNum = [elements count];
-    if (newsNum == [elementsView count]) {
-        for (int loop = 0; loop < newsNum; loop++) {
-            TFHppleElement *element = [elements objectAtIndex:loop];
-            NSMutableDictionary *news = [NSMutableDictionary dictionaryWithCapacity:3];
-            [news setValue:[element content] forKey:KeyTitle];
-            element = [elementsView objectAtIndex:loop];
-            [news setValue:[element content] forKey:KeyView];
-            element = [elementsTime objectAtIndex:loop];
-            [news setValue:[element content] forKey:KeyTime];
-            element = [elementsDigg objectAtIndex:loop];
-            [news setValue:[element content] forKey:KeyDigg];
-            [arr addObject:news];
+    NSMutableArray *newsArray = [[NSMutableArray alloc] initWithCapacity:30];
+    NSArray *elements = [xpathParser searchWithXPathQuery:@"//div[@class='news_block']"];
+    for (TFHppleElement *element in elements) {
+        NSMutableDictionary *news = [NSMutableDictionary dictionaryWithCapacity:3];
+        
+        //Digg
+        TFHppleElement *elementDigg = [[[element firstChild] firstChild] firstChild];
+        [news setValue:[elementDigg content] forKey:KeyDigg];
+        
+        NSArray *children = nil;
+        for (TFHppleElement *ele in [element children]) {
+            if ([[[ele attributes] objectForKey:@"class"] isEqualToString:@"content"]) {
+                children = [ele children];
+            }
         }
+
+        //Title
+        TFHppleElement *elementTitle = [[[children objectAtIndex:0] children] objectAtIndex:0];
+        NSString *newsTitle = [elementTitle content];
+        [news setValue:newsTitle forKey:KeyTitle];
+        
+        //Summary
+        TFHppleElement *elementSummary = [children objectAtIndex:1];
+        NSString *newsSummary = [elementSummary content];
+        [news setValue:newsSummary forKey:KeySummary];
+        
+        NSArray *elementsFooter = [[children objectAtIndex:2] children];
+        for (TFHppleElement *elementFooter in elementsFooter) {
+            
+            //Comment
+            if ([[[elementFooter attributes] objectForKey:@"class"] isEqualToString:@"comment"]) {
+                NSString *newsComment = [[[elementFooter children] objectAtIndex:0] content];
+                [news setValue:newsComment forKey:KeyComment]; 
+            }
+            
+            //View
+            else if ([[[elementFooter attributes] objectForKey:@"class"] isEqualToString:@"view"]) {
+                NSString *newsView = [elementFooter content];
+                [news setValue:newsView forKey:KeyView]; 
+            }
+            
+            //Tag
+            else if ([[[elementFooter attributes] objectForKey:@"class"] isEqualToString:@"tag"]) {
+                NSString *newsTag = @"";
+                for (TFHppleElement *tagElement in [elementFooter children]) {
+                    newsTag = [newsTag stringByAppendingFormat:@" %@",[tagElement content]];
+                }
+                [news setValue:newsTag forKey:KeyTag]; 
+            }
+            
+            else if ([[[elementFooter attributes] objectForKey:@"class"] isEqualToString:@"gray"]) {
+                //Contributer
+                if ([[elementFooter tagName] isEqualToString:@"a"]) {
+                    NSString *newsContributer = [elementFooter content];
+                    [news setValue:newsContributer forKey:KeyContributer];
+                }
+                //Time
+                else if ([[elementFooter tagName] isEqualToString:@"span"]) {
+                    NSString *newsTime = [elementFooter content];
+                    [news setValue:newsTime forKey:KeyTime];
+                }
+            }
+        }
+        
+        [newsArray addObject:news];
     }
+    
+    self.listData = newsArray;
+	[newsArray release];
 	
-	self.listData = arr;
-	[arr release];
 	[xpathParser release];
 }
 
@@ -182,22 +228,25 @@
     else {
         cell.backgroundView.backgroundColor = [UIColor whiteColor];
     }
+    NSDictionary *news = (NSDictionary *)[listData objectAtIndex:row];
     
     UILabel *textLabel = (UILabel *)[cell.contentView viewWithTag:TagLabel];
     if (textLabel) {
-        textLabel.text = [[listData objectAtIndex:row] valueForKey:KeyTitle];
+        textLabel.text = [news valueForKey:KeyTitle];
+
     }
     
     UILabel *detailLabel = (UILabel *)[cell.contentView viewWithTag:TagDetailLabel];
     if (detailLabel) {
-        detailLabel.text = [NSString stringWithFormat:@"%@, %@人顶！", 
-                            [[listData objectAtIndex:row] valueForKey:KeyView],
-                            [[listData objectAtIndex:row] valueForKey:KeyDigg]];
+        detailLabel.text = [NSString stringWithFormat:@"%@, %@%@", 
+                            [news valueForKey:KeyView],
+                            [news valueForKey:KeyDigg],
+                            NSLocalizedString(@"DiggText", @"diggs")];
     }
     
     UILabel *timeLabel = (UILabel *)[cell.contentView viewWithTag:TagTimeLabel];
     if (timeLabel) {
-        timeLabel.text = [[listData objectAtIndex:row] valueForKey:KeyTime];
+        timeLabel.text = [news valueForKey:KeyTime];
     }
     
     return cell;

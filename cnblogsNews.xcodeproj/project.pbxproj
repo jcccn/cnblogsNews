@@ -29,6 +29,7 @@
 		907291271445E8D0001DEC1C /* whiteArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9072911B1445E8D0001DEC1C /* whiteArrow@2x.png */; };
 		907291321445EAE5001DEC1C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 907291311445EAE5001DEC1C /* QuartzCore.framework */; };
 		907291381445F313001DEC1C /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 907291371445F313001DEC1C /* libxml2.dylib */; };
+		90995C3A144727AA00644B83 /* MTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 90995C39144727AA00644B83 /* MTableViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -68,6 +69,8 @@
 		9072911B1445E8D0001DEC1C /* whiteArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "whiteArrow@2x.png"; sourceTree = "<group>"; };
 		907291311445EAE5001DEC1C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		907291371445F313001DEC1C /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		90995C38144727AA00644B83 /* MTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTableViewCell.h; sourceTree = "<group>"; };
+		90995C39144727AA00644B83 /* MTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTableViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +127,8 @@
 				900F2414143367740090BB49 /* MainViewController.h */,
 				900F2415143367740090BB49 /* MainViewController.m */,
 				900F248014336C9F0090BB49 /* MainWindow.xib */,
+				90995C38144727AA00644B83 /* MTableViewCell.h */,
+				90995C39144727AA00644B83 /* MTableViewCell.m */,
 				900F23DA143358F80090BB49 /* Supporting Files */,
 			);
 			path = cnblogsNews;
@@ -251,6 +256,7 @@
 				9072911D1445E8D0001DEC1C /* TFHppleElement.m in Sources */,
 				9072911E1445E8D0001DEC1C /* XPathQuery.m in Sources */,
 				907291231445E8D0001DEC1C /* EGORefreshTableHeaderView.m in Sources */,
+				90995C3A144727AA00644B83 /* MTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
