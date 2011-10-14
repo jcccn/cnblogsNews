@@ -7,6 +7,7 @@
 //
 
 #import "MainViewController.h"
+#import "MTableViewCell.h"
 #import "NewsDetailViewController.h"
 #import "EGORefreshTableHeaderView.h"
 
@@ -36,7 +37,7 @@
 
 #define TableViewCellHeight 70.0f
 
-#define LoadNoneNotification    @"LoadNoneNotification"
+#define LoadDoneNotification    @"LoadDoneNotification"
 
 @implementation MainViewController
 
@@ -46,11 +47,14 @@
 #pragma mark -
 #pragma mark View lifecycle
 
+BOOL usingCache = true;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     self.title = NSLocalizedString(@"MainTitle", @"cnblogs.com");
+    self.listData = [NSMutableArray array];
+    self.tableView.scrollsToTop = YES;
 	
 	if (refreshHeaderView == nil) {
 		refreshHeaderView = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.tableView.bounds.size.height, 320.0f, self.tableView.bounds.size.height)];
@@ -65,7 +69,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self 
                                              selector:@selector(doneLoading:)
-                                                 name:LoadNoneNotification
+                                                 name:LoadDoneNotification
                                                object:nil];
 }
 
@@ -78,7 +82,11 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self performSelectorInBackground:@selector(setLoadData) withObject:nil];
+//    [self performSelectorInBackground:@selector(setLoadData) withObject:nil];
+    if (usingCache) {
+        [self loadDataWithCache];
+        usingCache = false;
+    }
 }
 
 /*
@@ -189,71 +197,26 @@
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    static NSString *CellIdentifier = @"Cell";
+    static NSString *CellIdentifier = @"MTableViewCell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    MTableViewCell *cell = (MTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        
-        UIView *bgView = [[UIView alloc] initWithFrame:cell.bounds];
-        cell.backgroundView = bgView;
-        [bgView release];
-        
-        UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
-        textLabel.numberOfLines = 2;
-        textLabel.backgroundColor = [UIColor clearColor];
-        textLabel.tag = TagLabel;
-        textLabel.frame = CGRectMake(10, 0, cell.contentView.bounds.size.width-40, TableViewCellHeight*2/3);
-        [cell.contentView addSubview:textLabel];
-        [textLabel release];
-        
-        UILabel *detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
-        detailLabel.backgroundColor = [UIColor clearColor];
-        detailLabel.tag = TagDetailLabel;
-        detailLabel.frame = CGRectMake(10, TableViewCellHeight*2/3, 160, TableViewCellHeight/3);
-        detailLabel.font = [UIFont systemFontOfSize:12];
-        [cell.contentView addSubview:detailLabel];
-        [detailLabel release];
-        
-        UILabel *timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 12)];
-        timeLabel.backgroundColor = [UIColor clearColor];
-        timeLabel.lineBreakMode = UILineBreakModeClip;
-        timeLabel.tag = TagTimeLabel;
-        timeLabel.frame = CGRectMake(cell.contentView.bounds.size.width-120, TableViewCellHeight*2/3, 100, TableViewCellHeight/3);
-        timeLabel.font = [UIFont systemFontOfSize:12];
-        [cell.contentView addSubview:timeLabel];
-        [timeLabel release];
+        NSArray *nibTableCells = [[NSBundle mainBundle] loadNibNamed:@"MTableViewCell" owner:self options:nil];
+        cell = [nibTableCells objectAtIndex:0];
     }
     
 	// Configure the cell.
 	NSInteger row = [indexPath row];
-    if (indexPath.row % 2 == 0) {
-        cell.backgroundView.backgroundColor = [UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1];
-    }
-    else {
-        cell.backgroundView.backgroundColor = [UIColor whiteColor];
-    }
     NSDictionary *news = (NSDictionary *)[listData objectAtIndex:row];
     
-    UILabel *textLabel = (UILabel *)[cell.contentView viewWithTag:TagLabel];
-    if (textLabel) {
-        textLabel.text = [news valueForKey:KeyTitle];
-
-    }
-    
-    UILabel *detailLabel = (UILabel *)[cell.contentView viewWithTag:TagDetailLabel];
-    if (detailLabel) {
-        detailLabel.text = [NSString stringWithFormat:@"%@, %@%@", 
-                            [news valueForKey:KeyView],
-                            [news valueForKey:KeyDigg],
-                            NSLocalizedString(@"DiggText", @"diggs")];
-    }
-    
-    UILabel *timeLabel = (UILabel *)[cell.contentView viewWithTag:TagTimeLabel];
-    if (timeLabel) {
-        timeLabel.text = [news valueForKey:KeyTime];
-    }
+    cell.useDarkBackground = (indexPath.row % 2 == 1);
+    cell.summary = [news valueForKey:KeyTitle];
+    cell.popularity = [NSString stringWithFormat:@"%@%@, %@%@", 
+                       [news valueForKey:KeyView],
+                       NSLocalizedString(@"ViewerText", @"viewers"),
+                       [news valueForKey:KeyDigg],
+                       NSLocalizedString(@"DiggText", @"diggs")];
+    cell.time = [news valueForKey:KeyTime];
     
     return cell;
 }
@@ -301,15 +264,49 @@
 #pragma mark-
 #pragma mark data conduction
 
+- (void)loadDataWithCache {
+    [refreshHeaderView setState:EGOOPullRefreshLoading];
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.2];
+    self.tableView.contentInset = UIEdgeInsetsMake(60.0f, 0.0f, 0.0f, 0.0f);
+    [UIView commitAnimations];
+    
+    NSData *cacheData = [NSData dataWithContentsOfFile:[self cacheFilePath]];
+    if (cacheData) {
+        self.listData = [self parseArrayWithHTMLData:cacheData];
+        [self.tableView reloadData];
+    }
+    
+    [self reloadTableViewDataSource];
+    
+}
+
 - (void)setLoadData{
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    
 	NSData *siteData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:WebSite]];
-	
-	TFHpple *xpathParser = [TFHpple hppleWithHTMLData:siteData];
+	NSMutableArray *newsArray = [self parseArrayWithHTMLData:siteData];
+    [[NSNotificationCenter defaultCenter] postNotificationName:LoadDoneNotification
+                                                        object:self
+                                                      userInfo:[NSDictionary dictionaryWithObject:newsArray forKey:KeyNews]];
+    if ([newsArray count] > 0) {
+        NSString *cacheHtml = [[NSString alloc] initWithData:siteData encoding:NSUTF8StringEncoding];
+        [cacheHtml writeToFile:[self cacheFilePath]
+                    atomically:YES
+                      encoding:NSUTF8StringEncoding
+                         error:nil];
+        [cacheHtml release];
+    }
+    
+    [pool release];
+}
+
+- (NSMutableArray *)parseArrayWithHTMLData:(NSData *)data {
+    TFHpple *xpathParser = [TFHpple hppleWithHTMLData:data];
     NSMutableArray *newsArray = [NSMutableArray arrayWithCapacity:30];
     NSArray *elements = [xpathParser searchWithXPathQuery:@"//div[@class='news_block']"];
     for (TFHppleElement *element in elements) {
-        NSMutableDictionary *news = [NSMutableDictionary dictionaryWithCapacity:3];
+        NSMutableDictionary *news = [NSMutableDictionary dictionaryWithCapacity:9];
         
         //Digg
         TFHppleElement *elementDigg = [[[element firstChild] firstChild] firstChild];
@@ -347,7 +344,7 @@
             
             //View
             else if ([[[elementFooter attributes] objectForKey:@"class"] isEqualToString:@"view"]) {
-                NSString *newsView = [elementFooter content];
+                NSString *newsView = [NSString stringWithFormat:@"%d",[[elementFooter content] intValue]];
                 [news setValue:newsView forKey:KeyView]; 
             }
             
@@ -376,11 +373,7 @@
         
         [newsArray addObject:news];
     }
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:LoadNoneNotification
-                                                        object:self
-                                                      userInfo:[NSDictionary dictionaryWithObject:newsArray forKey:KeyNews]];
-    [pool release];
+    return newsArray;
 }
 
 - (void)reloadTableViewDataSource{
@@ -400,7 +393,17 @@
 - (void)doneLoading:(NSNotification *)notification {
     if (notification) {
         NSMutableArray *newsArray = [[notification userInfo] objectForKey:KeyNews];
-        self.listData = newsArray;
+        if (!newsArray || [newsArray count]==0) {
+            UIAlertView *alertView = [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"NetworkDataErrorTitle", "Data Error")
+                                                                message:NSLocalizedString(@"NetworkDataErrorMessage", "Please check whether the network is OK")
+                                                               delegate:nil
+                                                      cancelButtonTitle:NSLocalizedString(@"NetworkDataErrorOK", "OK")
+                                                      otherButtonTitles:nil, nil] autorelease];
+            [alertView show];
+        }
+        else {
+            self.listData = newsArray;
+        }
     }
     [self performSelector:@selector(doneLoadingTableViewData)];
 }
@@ -442,6 +445,12 @@
 	[refreshHeaderView setCurrentDate];  //  should check if data reload was successful 
 }
 
+- (NSString *)cacheFilePath {
+    NSString* documentsDirectory  = [NSHomeDirectory() 
+                                     stringByAppendingPathComponent:@"Documents"];
+
+    return [documentsDirectory stringByAppendingPathComponent:@"cache.html"];
+}
 
 
 #pragma mark -

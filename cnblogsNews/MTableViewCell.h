@@ -8,6 +8,22 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MTableViewCell : UITableViewCell
+@interface MTableViewCell : UITableViewCell {
+    BOOL useDarkBackground;
+    
+    NSString *summary;
+    NSString *polularity;
+    NSString *time;
+    
+    IBOutlet UILabel *summaryLabel;
+    IBOutlet UILabel *popularityLabel;
+    IBOutlet UILabel *timeLabel;
+}
+
+@property (nonatomic, assign) BOOL useDarkBackground;
+@property (nonatomic, retain) NSString *summary;
+@property (nonatomic, retain) NSString *popularity;
+@property (nonatomic, retain) NSString *time;
+
 
 @end

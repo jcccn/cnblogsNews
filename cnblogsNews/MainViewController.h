@@ -13,13 +13,12 @@
 
 @interface MainViewController : UITableViewController {
 
-NSMutableArray *listData;
+    NSMutableArray *listData;
 
-EGORefreshTableHeaderView *refreshHeaderView;
+    EGORefreshTableHeaderView *refreshHeaderView;
 
-//  Reloading should really be your tableviews model class
-//  Putting it here for demo purposes 
-BOOL _reloading;
+    BOOL _reloading;
+    
 
 }
 
@@ -29,5 +28,10 @@ BOOL _reloading;
 
 - (void)reloadTableViewDataSource;
 - (void)doneLoadingTableViewData;
+
+- (void)loadDataWithCache;
+- (NSMutableArray *)parseArrayWithHTMLData:(NSData *)data;
+
+- (NSString *)cacheFilePath;
 
 @end

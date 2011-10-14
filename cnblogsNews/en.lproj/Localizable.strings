@@ -7,6 +7,7 @@
 */
 
 MainTitle = "cnblogs News";
+ViewerText = "viewers";
 DiggText = "diggs";
 AMSymbol = "AM";
 PMSymbol = "PM";
@@ -14,3 +15,6 @@ LastUpdateText = "Last Updated: ";
 ReleaseRrefresh = "Release to refresh";
 PullRefresh = "Pull down to refresh";
 LoadingStatus = "Loading...";
+NetworkDataErrorTitle = "Data error";
+NetworkDataErrorMessage = "Please check whether the network is OK";
+NetworkDataErrorOK = "OK";
