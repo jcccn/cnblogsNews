@@ -15,6 +15,10 @@
 		900F240F143365440090BB49 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 900F2411143365440090BB49 /* Localizable.strings */; };
 		900F2416143367740090BB49 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 900F2415143367740090BB49 /* MainViewController.m */; };
 		900F248114336C9F0090BB49 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 900F248014336C9F0090BB49 /* MainWindow.xib */; };
+		901093FD1449F69400840437 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 901093FB1449F69400840437 /* libMobClickLibrary.a */; };
+		901094001449F6F500840437 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 901093FF1449F6F500840437 /* SystemConfiguration.framework */; };
+		901094021449F6FE00840437 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 901094011449F6FE00840437 /* CoreTelephony.framework */; };
+		901094041449F72600840437 /* libz.1.2.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 901094031449F72600840437 /* libz.1.2.3.dylib */; };
 		9011225B14489267004B7F60 /* MTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9011225A14489267004B7F60 /* MTableViewCell.xib */; };
 		901122611448A2BA004B7F60 /* DarkBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 9011225F1448A2BA004B7F60 /* DarkBackground.png */; };
 		901122621448A2BA004B7F60 /* LightBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 901122601448A2BA004B7F60 /* LightBackground.png */; };
@@ -55,6 +59,12 @@
 		900F2414143367740090BB49 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		900F2415143367740090BB49 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		900F248014336C9F0090BB49 /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
+		901093FB1449F69400840437 /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickLibrary.a; sourceTree = "<group>"; };
+		901093FC1449F69400840437 /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
+		901093FF1449F6F500840437 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		901094011449F6FE00840437 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		901094031449F72600840437 /* libz.1.2.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.3.dylib; path = usr/lib/libz.1.2.3.dylib; sourceTree = SDKROOT; };
+		90109405144A000700840437 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		9011225A14489267004B7F60 /* MTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MTableViewCell.xib; sourceTree = "<group>"; };
 		9011225F1448A2BA004B7F60 /* DarkBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DarkBackground.png; sourceTree = "<group>"; };
 		901122601448A2BA004B7F60 /* LightBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LightBackground.png; sourceTree = "<group>"; };
@@ -87,10 +97,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				901094041449F72600840437 /* libz.1.2.3.dylib in Frameworks */,
+				901094021449F6FE00840437 /* CoreTelephony.framework in Frameworks */,
+				901094001449F6F500840437 /* SystemConfiguration.framework in Frameworks */,
 				907291381445F313001DEC1C /* libxml2.dylib in Frameworks */,
 				907291321445EAE5001DEC1C /* QuartzCore.framework in Frameworks */,
 				900F23D4143358F80090BB49 /* UIKit.framework in Frameworks */,
 				900F23D6143358F80090BB49 /* Foundation.framework in Frameworks */,
+				901093FD1449F69400840437 /* libMobClickLibrary.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -117,6 +131,9 @@
 		900F23D2143358F80090BB49 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				901094031449F72600840437 /* libz.1.2.3.dylib */,
+				901094011449F6FE00840437 /* CoreTelephony.framework */,
+				901093FF1449F6F500840437 /* SystemConfiguration.framework */,
 				907291371445F313001DEC1C /* libxml2.dylib */,
 				907291311445EAE5001DEC1C /* QuartzCore.framework */,
 				900F23D3143358F80090BB49 /* UIKit.framework */,
@@ -129,8 +146,10 @@
 		900F23D9143358F80090BB49 /* cnblogsNews */ = {
 			isa = PBXGroup;
 			children = (
+				901093FA1449F69400840437 /* Umeng */,
 				9072910A1445E8D0001DEC1C /* Hpple */,
 				907291111445E8D0001DEC1C /* RefreshTableHeaderView */,
+				90109405144A000700840437 /* Constants.h */,
 				900F23E2143358F80090BB49 /* cnblogsNewsAppDelegate.h */,
 				900F23E3143358F80090BB49 /* cnblogsNewsAppDelegate.m */,
 				900F2414143367740090BB49 /* MainViewController.h */,
@@ -157,6 +176,15 @@
 				900F248014336C9F0090BB49 /* MainWindow.xib */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		901093FA1449F69400840437 /* Umeng */ = {
+			isa = PBXGroup;
+			children = (
+				901093FB1449F69400840437 /* libMobClickLibrary.a */,
+				901093FC1449F69400840437 /* MobClick.h */,
+			);
+			path = Umeng;
 			sourceTree = "<group>";
 		};
 		9011225D1448A2BA004B7F60 /* Resouces */ = {
@@ -387,6 +415,15 @@
 				GCC_PREFIX_HEADER = "cnblogsNews/cnblogsNews-Prefix.pch";
 				HEADER_SEARCH_PATHS = "${SDKROOT}/usr/include/libxml2/**";
 				INFOPLIST_FILE = "cnblogsNews/cnblogsNews-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/cnblogsNews/Umeng\"",
+				);
+				OTHER_LDFLAGS = (
+					"-all_load",
+					"-ObjC",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -400,6 +437,15 @@
 				GCC_PREFIX_HEADER = "cnblogsNews/cnblogsNews-Prefix.pch";
 				HEADER_SEARCH_PATHS = "${SDKROOT}/usr/include/libxml2/**";
 				INFOPLIST_FILE = "cnblogsNews/cnblogsNews-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/cnblogsNews/Umeng\"",
+				);
+				OTHER_LDFLAGS = (
+					"-all_load",
+					"-ObjC",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

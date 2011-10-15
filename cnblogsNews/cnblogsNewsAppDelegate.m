@@ -16,6 +16,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    [MobClick setDelegate:self];
+    [MobClick appLaunched];
     // Add the navigation controller's view to the window and display.
     self.window.rootViewController = self.navigationController;
     [self.window makeKeyAndVisible];
@@ -28,6 +30,7 @@
      Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
      Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
      */
+    [MobClick appTerminated];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
@@ -43,6 +46,7 @@
     /*
      Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
      */
+    [MobClick appLaunched];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
@@ -59,6 +63,7 @@
      Save data if appropriate.
      See also applicationDidEnterBackground:.
      */
+    [MobClick appTerminated];
 }
 
 - (void)dealloc
@@ -66,6 +71,17 @@
     [_window release];
     [_navigationController release];
     [super dealloc];
+}
+
+#pragma mark -
+#pragma mark Umeng MobClick
+
+- (NSString *)appKey {
+    return @"senseforce.com";
+}
+
+- (NSString *)channelId {
+    return @"App Store";    //App Store;91store; tongbu
 }
 
 @end

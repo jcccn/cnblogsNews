@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MobClick.h"
 
-@interface cnblogsNewsAppDelegate : NSObject <UIApplicationDelegate>
+@interface cnblogsNewsAppDelegate : NSObject <UIApplicationDelegate, MobClickDelegate>
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 

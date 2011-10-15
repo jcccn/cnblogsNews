@@ -10,6 +10,8 @@
 #import "MTableViewCell.h"
 #import "NewsDetailViewController.h"
 #import "EGORefreshTableHeaderView.h"
+#import "MobClick.h"
+#import "Constants.h"
 
 @interface MainViewController (Private)
 
@@ -47,7 +49,7 @@
 #pragma mark -
 #pragma mark View lifecycle
 
-BOOL usingCache = true;
+BOOL usingCache = YES;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -67,10 +69,6 @@ BOOL usingCache = true;
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    [[NSNotificationCenter defaultCenter] addObserver:self 
-                                             selector:@selector(doneLoading:)
-                                                 name:LoadDoneNotification
-                                               object:nil];
 }
 
 
@@ -82,10 +80,20 @@ BOOL usingCache = true;
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-//    [self performSelectorInBackground:@selector(setLoadData) withObject:nil];
     if (usingCache) {
+        [refreshHeaderView setState:EGOOPullRefreshLoading];
+        [UIView beginAnimations:nil context:NULL];
+        [UIView setAnimationDuration:0.2];
+        self.tableView.contentInset = UIEdgeInsetsMake(60.0f, 0.0f, 0.0f, 0.0f);
+        [UIView commitAnimations];
         [self loadDataWithCache];
-        usingCache = false;
+//        usingCache = NO;
+        [[NSNotificationCenter defaultCenter] addObserver:self 
+                                                 selector:@selector(doneLoading:)
+                                                     name:LoadDoneNotification
+                                                   object:nil];
+        [self reloadTableViewDataSource];
+
     }
 }
 
@@ -112,15 +120,16 @@ BOOL usingCache = true;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    NSString *urlString = [NSString stringWithFormat:@"%@%@",WebSite,
-    [(NSDictionary *)[listData objectAtIndex:indexPath.row] objectForKey:KeyUrl]];
+    NSDictionary *news = (NSDictionary *)[listData objectAtIndex:indexPath.row];
+    NSString *urlString = [NSString stringWithFormat:@"%@%@",WebSite, [news objectForKey:KeyUrl]];
     
     NewsDetailViewController *detailViewController = [[NewsDetailViewController alloc] init];
     detailViewController.urlString = urlString;
-    detailViewController.newsTitle = [(NSDictionary *)[listData objectAtIndex:indexPath.row] objectForKey:KeyTitle];
+    detailViewController.newsTitle = [news objectForKey:KeyTitle];
     [self.navigationController pushViewController:detailViewController animated:YES];
     [detailViewController release];
     
+    [MobClick event:MobClickEventIdReadNewsDetail label:[news objectForKey:KeyUrl]];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -265,11 +274,11 @@ BOOL usingCache = true;
 #pragma mark data conduction
 
 - (void)loadDataWithCache {
-    [refreshHeaderView setState:EGOOPullRefreshLoading];
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.2];
-    self.tableView.contentInset = UIEdgeInsetsMake(60.0f, 0.0f, 0.0f, 0.0f);
-    [UIView commitAnimations];
+//    [refreshHeaderView setState:EGOOPullRefreshLoading];
+//    [UIView beginAnimations:nil context:NULL];
+//    [UIView setAnimationDuration:0.2];
+//    self.tableView.contentInset = UIEdgeInsetsMake(60.0f, 0.0f, 0.0f, 0.0f);
+//    [UIView commitAnimations];
     
     NSData *cacheData = [NSData dataWithContentsOfFile:[self cacheFilePath]];
     if (cacheData) {
@@ -277,7 +286,7 @@ BOOL usingCache = true;
         [self.tableView reloadData];
     }
     
-    [self reloadTableViewDataSource];
+//    [self reloadTableViewDataSource];
     
 }
 
@@ -400,11 +409,18 @@ BOOL usingCache = true;
                                                       cancelButtonTitle:NSLocalizedString(@"NetworkDataErrorOK", "OK")
                                                       otherButtonTitles:nil, nil] autorelease];
             [alertView show];
+            if (! usingCache) {
+                [MobClick event:MobClickEventIdRefreshNewsList label:@"Failed to load"];
+            }
         }
         else {
             self.listData = newsArray;
+            if (! usingCache) {
+                [MobClick event:MobClickEventIdRefreshNewsList label:@"Succeed to load"];
+            }
         }
     }
+    usingCache = NO;
     [self performSelector:@selector(doneLoadingTableViewData)];
 }
 
@@ -429,6 +445,8 @@ BOOL usingCache = true;
 		[UIView setAnimationDuration:0.2];
 		self.tableView.contentInset = UIEdgeInsetsMake(60.0f, 0.0f, 0.0f, 0.0f);
 		[UIView commitAnimations];
+        
+        [MobClick event:MobClickEventIdRefreshNewsList label:@"Start to load"];
 	}
 }
 
