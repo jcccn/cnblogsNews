@@ -35,16 +35,17 @@
 		907291251445E8D0001DEC1C /* grayArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 907291191445E8D0001DEC1C /* grayArrow@2x.png */; };
 		907291261445E8D0001DEC1C /* whiteArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 9072911A1445E8D0001DEC1C /* whiteArrow.png */; };
 		907291271445E8D0001DEC1C /* whiteArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9072911B1445E8D0001DEC1C /* whiteArrow@2x.png */; };
-		907291321445EAE5001DEC1C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 907291311445EAE5001DEC1C /* QuartzCore.framework */; };
 		907291381445F313001DEC1C /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 907291371445F313001DEC1C /* libxml2.dylib */; };
 		90995C3A144727AA00644B83 /* MTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 90995C39144727AA00644B83 /* MTableViewCell.m */; };
+		90F8F433144A2488006B8399 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90F8F432144A2488006B8399 /* iAd.framework */; };
+		90F8F476144A2D49006B8399 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90F8F475144A2D49006B8399 /* CoreGraphics.framework */; };
+		90F8F482144A2EDA006B8399 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90F8F481144A2EDA006B8399 /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		900F23CF143358F80090BB49 /* cnblogsNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cnblogsNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		900F23D3143358F80090BB49 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		900F23D5143358F80090BB49 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		900F23D7143358F80090BB49 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		900F23DB143358F80090BB49 /* cnblogsNews-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "cnblogsNews-Info.plist"; sourceTree = "<group>"; };
 		900F23DD143358F80090BB49 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		900F23E1143358F80090BB49 /* cnblogsNews-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "cnblogsNews-Prefix.pch"; sourceTree = "<group>"; };
@@ -86,10 +87,12 @@
 		907291191445E8D0001DEC1C /* grayArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grayArrow@2x.png"; sourceTree = "<group>"; };
 		9072911A1445E8D0001DEC1C /* whiteArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whiteArrow.png; sourceTree = "<group>"; };
 		9072911B1445E8D0001DEC1C /* whiteArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "whiteArrow@2x.png"; sourceTree = "<group>"; };
-		907291311445EAE5001DEC1C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		907291371445F313001DEC1C /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		90995C38144727AA00644B83 /* MTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTableViewCell.h; sourceTree = "<group>"; };
 		90995C39144727AA00644B83 /* MTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTableViewCell.m; sourceTree = "<group>"; };
+		90F8F432144A2488006B8399 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
+		90F8F475144A2D49006B8399 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		90F8F481144A2EDA006B8399 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,14 +100,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				901094041449F72600840437 /* libz.1.2.3.dylib in Frameworks */,
-				901094021449F6FE00840437 /* CoreTelephony.framework in Frameworks */,
+				90F8F482144A2EDA006B8399 /* QuartzCore.framework in Frameworks */,
+				90F8F433144A2488006B8399 /* iAd.framework in Frameworks */,
 				901094001449F6F500840437 /* SystemConfiguration.framework in Frameworks */,
 				907291381445F313001DEC1C /* libxml2.dylib in Frameworks */,
-				907291321445EAE5001DEC1C /* QuartzCore.framework in Frameworks */,
 				900F23D4143358F80090BB49 /* UIKit.framework in Frameworks */,
 				900F23D6143358F80090BB49 /* Foundation.framework in Frameworks */,
 				901093FD1449F69400840437 /* libMobClickLibrary.a in Frameworks */,
+				901094041449F72600840437 /* libz.1.2.3.dylib in Frameworks */,
+				901094021449F6FE00840437 /* CoreTelephony.framework in Frameworks */,
+				90F8F476144A2D49006B8399 /* CoreGraphics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -131,14 +136,15 @@
 		900F23D2143358F80090BB49 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				90F8F432144A2488006B8399 /* iAd.framework */,
 				901094031449F72600840437 /* libz.1.2.3.dylib */,
 				901094011449F6FE00840437 /* CoreTelephony.framework */,
 				901093FF1449F6F500840437 /* SystemConfiguration.framework */,
 				907291371445F313001DEC1C /* libxml2.dylib */,
-				907291311445EAE5001DEC1C /* QuartzCore.framework */,
+				90F8F481144A2EDA006B8399 /* QuartzCore.framework */,
+				90F8F475144A2D49006B8399 /* CoreGraphics.framework */,
 				900F23D3143358F80090BB49 /* UIKit.framework */,
 				900F23D5143358F80090BB49 /* Foundation.framework */,
-				900F23D7143358F80090BB49 /* CoreGraphics.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -411,6 +417,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "cnblogsNews/cnblogsNews-Prefix.pch";
 				HEADER_SEARCH_PATHS = "${SDKROOT}/usr/include/libxml2/**";
@@ -420,6 +427,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/cnblogsNews/Umeng\"",
 				);
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-all_load",
 					"-ObjC",
@@ -433,6 +441,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "cnblogsNews/cnblogsNews-Prefix.pch";
 				HEADER_SEARCH_PATHS = "${SDKROOT}/usr/include/libxml2/**";
@@ -442,6 +451,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/cnblogsNews/Umeng\"",
 				);
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-all_load",
 					"-ObjC",
