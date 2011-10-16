@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "MobClick.h"
+#import "MTStatusBarOverlay.h"
 
-@interface cnblogsNewsAppDelegate : NSObject <UIApplicationDelegate, MobClickDelegate>
+@interface cnblogsNewsAppDelegate : NSObject <UIApplicationDelegate, MobClickDelegate, MTStatusBarOverlayDelegate>
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 

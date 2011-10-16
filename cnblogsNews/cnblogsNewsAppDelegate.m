@@ -7,6 +7,7 @@
 //
 
 #import "cnblogsNewsAppDelegate.h"
+#import "Constants.h"
 
 @implementation cnblogsNewsAppDelegate
 
@@ -17,10 +18,14 @@
 {
     // Override point for customization after application launch.
     [MobClick setDelegate:self];
+//    [MobClick setDelegate:self reportPolicy:REALTIME];
     [MobClick appLaunched];
     // Add the navigation controller's view to the window and display.
     self.window.rootViewController = self.navigationController;
     [self.window makeKeyAndVisible];
+    [MTStatusBarOverlay sharedInstance].animation = MTStatusBarOverlayAnimationFallDown;
+    [MTStatusBarOverlay sharedInstance].historyEnabled = YES;
+    [MTStatusBarOverlay sharedInstance].delegate = self;
     return YES;
 }
 
@@ -77,11 +82,31 @@
 #pragma mark Umeng MobClick
 
 - (NSString *)appKey {
-    return @"senseforce.com";
+    return MobClickAppKey;
 }
 
 - (NSString *)channelId {
-    return @"App Store";    //App Store;91store; tongbu
+    
+#define ChannelIdAppStore   @"App Store"
+#define ChannelId91Store    @"91store"
+#define ChannelIdTongbu     @"tongbu"
+    
+    return ChannelIdAppStore;
+}
+
+#pragma mark -
+#pragma mark MTStatusBarOverlay Delegate Methods
+
+- (void)statusBarOverlayDidHide {
+
+}
+
+- (void)statusBarOverlayDidSwitchFromOldMessage:(NSString *)oldMessage toNewMessage:(NSString *)newMessage {
+
+}
+
+- (void)statusBarOverlayDidClearMessageQueue:(NSArray *)messageQueue {
+
 }
 
 @end

@@ -8,6 +8,8 @@
 
 #import "NewsDetailViewController.h"
 #import "TFHpple.h"
+#import "MobClick.h"
+#import "Constants.h"
 
 #define TagWebView  1001
 
@@ -254,6 +256,7 @@
 }
 
 -(BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave {
+    [MobClick event:MobClickEventIdClickiAdBanner label:@"News Detail"];
     return YES;
 }
 

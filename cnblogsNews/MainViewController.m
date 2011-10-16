@@ -11,6 +11,7 @@
 #import "NewsDetailViewController.h"
 #import "EGORefreshTableHeaderView.h"
 #import "MobClick.h"
+#import "MTStatusBarOverlay.h"
 #import "Constants.h"
 
 @interface MainViewController (Private)
@@ -93,7 +94,7 @@ BOOL usingCache = YES;
                                                      name:LoadDoneNotification
                                                    object:nil];
         [self reloadTableViewDataSource];
-
+        [[MTStatusBarOverlay sharedInstance] postFinishMessage:@"Welcome to www.senseforce.com" duration:2 animated:YES];
     }
 }
 
@@ -129,7 +130,11 @@ BOOL usingCache = YES;
     [self.navigationController pushViewController:detailViewController animated:YES];
     [detailViewController release];
     
-    [MobClick event:MobClickEventIdReadNewsDetail label:[news objectForKey:KeyUrl]];
+    [MobClick event:MobClickEventIdReadNewsDetail label:[NSString stringWithFormat:@"url=%@",[news objectForKey:KeyUrl], [news objectForKey:KeyTag]]];
+    for (NSString *newsTag in [[news objectForKey:KeyTag] componentsSeparatedByString:@"|"]) {
+        [MobClick event:MobClickEventIdReadNewsDetailTag label:newsTag];
+    }
+    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -359,10 +364,11 @@ BOOL usingCache = YES;
             
             //Tag
             else if ([[[elementFooter attributes] objectForKey:@"class"] isEqualToString:@"tag"]) {
-                NSString *newsTag = @"";
+                NSMutableArray *tags = [NSMutableArray array];
                 for (TFHppleElement *tagElement in [elementFooter children]) {
-                    newsTag = [newsTag stringByAppendingFormat:@" %@",[tagElement content]];
+                    [tags addObject:[tagElement content]];
                 }
+                NSString *newsTag = [tags componentsJoinedByString:@"|"];
                 [news setValue:newsTag forKey:KeyTag]; 
             }
             

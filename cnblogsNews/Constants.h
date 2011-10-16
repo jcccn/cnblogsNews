@@ -11,9 +11,11 @@
 
 #pragma mark -
 #pragma mark Umeng MobClick
+#define MobClickAppKey                  @"4e99bdfd5270152d99000001"
 #define MobClickEventIdRefreshNewsList  @"RefreshNewsList"
 #define MobClickEventIdReadNewsDetail   @"ReadNewsDetail"
-
+#define MobClickEventIdReadNewsDetailTag    @"ReadNewsDetailTag"
+#define MobClickEventIdClickiAdBanner   @"ClickiAdBanner"
 
 
 #endif

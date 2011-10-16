@@ -37,6 +37,7 @@
 		907291271445E8D0001DEC1C /* whiteArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9072911B1445E8D0001DEC1C /* whiteArrow@2x.png */; };
 		907291381445F313001DEC1C /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 907291371445F313001DEC1C /* libxml2.dylib */; };
 		90995C3A144727AA00644B83 /* MTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 90995C39144727AA00644B83 /* MTableViewCell.m */; };
+		90E1A77D144ABC7A00717D6C /* MTStatusBarOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 90E1A77C144ABC7A00717D6C /* MTStatusBarOverlay.m */; };
 		90F8F433144A2488006B8399 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90F8F432144A2488006B8399 /* iAd.framework */; };
 		90F8F476144A2D49006B8399 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90F8F475144A2D49006B8399 /* CoreGraphics.framework */; };
 		90F8F482144A2EDA006B8399 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90F8F481144A2EDA006B8399 /* QuartzCore.framework */; };
@@ -90,6 +91,8 @@
 		907291371445F313001DEC1C /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		90995C38144727AA00644B83 /* MTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTableViewCell.h; sourceTree = "<group>"; };
 		90995C39144727AA00644B83 /* MTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTableViewCell.m; sourceTree = "<group>"; };
+		90E1A77B144ABC7A00717D6C /* MTStatusBarOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTStatusBarOverlay.h; sourceTree = "<group>"; };
+		90E1A77C144ABC7A00717D6C /* MTStatusBarOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTStatusBarOverlay.m; sourceTree = "<group>"; };
 		90F8F432144A2488006B8399 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		90F8F475144A2D49006B8399 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		90F8F481144A2EDA006B8399 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -152,6 +155,7 @@
 		900F23D9143358F80090BB49 /* cnblogsNews */ = {
 			isa = PBXGroup;
 			children = (
+				90E1A77A144ABC7A00717D6C /* MTStatusBarOverlay */,
 				901093FA1449F69400840437 /* Umeng */,
 				9072910A1445E8D0001DEC1C /* Hpple */,
 				907291111445E8D0001DEC1C /* RefreshTableHeaderView */,
@@ -240,6 +244,15 @@
 			path = RefreshTableHeaderView;
 			sourceTree = "<group>";
 		};
+		90E1A77A144ABC7A00717D6C /* MTStatusBarOverlay */ = {
+			isa = PBXGroup;
+			children = (
+				90E1A77B144ABC7A00717D6C /* MTStatusBarOverlay.h */,
+				90E1A77C144ABC7A00717D6C /* MTStatusBarOverlay.m */,
+			);
+			path = MTStatusBarOverlay;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -325,6 +338,7 @@
 				907291231445E8D0001DEC1C /* EGORefreshTableHeaderView.m in Sources */,
 				90995C3A144727AA00644B83 /* MTableViewCell.m in Sources */,
 				905E3FC414476030009F865B /* NewsDetailViewController.m in Sources */,
+				90E1A77D144ABC7A00717D6C /* MTStatusBarOverlay.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
