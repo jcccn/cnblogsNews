@@ -66,4 +66,14 @@
     timeLabel.text = time;
 }
 
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    CGRect frame = summaryLabel.frame;
+    frame.size.width = self.bounds.size.width-40;
+    summaryLabel.frame = frame;
+    frame = timeLabel.frame;
+    frame.origin.x = self.bounds.size.width - 40 - frame.size.width;
+    timeLabel.frame = frame;
+}
+
 @end

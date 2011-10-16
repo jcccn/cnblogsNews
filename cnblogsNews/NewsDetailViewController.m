@@ -13,6 +13,9 @@
 
 #define TagWebView  1001
 
+#define HTMLDoneNotification    @"HTMLDoneNotification"
+#define KeyHtml                 @"KeyHtml"
+
 @interface NewsDetailViewController()
 
 // Layout the Ad Banner and Content View to match the current orientation.
@@ -30,7 +33,7 @@
 
 @implementation NewsDetailViewController
 
-@synthesize urlString, newsTitle;
+@synthesize urlString, newsTitle, pageHtml;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -54,7 +57,8 @@
 
  // Implement loadView to create a view hierarchy programmatically, without using a nib.
 - (void)loadView {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 416)];
+    CGFloat height = [[UIScreen mainScreen] applicationFrame].size.height - self.navigationController.navigationBar.frame.size.height;
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] applicationFrame].size.width, height)];
     self.view = view;
     [view release];
 }
@@ -67,7 +71,8 @@
     if (webView == nil) {
         webView = [[UIWebView alloc] init];
         webView.delegate = self;
-        webView.frame = CGRectMake(0, 0, 320, 416);
+//        webView.frame = CGRectMake(0, 0, 320, 416);
+        webView.frame = self.view.bounds;
         webView.backgroundColor = [UIColor whiteColor];
         webView.scalesPageToFit = NO;
         webView.tag = TagWebView;
@@ -85,13 +90,19 @@
     }
     
     // If the banner wasn't included in the nib, create one.
-    if(adBannerView == nil)
-        {
+    if ( ! activityIndicator) {
+        activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        activityIndicator.center = webView.center;
+        activityIndicator.hidesWhenStopped = YES;
+        [activityIndicator startAnimating];
+        [self.view addSubview:activityIndicator];
+    }
+    
+    if(adBannerView == nil) {
         [self createADBannerView];
-        }
+    }
     [self layoutForCurrentOrientation:NO];
     
-    [self performSelector:@selector(startLoadPage) withObject:nil afterDelay:0.1f];
 }
 
 
@@ -109,6 +120,12 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                             selector:@selector(htmlGettingFinshed:)
+                                                 name:HTMLDoneNotification
+                                               object:nil];
+//    [self performSelector:@selector(getPageHTMLString) withObject:self.urlString afterDelay:0.5f];
+    [self performSelectorInBackground:@selector(getPageHTMLString:) withObject:self.urlString];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -124,11 +141,15 @@
 - (void)dealloc {
     [adBannerView release];
     [webView release];
+    [activityIndicator release];
     [super dealloc];
 }
 
 -(void)createADBannerView
 {
+    if ( ! iAdShowFlag) {
+        return;
+    }
     // --- WARNING ---
     // If you are planning on creating banner views at runtime in order to support iOS targets that don't support the iAd framework
     // then you will need to modify this method to do runtime checks for the symbols provided by the iAd framework
@@ -176,6 +197,9 @@
 
 -(void)layoutForCurrentOrientation:(BOOL)animated
 {
+    if ( ! iAdShowFlag) {
+        return;
+    }
     CGFloat animationDuration = animated ? 0.2f : 0.0f;
     // by default content consumes the entire view area
     CGRect contentFrame = self.view.bounds;
@@ -216,8 +240,11 @@
 #pragma mark -
 #pragma mark Data
 
-- (void)startLoadPage {
-    NSData *siteData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:self.urlString]];
+- (void)getPageHTMLString:(NSString *)url {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    NSData *siteData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:url]];
     //	TFHpple *xpathParser = [TFHpple hppleWithHTMLData:siteData];
     //    TFHppleElement *element = [xpathParser peekAtSearchWithXPathQuery:@"//div[id='news_body']"];
     //    NSString *htmlBody = [element content];
@@ -230,18 +257,77 @@
         htmlBody = [htmlBody stringByAppendingString:@"</div>"];
         
     }
-    [webView loadHTMLString:[self convertHTMLWithBody:htmlBody] baseURL:[NSURL URLWithString:self.urlString]];
+    [[NSNotificationCenter defaultCenter] postNotificationName:HTMLDoneNotification
+                                                        object:self
+                                                      userInfo:[NSDictionary dictionaryWithObject:[self convertHTMLWithBody:htmlBody] forKey:KeyHtml]];
     
-    
+    [pool release];
 }
+
+- (void)htmlGettingFinshed:(NSNotification *)notification {
+    if (notification) {
+        NSString *html = [[notification userInfo] objectForKey:KeyHtml];
+        self.pageHtml = html;
+        [webView loadHTMLString:html baseURL:[NSURL URLWithString:self.urlString]];
+//        [self hidePagePictures];
+    }
+    if (activityIndicator) {
+        [activityIndicator stopAnimating];
+    }
+}
+
 
 - (NSString *)convertHTMLWithBody:(NSString *)htmlBody {
     NSString *htmlCode = [NSString stringWithFormat:@"<html xml:lang=\"zh-CN\" xmlns=\"http://www.w3.org/1999/xhtml\"><html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" /><title>cnblogs</title><style type=\"text/css\">body {background-color:%@; font-family: \"%@\"; font-size: %d; color: %@; }.topic_img{float:right;padding-left:10px;padding-right:15px;}</style></head><body><center>%@</center><hr>%@</body></html>", @"#FFFFFF", @"Arial", 16, @"#010101", self.newsTitle, htmlBody];
     return htmlCode;
 }
 
+- (NSString *)convertToHTMLWithoutPicture:(NSString *)htmlBody {
+    NSScanner *aScanner;
+    NSString *htmlNoPic = htmlBody;
+    NSString *picTag = @"+-x/+-x/";
+    BOOL seekOver = NO;
+    do {
+        NSString *picutureSegment = @"";
+        aScanner = [NSScanner scannerWithString:htmlNoPic];
+        [aScanner scanUpToString:@"<img" intoString:NULL];
+        [aScanner scanUpToString:@">" intoString:&picutureSegment];
+        if ([picutureSegment length] > 0) {
+            htmlNoPic = [htmlNoPic stringByReplacingOccurrencesOfString:[picutureSegment stringByAppendingString:@">"] withString:picTag];
+        }
+        else {
+            seekOver = YES;
+        }
+    } while (! seekOver);
+//    NSString *defaultPicUrl = [NSString stringWithFormat:@"<img src=\"file:/%@\" width=\"210\" height=\"50\" border=\"0\">",[[NSBundle mainBundle] pathForResource:@"Icon" ofType:@"png"]];
+    NSString *defaultPicUrl = [NSString stringWithFormat:@"<img src=\"http://news.cnblogs.com/images/logo.png\" width=\"210\" height=\"50\" border=\"0\">",[[NSBundle mainBundle] pathForResource:@"Icon" ofType:@"png"]];
+    htmlNoPic = [htmlNoPic stringByReplacingOccurrencesOfString:picTag withString:defaultPicUrl];
+
+    
+    return htmlNoPic;
+}
+
+- (void)showPagePictures {
+    [webView loadHTMLString:self.pageHtml baseURL:[NSURL URLWithString:self.urlString]];
+}
+
+- (void)hidePagePictures {
+    [webView loadHTMLString:[self convertToHTMLWithoutPicture:self.pageHtml] baseURL:[NSURL URLWithString:self.urlString]];
+}
+
+#pragma mark -
+#pragma mark WebviewDeledate methods
+
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     return [[[request URL] absoluteString] isEqualToString:self.urlString];
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+}
+
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 }
 
 #pragma mark -
@@ -252,7 +338,7 @@
 }
 
 -(void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error {
-    [self layoutForCurrentOrientation:YES];
+//    [self layoutForCurrentOrientation:YES];
 }
 
 -(BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave {

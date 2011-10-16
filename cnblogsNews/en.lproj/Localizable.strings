@@ -7,6 +7,7 @@
 */
 
 MainTitle = "cnblogs News";
+WelcomeTip = "Welcome to view cnblogs IT News";
 ViewerText = "viewers";
 DiggText = "diggs";
 AMSymbol = "AM";

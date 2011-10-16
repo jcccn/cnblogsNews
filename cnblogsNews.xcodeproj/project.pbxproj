@@ -19,7 +19,6 @@
 		901094001449F6F500840437 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 901093FF1449F6F500840437 /* SystemConfiguration.framework */; };
 		901094021449F6FE00840437 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 901094011449F6FE00840437 /* CoreTelephony.framework */; };
 		901094041449F72600840437 /* libz.1.2.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 901094031449F72600840437 /* libz.1.2.3.dylib */; };
-		9011225B14489267004B7F60 /* MTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9011225A14489267004B7F60 /* MTableViewCell.xib */; };
 		901122611448A2BA004B7F60 /* DarkBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 9011225F1448A2BA004B7F60 /* DarkBackground.png */; };
 		901122621448A2BA004B7F60 /* LightBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 901122601448A2BA004B7F60 /* LightBackground.png */; };
 		905E3FC414476030009F865B /* NewsDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 905E3FC314476030009F865B /* NewsDetailViewController.m */; };
@@ -36,8 +35,13 @@
 		907291261445E8D0001DEC1C /* whiteArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 9072911A1445E8D0001DEC1C /* whiteArrow.png */; };
 		907291271445E8D0001DEC1C /* whiteArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9072911B1445E8D0001DEC1C /* whiteArrow@2x.png */; };
 		907291381445F313001DEC1C /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 907291371445F313001DEC1C /* libxml2.dylib */; };
+		9072F8A5144B55D70005C24B /* MTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9072F8A4144B55D70005C24B /* MTableViewCell.xib */; };
 		90995C3A144727AA00644B83 /* MTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 90995C39144727AA00644B83 /* MTableViewCell.m */; };
 		90E1A77D144ABC7A00717D6C /* MTStatusBarOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 90E1A77C144ABC7A00717D6C /* MTStatusBarOverlay.m */; };
+		90E1A79D144AEB5700717D6C /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 90E1A79C144AEB5700717D6C /* Icon.png */; };
+		90EA5664144B31A30001FF7E /* Icon-57.png in Resources */ = {isa = PBXBuildFile; fileRef = 90EA5663144B31A30001FF7E /* Icon-57.png */; };
+		90EA5667144B31AC0001FF7E /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 90EA5666144B31AC0001FF7E /* Icon@2x.png */; };
+		90EA566F144B48B90001FF7E /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 90EA566E144B48B90001FF7E /* MainWindow-iPad.xib */; };
 		90F8F433144A2488006B8399 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90F8F432144A2488006B8399 /* iAd.framework */; };
 		90F8F476144A2D49006B8399 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90F8F475144A2D49006B8399 /* CoreGraphics.framework */; };
 		90F8F482144A2EDA006B8399 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90F8F481144A2EDA006B8399 /* QuartzCore.framework */; };
@@ -67,7 +71,6 @@
 		901094011449F6FE00840437 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		901094031449F72600840437 /* libz.1.2.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.3.dylib; path = usr/lib/libz.1.2.3.dylib; sourceTree = SDKROOT; };
 		90109405144A000700840437 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
-		9011225A14489267004B7F60 /* MTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MTableViewCell.xib; sourceTree = "<group>"; };
 		9011225F1448A2BA004B7F60 /* DarkBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DarkBackground.png; sourceTree = "<group>"; };
 		901122601448A2BA004B7F60 /* LightBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LightBackground.png; sourceTree = "<group>"; };
 		905E3FC214476030009F865B /* NewsDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsDetailViewController.h; sourceTree = "<group>"; };
@@ -89,10 +92,15 @@
 		9072911A1445E8D0001DEC1C /* whiteArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whiteArrow.png; sourceTree = "<group>"; };
 		9072911B1445E8D0001DEC1C /* whiteArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "whiteArrow@2x.png"; sourceTree = "<group>"; };
 		907291371445F313001DEC1C /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		9072F8A4144B55D70005C24B /* MTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MTableViewCell.xib; sourceTree = "<group>"; };
 		90995C38144727AA00644B83 /* MTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTableViewCell.h; sourceTree = "<group>"; };
 		90995C39144727AA00644B83 /* MTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTableViewCell.m; sourceTree = "<group>"; };
 		90E1A77B144ABC7A00717D6C /* MTStatusBarOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTStatusBarOverlay.h; sourceTree = "<group>"; };
 		90E1A77C144ABC7A00717D6C /* MTStatusBarOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTStatusBarOverlay.m; sourceTree = "<group>"; };
+		90E1A79C144AEB5700717D6C /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		90EA5663144B31A30001FF7E /* Icon-57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-57.png"; sourceTree = "<group>"; };
+		90EA5666144B31AC0001FF7E /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		90EA566E144B48B90001FF7E /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "MainWindow-iPad.xib"; path = "iPad/MainWindow-iPad.xib"; sourceTree = "<group>"; };
 		90F8F432144A2488006B8399 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		90F8F475144A2D49006B8399 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		90F8F481144A2EDA006B8399 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -182,8 +190,9 @@
 				900F240A143364C90090BB49 /* main.m */,
 				900F23E1143358F80090BB49 /* cnblogsNews-Prefix.pch */,
 				900F2411143365440090BB49 /* Localizable.strings */,
-				9011225A14489267004B7F60 /* MTableViewCell.xib */,
+				9072F8A4144B55D70005C24B /* MTableViewCell.xib */,
 				900F248014336C9F0090BB49 /* MainWindow.xib */,
+				90EA566E144B48B90001FF7E /* MainWindow-iPad.xib */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -208,6 +217,9 @@
 		9011225E1448A2BA004B7F60 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				90E1A79C144AEB5700717D6C /* Icon.png */,
+				90EA5666144B31AC0001FF7E /* Icon@2x.png */,
+				90EA5663144B31A30001FF7E /* Icon-57.png */,
 				9011225F1448A2BA004B7F60 /* DarkBackground.png */,
 				901122601448A2BA004B7F60 /* LightBackground.png */,
 			);
@@ -316,9 +328,13 @@
 				907291251445E8D0001DEC1C /* grayArrow@2x.png in Resources */,
 				907291261445E8D0001DEC1C /* whiteArrow.png in Resources */,
 				907291271445E8D0001DEC1C /* whiteArrow@2x.png in Resources */,
-				9011225B14489267004B7F60 /* MTableViewCell.xib in Resources */,
 				901122611448A2BA004B7F60 /* DarkBackground.png in Resources */,
 				901122621448A2BA004B7F60 /* LightBackground.png in Resources */,
+				90E1A79D144AEB5700717D6C /* Icon.png in Resources */,
+				90EA5664144B31A30001FF7E /* Icon-57.png in Resources */,
+				90EA5667144B31AC0001FF7E /* Icon@2x.png in Resources */,
+				90EA566F144B48B90001FF7E /* MainWindow-iPad.xib in Resources */,
+				9072F8A5144B55D70005C24B /* MTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -397,7 +413,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "${SDKROOT}/usr/include/libxml2/**";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "";
@@ -418,7 +434,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "${SDKROOT}/usr/include/libxml2/**";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -447,6 +463,7 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -455,6 +472,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "cnblogsNews/cnblogsNews-Prefix.pch";
@@ -471,6 +490,9 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

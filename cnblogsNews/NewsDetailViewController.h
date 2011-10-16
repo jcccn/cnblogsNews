@@ -14,12 +14,19 @@
     NSString *newsTitle;
     
     UIWebView *webView;
+    NSString *pageHtml;
     ADBannerView *adBannerView;
+    UIActivityIndicatorView *activityIndicator;
 }
 @property (nonatomic, retain) NSString *urlString;
 @property (nonatomic, retain) NSString *newsTitle;
+@property (nonatomic, retain) NSString *pageHtml;
 
-- (void)startLoadPage;
+- (void)getPageHTMLString:(NSString *)url;
 - (NSString *)convertHTMLWithBody:(NSString *)htmlBody;
+- (void)htmlGettingFinshed:(NSNotification *)notification;
+
+- (void)showPagePictures;
+- (void)hidePagePictures;
 
 @end

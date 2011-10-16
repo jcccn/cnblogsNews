@@ -60,7 +60,7 @@ BOOL usingCache = YES;
     self.tableView.scrollsToTop = YES;
 	
 	if (refreshHeaderView == nil) {
-		refreshHeaderView = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.tableView.bounds.size.height, 320.0f, self.tableView.bounds.size.height)];
+		refreshHeaderView = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.tableView.bounds.size.height, self.tableView.bounds.size.width, self.tableView.bounds.size.height)];
 		refreshHeaderView.backgroundColor = [UIColor colorWithRed:226.0/255.0 green:231.0/255.0 blue:237.0/255.0 alpha:1.0];
 		[self.tableView addSubview:refreshHeaderView];
 		self.tableView.showsVerticalScrollIndicator = YES;
@@ -88,13 +88,12 @@ BOOL usingCache = YES;
         self.tableView.contentInset = UIEdgeInsetsMake(60.0f, 0.0f, 0.0f, 0.0f);
         [UIView commitAnimations];
         [self loadDataWithCache];
-//        usingCache = NO;
         [[NSNotificationCenter defaultCenter] addObserver:self 
                                                  selector:@selector(doneLoading:)
                                                      name:LoadDoneNotification
                                                    object:nil];
         [self reloadTableViewDataSource];
-        [[MTStatusBarOverlay sharedInstance] postFinishMessage:@"Welcome to www.senseforce.com" duration:2 animated:YES];
+        [[MTStatusBarOverlay sharedInstance] postFinishMessage:NSLocalizedString(@"WelcomeTip", @"Welcome to read cnblogs IT News") duration:2 animated:YES];
     }
 }
 
@@ -297,12 +296,13 @@ BOOL usingCache = YES;
 
 - (void)setLoadData{
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 	NSData *siteData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:WebSite]];
 	NSMutableArray *newsArray = [self parseArrayWithHTMLData:siteData];
     [[NSNotificationCenter defaultCenter] postNotificationName:LoadDoneNotification
                                                         object:self
                                                       userInfo:[NSDictionary dictionaryWithObject:newsArray forKey:KeyNews]];
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
     if ([newsArray count] > 0) {
         NSString *cacheHtml = [[NSString alloc] initWithData:siteData encoding:NSUTF8StringEncoding];
         [cacheHtml writeToFile:[self cacheFilePath]
