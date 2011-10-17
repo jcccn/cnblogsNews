@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9006D363144C5D2C00FC70EC /* LightCellBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 9006D361144C5D2B00FC70EC /* LightCellBg.png */; };
+		9006D364144C5D2C00FC70EC /* LightCellBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9006D362144C5D2B00FC70EC /* LightCellBg@2x.png */; };
+		9006D368144C5F0900FC70EC /* DarkCellBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 9006D366144C5F0900FC70EC /* DarkCellBg.png */; };
+		9006D369144C5F0900FC70EC /* DarkCellBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9006D367144C5F0900FC70EC /* DarkCellBg@2x.png */; };
 		900F23D4143358F80090BB49 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 900F23D3143358F80090BB49 /* UIKit.framework */; };
 		900F23D6143358F80090BB49 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 900F23D5143358F80090BB49 /* Foundation.framework */; };
 		900F23DE143358F80090BB49 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 900F23DC143358F80090BB49 /* InfoPlist.strings */; };
@@ -19,8 +23,6 @@
 		901094001449F6F500840437 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 901093FF1449F6F500840437 /* SystemConfiguration.framework */; };
 		901094021449F6FE00840437 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 901094011449F6FE00840437 /* CoreTelephony.framework */; };
 		901094041449F72600840437 /* libz.1.2.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 901094031449F72600840437 /* libz.1.2.3.dylib */; };
-		901122611448A2BA004B7F60 /* DarkBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 9011225F1448A2BA004B7F60 /* DarkBackground.png */; };
-		901122621448A2BA004B7F60 /* LightBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 901122601448A2BA004B7F60 /* LightBackground.png */; };
 		905E3FC414476030009F865B /* NewsDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 905E3FC314476030009F865B /* NewsDetailViewController.m */; };
 		9072911C1445E8D0001DEC1C /* TFHpple.m in Sources */ = {isa = PBXBuildFile; fileRef = 9072910C1445E8D0001DEC1C /* TFHpple.m */; };
 		9072911D1445E8D0001DEC1C /* TFHppleElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9072910E1445E8D0001DEC1C /* TFHppleElement.m */; };
@@ -48,6 +50,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9006D361144C5D2B00FC70EC /* LightCellBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LightCellBg.png; sourceTree = "<group>"; };
+		9006D362144C5D2B00FC70EC /* LightCellBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LightCellBg@2x.png"; sourceTree = "<group>"; };
+		9006D366144C5F0900FC70EC /* DarkCellBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DarkCellBg.png; sourceTree = "<group>"; };
+		9006D367144C5F0900FC70EC /* DarkCellBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DarkCellBg@2x.png"; sourceTree = "<group>"; };
 		900F23CF143358F80090BB49 /* cnblogsNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cnblogsNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		900F23D3143358F80090BB49 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		900F23D5143358F80090BB49 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -71,8 +77,6 @@
 		901094011449F6FE00840437 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		901094031449F72600840437 /* libz.1.2.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.3.dylib; path = usr/lib/libz.1.2.3.dylib; sourceTree = SDKROOT; };
 		90109405144A000700840437 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
-		9011225F1448A2BA004B7F60 /* DarkBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DarkBackground.png; sourceTree = "<group>"; };
-		901122601448A2BA004B7F60 /* LightBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LightBackground.png; sourceTree = "<group>"; };
 		905E3FC214476030009F865B /* NewsDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsDetailViewController.h; sourceTree = "<group>"; };
 		905E3FC314476030009F865B /* NewsDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsDetailViewController.m; sourceTree = "<group>"; };
 		9072910B1445E8D0001DEC1C /* TFHpple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHpple.h; sourceTree = "<group>"; };
@@ -217,11 +221,13 @@
 		9011225E1448A2BA004B7F60 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				9006D366144C5F0900FC70EC /* DarkCellBg.png */,
+				9006D367144C5F0900FC70EC /* DarkCellBg@2x.png */,
+				9006D361144C5D2B00FC70EC /* LightCellBg.png */,
+				9006D362144C5D2B00FC70EC /* LightCellBg@2x.png */,
 				90E1A79C144AEB5700717D6C /* Icon.png */,
 				90EA5666144B31AC0001FF7E /* Icon@2x.png */,
 				90EA5663144B31A30001FF7E /* Icon-57.png */,
-				9011225F1448A2BA004B7F60 /* DarkBackground.png */,
-				901122601448A2BA004B7F60 /* LightBackground.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -328,13 +334,15 @@
 				907291251445E8D0001DEC1C /* grayArrow@2x.png in Resources */,
 				907291261445E8D0001DEC1C /* whiteArrow.png in Resources */,
 				907291271445E8D0001DEC1C /* whiteArrow@2x.png in Resources */,
-				901122611448A2BA004B7F60 /* DarkBackground.png in Resources */,
-				901122621448A2BA004B7F60 /* LightBackground.png in Resources */,
 				90E1A79D144AEB5700717D6C /* Icon.png in Resources */,
 				90EA5664144B31A30001FF7E /* Icon-57.png in Resources */,
 				90EA5667144B31AC0001FF7E /* Icon@2x.png in Resources */,
 				90EA566F144B48B90001FF7E /* MainWindow-iPad.xib in Resources */,
 				9072F8A5144B55D70005C24B /* MTableViewCell.xib in Resources */,
+				9006D363144C5D2C00FC70EC /* LightCellBg.png in Resources */,
+				9006D364144C5D2C00FC70EC /* LightCellBg@2x.png in Resources */,
+				9006D368144C5F0900FC70EC /* DarkCellBg.png in Resources */,
+				9006D369144C5F0900FC70EC /* DarkCellBg@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

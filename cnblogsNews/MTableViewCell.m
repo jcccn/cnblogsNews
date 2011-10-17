@@ -29,8 +29,7 @@
 
 - (void)setUseDarkBackground:(BOOL)_useDarkBackground
 {
-    if (_useDarkBackground != useDarkBackground || !self.backgroundView)
-        {
+    if (_useDarkBackground != useDarkBackground || !self.backgroundView) {
         useDarkBackground = _useDarkBackground;
         
 //        NSString *backgroundImagePath = [[NSBundle mainBundle] pathForResource:useDarkBackground ? @"DarkBackground" : @"LightBackground" ofType:@"png"];
@@ -42,13 +41,13 @@
         self.backgroundView = [[[UIView alloc] initWithFrame:CGRectMake(1, 1, 1, 1)] autorelease];
         self.backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         self.backgroundView.frame = self.bounds;
-        CGFloat color = useDarkBackground ? 0.9f: 1.0f;
-        UIColor *backgroundColor = [UIColor colorWithRed:color green:color blue:color alpha:1.0f];
+        NSString *imageName = useDarkBackground ? @"DarkCellBg.png" : @"LightCellBg.png";
+        UIColor *backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:imageName]];
         self.backgroundView.backgroundColor = backgroundColor;
-        summaryLabel.backgroundColor = backgroundColor;
-        popularityLabel.backgroundColor = backgroundColor;
-        timeLabel.backgroundColor = backgroundColor;
-        }
+        summaryLabel.backgroundColor = [UIColor clearColor];
+        popularityLabel.backgroundColor = [UIColor clearColor];
+        timeLabel.backgroundColor = [UIColor clearColor];
+    }
 }
 
 - (void)setSummary:(NSString *)_summary {

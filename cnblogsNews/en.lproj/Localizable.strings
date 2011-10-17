@@ -8,8 +8,8 @@
 
 MainTitle = "cnblogs News";
 WelcomeTip = "Welcome to view cnblogs IT News";
-ViewerText = "viewers";
-DiggText = "diggs";
+ViewerText = " viewers";
+DiggText = " diggs";
 AMSymbol = "AM";
 PMSymbol = "PM";
 LastUpdateText = "Last Updated: ";
