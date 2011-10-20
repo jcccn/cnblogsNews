@@ -7,10 +7,13 @@
 //
 
 #import "FeedbackViewController.h"
+#import "MobClick.h"
 
 #define KEYBOARD_POP_DURATION 0.3f
 
 @implementation FeedbackViewController
+
+@synthesize sendButtonItem;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -38,6 +41,8 @@
     self.title = NSLocalizedString(@"FeedbackTitle", @"Feed back");
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"tableBackground.png"]];
     
+    self.sendButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"PublishButtonTitle", @"Publish") style:UIBarButtonItemStyleDone target:self action:@selector(feedback:)] autorelease];
+    
     #if (__IPHONE_OS_VERSION_MAX_ALLOWED >= 30200)
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         isIPHONE = NO;
@@ -47,8 +52,20 @@
     }
     #endif
     
-    calendarArray = [[NSArray arrayWithObjects:@"性别", @"男", @"女", nil] retain];
-    ageArray = [[NSArray arrayWithObjects:@"年龄", @"10", @"20", @"30", nil] retain];
+    genderArray = [[NSArray arrayWithObjects:NSLocalizedString(@"GenderText0", @"Gender"),
+                    NSLocalizedString(@"GenderText1", @"Male"),
+                    NSLocalizedString(@"GenderText2", @"Female"), nil] retain];
+    ageArray = [[NSArray arrayWithObjects:NSLocalizedString(@"AgeText0", @"Your age"),
+                 NSLocalizedString(@"AgeText1", @"Below 18(18 not included)"),
+                 NSLocalizedString(@"AgeText2", @"18 - 24"),
+                 NSLocalizedString(@"AgeText3", @"25 - 30"),
+                 NSLocalizedString(@"AgeText4", @"31 - 35"),
+                 NSLocalizedString(@"AgeText5", @"36 - 40"),
+                 NSLocalizedString(@"AgeText6", @"41 - 50"),
+                 NSLocalizedString(@"AgeText7", @"51 - 59"),
+                 NSLocalizedString(@"AgeText8", @"60 and above"), nil] retain];
+    genderString = @"N/A";
+    ageString = @"N/A";
     
     CGRect viewRect = self.view.bounds;
     
@@ -63,20 +80,17 @@
     [scrollView addSubview:headlineLabel];
     [headlineLabel release];
     
-    calendarAgeTitleLabel = [[MyLabel alloc] initWithFrame:CGRectMake(10, 110, 100, 40)];
-    calendarAgeTitleLabel.text = @"性别/年龄";
-    [calendarAgeTitleLabel addTarget:self action:@selector(calendarAgeLabelClicked:) forControlEvents:UIControlEventTouchUpInside];
-    calendarAgeTitleLabel.backgroundColor = [UIColor lightGrayColor];
-    [scrollView addSubview:calendarAgeTitleLabel];
-    [calendarAgeTitleLabel release];
-    
-    calendarAgeValueLabel = [[MyLabel alloc] initWithFrame:CGRectMake(110, 110, viewRect.size.width - 100-20, 40)];
-    [calendarAgeValueLabel addTarget:self action:@selector(calendarAgeLabelClicked:) forControlEvents:UIControlEventTouchUpInside];
-    calendarAgeValueLabel.backgroundColor = [UIColor lightGrayColor];
-    [scrollView addSubview:calendarAgeValueLabel];
-    [calendarAgeValueLabel release];
+    genderAgeLabel = [[MyLabel alloc] initWithFrame:CGRectMake(10, 110, viewRect.size.width-20, 40)];
+    genderAgeLabel.text = NSLocalizedString(@"GenderAgePlaceholder", @"Tap to select gender and age");
+    genderAgeLabel.textAlignment = UITextAlignmentCenter;
+    [genderAgeLabel addTarget:self action:@selector(calendarAgeLabelClicked:) forControlEvents:UIControlEventTouchUpInside];
+    genderAgeLabel.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"roundLabelBg.png"]];
+    genderAgeLabel.textColor = [UIColor whiteColor];
+    [scrollView addSubview:genderAgeLabel];
+    [genderAgeLabel release];
     
     feedbackTextView = [[UITextView alloc] initWithFrame:CGRectMake(5, 160, viewRect.size.width - 10, 250)];
+    feedbackTextView.text = @"";
     feedbackTextView.backgroundColor = [UIColor clearColor];
     UITextField *background = [[UITextField alloc] initWithFrame:feedbackTextView.bounds];
     background.userInteractionEnabled = NO;
@@ -119,7 +133,32 @@
 }
 
 - (void)calendarAgeLabelClicked:(id)sender {
-    pickerView.hidden = !pickerView.hidden;
+    if ( ! pickerView.hidden) {
+        if ([self isGenderAgeFilloutOk]) {
+            genderAgeLabel.text = [NSString stringWithFormat:@"%@ , %@", genderString, ageString];
+            pickerView.hidden = YES;
+        }
+        /*
+        pickerView.hidden = YES;
+        NSString *genderAgePlaceholder = NSLocalizedString(@"GenderAgePlaceholder", @"Tap to select gender and age");
+        if ( ! [genderString isEqualToString:@"N/A"]) {
+            genderAgePlaceholder = genderString;
+            if ( ! [ageString isEqualToString:@"N/A"]) {
+                genderAgePlaceholder = [NSString stringWithFormat:@"%@ , %@", genderString, ageString];
+            }
+        }
+        else {
+            if ( ! [ageString isEqualToString:@"N/A"]) {
+                genderAgePlaceholder = ageString;
+            }
+        }
+        genderAgeLabel.text = genderAgePlaceholder;
+         */
+    }
+    else {
+        pickerView.hidden = NO;
+        genderAgeLabel.text = NSLocalizedString(@"GenderAgeConfirmPlaceholder", @"Tap to confirm gender and age");
+    }
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {
@@ -129,8 +168,47 @@
         self.navigationItem.rightBarButtonItem = self.editButtonItem;
     }
     else {
-        self.navigationItem.rightBarButtonItem = nil;
+        self.navigationItem.rightBarButtonItem = self.sendButtonItem;
         [feedbackTextView resignFirstResponder];
+    }
+}
+
+- (BOOL)isGenderAgeFilloutOk {
+    BOOL isOk = YES;
+    if (([genderString isEqualToString:@"N/A"] || [ageString isEqualToString:@"N/A"])) {
+        isOk = NO;
+        UIAlertView *alertView = [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"GenderAgeErrorTitle", "Not filled out")
+                                                             message:NSLocalizedString(@"GenderAgeErrorMessage", "Please fill out the gender and age")
+                                                            delegate:nil
+                                                   cancelButtonTitle:NSLocalizedString(@"GenderAgeErrorOK", "OK")
+                                                   otherButtonTitles:nil, nil] autorelease];
+        [alertView show];
+    }
+    return isOk;
+}
+
+- (BOOL)isContentFilloutOK {
+    BOOL isOK = YES;
+    if ([feedbackTextView.text length] == 0) {
+        isOK = NO;
+        UIAlertView *alertView = [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ContentErrorTitle", "Not filled out")
+                                                             message:NSLocalizedString(@"ContentErrorMessage", "Please fill out the feed back content")
+                                                            delegate:nil
+                                                   cancelButtonTitle:NSLocalizedString(@"ContentErrorOK", "OK")
+                                                   otherButtonTitles:nil, nil] autorelease];
+        [alertView show];
+    }
+    return isOK;
+}
+
+- (void)feedback:(id)sender {
+    if ([self isGenderAgeFilloutOk] && [self isContentFilloutOK]) {
+        NSMutableDictionary *feedbackDict = [NSMutableDictionary dictionaryWithCapacity:3];
+        [feedbackDict setValue:[NSString stringWithFormat:@"%d", [genderArray indexOfObject:genderString]] forKey:@"UMengFeedbackGender"];
+        [feedbackDict setValue:[NSString stringWithFormat:@"%d", [ageArray indexOfObject:ageString]] forKey:@"UMengFeedbackAge"];
+        [feedbackDict setValue:feedbackTextView.text forKey:@"UMengFeedbackContent"];
+        [MobClick feedbackWithDictionary:feedbackDict];
+        [self.navigationController popViewControllerAnimated:YES];
     }
 }
 
@@ -172,17 +250,15 @@
 #pragma mark -
 #pragma mark UIPickerView Delegate and Data source methods
 
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView*)pickerView
-{
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView*)pickerView {
     return 2;
 }
-// 返回当前列显示的行数
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
-{
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
     NSInteger row = 0;
     switch (component) {
         case 0:
-            row = [calendarArray count];
+            row = [genderArray count];
             break;
         case 1:
             row = [ageArray count];
@@ -194,16 +270,18 @@
 }
 
 - (CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component {
-    return 150;
+    CGFloat width = 100;
+    if (component == 1) {
+        width = 200;
+    }
+    return width;
 }
 
-// 设置当前行的内容，若果行没有显示则自动释放
-- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
-{
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
     NSString *titleForRow = @"";
     switch (component) {
         case 0:
-            titleForRow = [calendarArray objectAtIndex:row];
+            titleForRow = [genderArray objectAtIndex:row];
             break;
         case 1:
             titleForRow = [ageArray objectAtIndex:row];
@@ -213,9 +291,24 @@
     }
     return titleForRow;
 }
-- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
-{
+- (void)pickerView:(UIPickerView *)apickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     //NSString *result = [pickerView pickerView:pickerView titleForRow:row forComponent:component];
+    if (component == 0) {
+        if (row == 0) {
+            genderString = @"N/A";
+        }
+        else {
+            genderString = [self pickerView:pickerView titleForRow:row forComponent:component];
+        }
+    }
+    else {
+        if (row == 0) {
+            ageString = @"N/A";
+        }
+        else {
+            ageString = [self pickerView:pickerView titleForRow:row forComponent:component];
+        }
+    }
 }
 
 @end

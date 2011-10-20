@@ -13,16 +13,23 @@
 @interface FeedbackViewController : UIViewController <UITextViewDelegate, UIPickerViewDelegate> {
     UIScrollView *scrollView;
     UILabel *headlineLabel;
-    MyLabel *calendarAgeTitleLabel;
-    MyLabel *calendarAgeValueLabel;
+    MyLabel *genderAgeLabel;
     UITextView *feedbackTextView;
     UIPickerView *pickerView;
     
     BOOL isIPHONE;
     
-    NSArray *calendarArray;
+    NSArray *genderArray;
     NSArray *ageArray;
+    NSString *genderString;
+    NSString *ageString;
+    
+    UIBarButtonItem *sendButtonItem;
 }
+@property (nonatomic, retain) UIBarButtonItem *sendButtonItem;
+
+- (BOOL)isGenderAgeFilloutOk;
+- (BOOL)isContentFilloutOK;
 
 @end
 
