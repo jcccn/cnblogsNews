@@ -13,6 +13,7 @@
 #import "MobClick.h"
 #import "MTStatusBarOverlay.h"
 #import "Constants.h"
+#import "FeedbackViewController.h"
 
 @interface MainViewController (Private)
 
@@ -46,6 +47,7 @@
 
 @synthesize listData;
 @synthesize reloading=_reloading;
+@synthesize footerView;
 
 #pragma mark -
 #pragma mark View lifecycle
@@ -67,11 +69,42 @@ BOOL usingCache = YES;
 		[refreshHeaderView release];
 	}
     
+    if ( ! self.footerView) {
+        UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, TableViewCellHeight)];
+        footView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"LightCellBg.png"]];
+        self.footerView = footView;
+        [footView release];
+        
+        CGFloat margin = (self.tableView.bounds.size.width - 2 * 120) / 3;
+        UIButton *prePageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        prePageButton.frame = CGRectMake(margin, 15, 120, 43 );
+        [prePageButton setBackgroundImage:[UIImage imageNamed:@"buttonGray.png"] forState:UIControlStateNormal];
+        [prePageButton setBackgroundImage:[UIImage imageNamed:@"buttonYellow.png"] forState:UIControlStateHighlighted];
+        [prePageButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [prePageButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateDisabled];
+        [prePageButton setTitle:NSLocalizedString(@"PrePageText", @"Pre Page") forState:UIControlStateNormal];
+        [prePageButton addTarget:self action:@selector(preButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [self.footerView addSubview:prePageButton];
+        
+        UIButton *nextPageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        nextPageButton.frame = CGRectMake(self.tableView.bounds.size.width - 120 - margin, 15, 120, 43 );
+        [nextPageButton setBackgroundImage:[UIImage imageNamed:@"buttonGray.png"] forState:UIControlStateNormal];
+        [nextPageButton setBackgroundImage:[UIImage imageNamed:@"buttonYellow.png"] forState:UIControlStateHighlighted];
+        [nextPageButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [nextPageButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateDisabled];
+        [nextPageButton setTitle:NSLocalizedString(@"NextPageText", @"Next Page") forState:UIControlStateNormal];
+        [nextPageButton addTarget:self action:@selector(nextButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [self.footerView addSubview:nextPageButton];
+    }
+    
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    
+    UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
+    [infoButton addTarget:self action:@selector(infoButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:infoButton];
+    self.navigationItem.rightBarButtonItem = barButtonItem;
+    [barButtonItem release];
 }
-
 
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -83,6 +116,7 @@ BOOL usingCache = YES;
     [super viewDidAppear:animated];
     if (usingCache) {
         [refreshHeaderView setState:EGOOPullRefreshLoading];
+        self.tableView.tableFooterView = nil;
         [UIView beginAnimations:nil context:NULL];
         [UIView setAnimationDuration:0.2];
         self.tableView.contentInset = UIEdgeInsetsMake(60.0f, 0.0f, 0.0f, 0.0f);
@@ -93,7 +127,7 @@ BOOL usingCache = YES;
                                                      name:LoadDoneNotification
                                                    object:nil];
         [self reloadTableViewDataSource];
-        [[MTStatusBarOverlay sharedInstance] postFinishMessage:NSLocalizedString(@"WelcomeTip", @"Welcome to read cnblogs IT News") duration:2 animated:YES];
+        [[MTStatusBarOverlay sharedInstance] postFinishMessage:NSLocalizedString(@"WelcomeTip", @"Welcome to read cnblogs IT News") duration:3 animated:YES];
     }
 }
 
@@ -113,6 +147,21 @@ BOOL usingCache = YES;
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
 	// Return YES for supported orientations.
 	return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+- (void)infoButtonClicked:(id)sender {
+//    [MobClick showFeedback:self];
+//    FeedbackViewController *viewController = [[FeedbackViewController alloc] initWithNibName:@"FeedbackViewController.xib" bundle:[NSBundle mainBundle]];
+    FeedbackViewController *viewController = [[FeedbackViewController alloc] init];
+    [self.navigationController pushViewController:viewController animated:YES];
+}
+
+- (void)preButtonClicked:(id)sender {
+    
+}
+
+- (void)nextButtonClicked:(id)sender {
+    
 }
 
 #pragma mark -
@@ -447,6 +496,7 @@ BOOL usingCache = YES;
 		_reloading = YES;
 		[self reloadTableViewDataSource];
 		[refreshHeaderView setState:EGOOPullRefreshLoading];
+        self.tableView.tableFooterView = nil;
 		[UIView beginAnimations:nil context:NULL];
 		[UIView setAnimationDuration:0.2];
 		self.tableView.contentInset = UIEdgeInsetsMake(60.0f, 0.0f, 0.0f, 0.0f);
@@ -466,6 +516,7 @@ BOOL usingCache = YES;
 	[UIView commitAnimations];
 	[self.tableView reloadData];
 	[refreshHeaderView setState:EGOOPullRefreshNormal];
+    self.tableView.tableFooterView = self.footerView;
 	[refreshHeaderView setCurrentDate];  //  should check if data reload was successful 
 }
 

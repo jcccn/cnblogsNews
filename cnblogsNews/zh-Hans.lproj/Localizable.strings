@@ -19,3 +19,7 @@ LoadingStatus = "正在更新...";
 NetworkDataErrorTitle = "数据错误";
 NetworkDataErrorMessage = "请检查网络是否设置正确";
 NetworkDataErrorOK = "好的";
+FeedbackTitle = "用户反馈";
+PrePageText = "上一页";
+NextPageText = "下一页";
+FeedbackHeadline = "    欢迎您提出宝贵的意见和建议，您留下的每个字都将用来改善我们的产品和服务。";

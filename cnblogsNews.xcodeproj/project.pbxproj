@@ -24,6 +24,13 @@
 		901094021449F6FE00840437 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 901094011449F6FE00840437 /* CoreTelephony.framework */; };
 		901094041449F72600840437 /* libz.1.2.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 901094031449F72600840437 /* libz.1.2.3.dylib */; };
 		905E3FC414476030009F865B /* NewsDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 905E3FC314476030009F865B /* NewsDetailViewController.m */; };
+		906E2D15144F18160000C993 /* buttonGray.png in Resources */ = {isa = PBXBuildFile; fileRef = 906E2D11144F18160000C993 /* buttonGray.png */; };
+		906E2D16144F18160000C993 /* buttonGray@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 906E2D12144F18160000C993 /* buttonGray@2x.png */; };
+		906E2D17144F18160000C993 /* buttonYellow.png in Resources */ = {isa = PBXBuildFile; fileRef = 906E2D13144F18160000C993 /* buttonYellow.png */; };
+		906E2D18144F18160000C993 /* buttonYellow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 906E2D14144F18160000C993 /* buttonYellow@2x.png */; };
+		906E2D1F144F361A0000C993 /* tableBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 906E2D1E144F361A0000C993 /* tableBackground.png */; };
+		906E2D24144F3C070000C993 /* buttonWhite.png in Resources */ = {isa = PBXBuildFile; fileRef = 906E2D20144F3C070000C993 /* buttonWhite.png */; };
+		906E2D25144F3C070000C993 /* buttonWhite@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 906E2D21144F3C070000C993 /* buttonWhite@2x.png */; };
 		9072911C1445E8D0001DEC1C /* TFHpple.m in Sources */ = {isa = PBXBuildFile; fileRef = 9072910C1445E8D0001DEC1C /* TFHpple.m */; };
 		9072911D1445E8D0001DEC1C /* TFHppleElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9072910E1445E8D0001DEC1C /* TFHppleElement.m */; };
 		9072911E1445E8D0001DEC1C /* XPathQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 907291101445E8D0001DEC1C /* XPathQuery.m */; };
@@ -44,6 +51,7 @@
 		90EA5664144B31A30001FF7E /* Icon-57.png in Resources */ = {isa = PBXBuildFile; fileRef = 90EA5663144B31A30001FF7E /* Icon-57.png */; };
 		90EA5667144B31AC0001FF7E /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 90EA5666144B31AC0001FF7E /* Icon@2x.png */; };
 		90EA566F144B48B90001FF7E /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 90EA566E144B48B90001FF7E /* MainWindow-iPad.xib */; };
+		90EADCCF144DF36700406A7F /* FeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90EADCCD144DF36700406A7F /* FeedbackViewController.m */; };
 		90F8F433144A2488006B8399 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90F8F432144A2488006B8399 /* iAd.framework */; };
 		90F8F476144A2D49006B8399 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90F8F475144A2D49006B8399 /* CoreGraphics.framework */; };
 		90F8F482144A2EDA006B8399 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90F8F481144A2EDA006B8399 /* QuartzCore.framework */; };
@@ -79,6 +87,13 @@
 		90109405144A000700840437 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		905E3FC214476030009F865B /* NewsDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsDetailViewController.h; sourceTree = "<group>"; };
 		905E3FC314476030009F865B /* NewsDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsDetailViewController.m; sourceTree = "<group>"; };
+		906E2D11144F18160000C993 /* buttonGray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonGray.png; sourceTree = "<group>"; };
+		906E2D12144F18160000C993 /* buttonGray@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buttonGray@2x.png"; sourceTree = "<group>"; };
+		906E2D13144F18160000C993 /* buttonYellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonYellow.png; sourceTree = "<group>"; };
+		906E2D14144F18160000C993 /* buttonYellow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buttonYellow@2x.png"; sourceTree = "<group>"; };
+		906E2D1E144F361A0000C993 /* tableBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tableBackground.png; sourceTree = "<group>"; };
+		906E2D20144F3C070000C993 /* buttonWhite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonWhite.png; sourceTree = "<group>"; };
+		906E2D21144F3C070000C993 /* buttonWhite@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buttonWhite@2x.png"; sourceTree = "<group>"; };
 		9072910B1445E8D0001DEC1C /* TFHpple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHpple.h; sourceTree = "<group>"; };
 		9072910C1445E8D0001DEC1C /* TFHpple.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFHpple.m; sourceTree = "<group>"; };
 		9072910D1445E8D0001DEC1C /* TFHppleElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHppleElement.h; sourceTree = "<group>"; };
@@ -105,6 +120,8 @@
 		90EA5663144B31A30001FF7E /* Icon-57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-57.png"; sourceTree = "<group>"; };
 		90EA5666144B31AC0001FF7E /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		90EA566E144B48B90001FF7E /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "MainWindow-iPad.xib"; path = "iPad/MainWindow-iPad.xib"; sourceTree = "<group>"; };
+		90EADCCC144DF36700406A7F /* FeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedbackViewController.h; sourceTree = "<group>"; };
+		90EADCCD144DF36700406A7F /* FeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedbackViewController.m; sourceTree = "<group>"; };
 		90F8F432144A2488006B8399 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		90F8F475144A2D49006B8399 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		90F8F481144A2EDA006B8399 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -180,6 +197,8 @@
 				90995C39144727AA00644B83 /* MTableViewCell.m */,
 				905E3FC214476030009F865B /* NewsDetailViewController.h */,
 				905E3FC314476030009F865B /* NewsDetailViewController.m */,
+				90EADCCC144DF36700406A7F /* FeedbackViewController.h */,
+				90EADCCD144DF36700406A7F /* FeedbackViewController.m */,
 				900F23DA143358F80090BB49 /* Supporting Files */,
 			);
 			path = cnblogsNews;
@@ -221,6 +240,13 @@
 		9011225E1448A2BA004B7F60 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				906E2D20144F3C070000C993 /* buttonWhite.png */,
+				906E2D21144F3C070000C993 /* buttonWhite@2x.png */,
+				906E2D1E144F361A0000C993 /* tableBackground.png */,
+				906E2D11144F18160000C993 /* buttonGray.png */,
+				906E2D12144F18160000C993 /* buttonGray@2x.png */,
+				906E2D13144F18160000C993 /* buttonYellow.png */,
+				906E2D14144F18160000C993 /* buttonYellow@2x.png */,
 				9006D366144C5F0900FC70EC /* DarkCellBg.png */,
 				9006D367144C5F0900FC70EC /* DarkCellBg@2x.png */,
 				9006D361144C5D2B00FC70EC /* LightCellBg.png */,
@@ -343,6 +369,13 @@
 				9006D364144C5D2C00FC70EC /* LightCellBg@2x.png in Resources */,
 				9006D368144C5F0900FC70EC /* DarkCellBg.png in Resources */,
 				9006D369144C5F0900FC70EC /* DarkCellBg@2x.png in Resources */,
+				906E2D15144F18160000C993 /* buttonGray.png in Resources */,
+				906E2D16144F18160000C993 /* buttonGray@2x.png in Resources */,
+				906E2D17144F18160000C993 /* buttonYellow.png in Resources */,
+				906E2D18144F18160000C993 /* buttonYellow@2x.png in Resources */,
+				906E2D1F144F361A0000C993 /* tableBackground.png in Resources */,
+				906E2D24144F3C070000C993 /* buttonWhite.png in Resources */,
+				906E2D25144F3C070000C993 /* buttonWhite@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -363,6 +396,7 @@
 				90995C3A144727AA00644B83 /* MTableViewCell.m in Sources */,
 				905E3FC414476030009F865B /* NewsDetailViewController.m in Sources */,
 				90E1A77D144ABC7A00717D6C /* MTStatusBarOverlay.m in Sources */,
+				90EADCCF144DF36700406A7F /* FeedbackViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

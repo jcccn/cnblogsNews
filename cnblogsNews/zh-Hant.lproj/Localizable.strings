@@ -19,3 +19,7 @@ LoadingStatus = "正在更新...";
 NetworkDataErrorTitle = "數據錯誤";
 NetworkDataErrorMessage = "請檢查網絡是否設置正確";
 NetworkDataErrorOK = "好的";
+FeedbackTitle = "用户反饋";
+PrePageText = "上一頁";
+NextPageText = "下一頁";
+FeedbackHeadline = "    歡迎您提出寶貴的意見和建議，您留下的每個字都將用來改善我們的產品和服務。";

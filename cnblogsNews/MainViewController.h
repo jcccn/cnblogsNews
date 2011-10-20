@@ -16,15 +16,16 @@
     NSMutableArray *listData;
 
     EGORefreshTableHeaderView *refreshHeaderView;
+    UIView *footerView;
 
     BOOL _reloading;
     
 
 }
 
-@property(nonatomic,retain) NSMutableArray *listData;
-
-@property(assign,getter=isReloading) BOOL reloading;
+@property (nonatomic, retain) NSMutableArray *listData;
+@property (nonatomic, retain) UIView *footerView;
+@property (assign, getter=isReloading) BOOL reloading;
 
 - (void)reloadTableViewDataSource;
 - (void)doneLoadingTableViewData;
