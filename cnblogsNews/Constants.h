@@ -16,6 +16,9 @@
 #define MobClickEventIdReadNewsDetail   @"ReadNewsDetail"
 #define MobClickEventIdReadNewsDetailTag    @"ReadNewsDetailTag"
 #define MobClickEventIdClickiAdBanner   @"ClickiAdBanner"
+#define MobClickEventIdClickPrePage     @"ClickPrePage"
+#define MobClickEventIdClickNextPage    @"ClickNextPage"
+#define MobClickEventIdClickInfoButton  @"ClickInfoButton"
 
 #define iAdShowFlag     YES
 

@@ -20,14 +20,15 @@
 
     BOOL _reloading;
     
-
+    NSInteger currentPage;
 }
 
 @property (nonatomic, retain) NSMutableArray *listData;
 @property (nonatomic, retain) UIView *footerView;
 @property (assign, getter=isReloading) BOOL reloading;
+@property (nonatomic, assign) NSInteger currentPage;
 
-- (void)reloadTableViewDataSource;
+- (void)reloadTableViewDataWithPageIndex:(NSInteger)index;
 - (void)doneLoadingTableViewData;
 
 - (void)loadDataWithCache;

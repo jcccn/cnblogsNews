@@ -21,7 +21,9 @@
 
 @end
 
-#define WebSite @"http://news.cnblogs.com"
+#define DefaultPageURL  @"http://news.cnblogs.com/n/page/1/"
+#define PageUrlFormat   @"http://news.cnblogs.com/n/page/%d/"
+#define BaseURL         @"http://news.cnblogs.com"
 
 #define KeyTitle    @"KeyTitle"
 #define KeyUrl      @"KeyUrl"
@@ -34,10 +36,13 @@
 #define KeyDigg     @"KeyDigg"
 
 #define KeyNews     @"KeyNews"
+#define KeyPageIndex @"PageIndex"
 
 #define TagLabel        10000
 #define TagDetailLabel  10001
 #define TagTimeLabel    10002
+#define TagPreButton    20001
+#define TagNextButton   20002
 
 #define TableViewCellHeight 70.0f
 
@@ -48,6 +53,7 @@
 @synthesize listData;
 @synthesize reloading=_reloading;
 @synthesize footerView;
+@synthesize currentPage;
 
 #pragma mark -
 #pragma mark View lifecycle
@@ -75,23 +81,25 @@ BOOL usingCache = YES;
         self.footerView = footView;
         [footView release];
         
-        CGFloat margin = (self.tableView.bounds.size.width - 2 * 120) / 3;
+        CGFloat margin = (((int)self.tableView.bounds.size.width - 2 * 120) / 3) - 1.0;
         UIButton *prePageButton = [UIButton buttonWithType:UIButtonTypeCustom];
         prePageButton.frame = CGRectMake(margin, 15, 120, 43 );
+        prePageButton.tag = TagPreButton;
         [prePageButton setBackgroundImage:[UIImage imageNamed:@"buttonGray.png"] forState:UIControlStateNormal];
         [prePageButton setBackgroundImage:[UIImage imageNamed:@"buttonYellow.png"] forState:UIControlStateHighlighted];
         [prePageButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [prePageButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateDisabled];
+        [prePageButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
         [prePageButton setTitle:NSLocalizedString(@"PrePageText", @"Pre Page") forState:UIControlStateNormal];
         [prePageButton addTarget:self action:@selector(preButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
         [self.footerView addSubview:prePageButton];
         
         UIButton *nextPageButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        nextPageButton.frame = CGRectMake(self.tableView.bounds.size.width - 120 - margin, 15, 120, 43 );
+        nextPageButton.frame = CGRectMake(self.tableView.bounds.size.width - 120 - margin, 15, 119, 43 );
+        nextPageButton.tag = TagNextButton;
         [nextPageButton setBackgroundImage:[UIImage imageNamed:@"buttonGray.png"] forState:UIControlStateNormal];
         [nextPageButton setBackgroundImage:[UIImage imageNamed:@"buttonYellow.png"] forState:UIControlStateHighlighted];
         [nextPageButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [nextPageButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateDisabled];
+        [nextPageButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
         [nextPageButton setTitle:NSLocalizedString(@"NextPageText", @"Next Page") forState:UIControlStateNormal];
         [nextPageButton addTarget:self action:@selector(nextButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
         [self.footerView addSubview:nextPageButton];
@@ -104,6 +112,8 @@ BOOL usingCache = YES;
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:infoButton];
     self.navigationItem.rightBarButtonItem = barButtonItem;
     [barButtonItem release];
+    
+    currentPage = 1;
 }
 
 
@@ -126,7 +136,7 @@ BOOL usingCache = YES;
                                                  selector:@selector(doneLoading:)
                                                      name:LoadDoneNotification
                                                    object:nil];
-        [self reloadTableViewDataSource];
+        [self reloadTableViewDataWithPageIndex:1];
         [[MTStatusBarOverlay sharedInstance] postFinishMessage:NSLocalizedString(@"WelcomeTip", @"Welcome to read cnblogs IT News") duration:3 animated:YES];
     }
 }
@@ -150,18 +160,37 @@ BOOL usingCache = YES;
 }
 
 - (void)infoButtonClicked:(id)sender {
-//    [MobClick showFeedback:self];
-//    FeedbackViewController *viewController = [[FeedbackViewController alloc] initWithNibName:@"FeedbackViewController.xib" bundle:[NSBundle mainBundle]];
+    [MobClick event:MobClickEventIdClickInfoButton];
     FeedbackViewController *viewController = [[FeedbackViewController alloc] init];
     [self.navigationController pushViewController:viewController animated:YES];
 }
 
 - (void)preButtonClicked:(id)sender {
-    
+    [self reloadTableViewDataWithPageIndex:self.currentPage - 1];
+    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    self.tableView.tableFooterView = nil;
+    _reloading = YES;
+    [refreshHeaderView setState:EGOOPullRefreshLoading];
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.2];
+    self.tableView.contentInset = UIEdgeInsetsMake(60.0f, 0.0f, 0.0f, 0.0f);
+    [UIView commitAnimations];
+
+    [MobClick event:MobClickEventIdClickPrePage label:[@"At page " stringByAppendingFormat:@"%d", self.currentPage]];
 }
 
 - (void)nextButtonClicked:(id)sender {
-    
+    [self reloadTableViewDataWithPageIndex:self.currentPage + 1];
+    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    self.tableView.tableFooterView = nil;
+    _reloading = YES;
+    [refreshHeaderView setState:EGOOPullRefreshLoading];
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.2];
+    self.tableView.contentInset = UIEdgeInsetsMake(60.0f, 0.0f, 0.0f, 0.0f);
+    [UIView commitAnimations];
+
+    [MobClick event:MobClickEventIdClickNextPage label:[@"At page " stringByAppendingFormat:@"%d", self.currentPage]];
 }
 
 #pragma mark -
@@ -170,7 +199,7 @@ BOOL usingCache = YES;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     NSDictionary *news = (NSDictionary *)[listData objectAtIndex:indexPath.row];
-    NSString *urlString = [NSString stringWithFormat:@"%@%@",WebSite, [news objectForKey:KeyUrl]];
+    NSString *urlString = [NSString stringWithFormat:@"%@%@",BaseURL, [news objectForKey:KeyUrl]];
     
     NewsDetailViewController *detailViewController = [[NewsDetailViewController alloc] init];
     detailViewController.urlString = urlString;
@@ -327,30 +356,21 @@ BOOL usingCache = YES;
 #pragma mark data conduction
 
 - (void)loadDataWithCache {
-//    [refreshHeaderView setState:EGOOPullRefreshLoading];
-//    [UIView beginAnimations:nil context:NULL];
-//    [UIView setAnimationDuration:0.2];
-//    self.tableView.contentInset = UIEdgeInsetsMake(60.0f, 0.0f, 0.0f, 0.0f);
-//    [UIView commitAnimations];
-    
     NSData *cacheData = [NSData dataWithContentsOfFile:[self cacheFilePath]];
     if (cacheData) {
         self.listData = [self parseArrayWithHTMLData:cacheData];
         [self.tableView reloadData];
     }
-    
-//    [self reloadTableViewDataSource];
-    
 }
 
-- (void)setLoadData{
+- (void)loadPageAt:(NSNumber *)anIndex{
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-	NSData *siteData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:WebSite]];
+	NSData *siteData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:PageUrlFormat,[anIndex intValue]]]];
 	NSMutableArray *newsArray = [self parseArrayWithHTMLData:siteData];
     [[NSNotificationCenter defaultCenter] postNotificationName:LoadDoneNotification
                                                         object:self
-                                                      userInfo:[NSDictionary dictionaryWithObject:newsArray forKey:KeyNews]];
+                                                      userInfo:[NSDictionary dictionaryWithObjectsAndKeys:newsArray, KeyNews, anIndex, KeyPageIndex, nil]];
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
     if ([newsArray count] > 0) {
         NSString *cacheHtml = [[NSString alloc] initWithData:siteData encoding:NSUTF8StringEncoding];
@@ -440,11 +460,10 @@ BOOL usingCache = YES;
     return newsArray;
 }
 
-- (void)reloadTableViewDataSource{
+- (void)reloadTableViewDataWithPageIndex:(NSInteger)index{
 	//  should be calling your tableviews model to reload
 	//  put here just for demo
-    [self performSelectorInBackground:@selector(setLoadData) withObject:nil];
-//	[self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:3.0];
+    [self performSelectorInBackground:@selector(loadPageAt:) withObject:[NSNumber numberWithInt:index]];
 	
 }
 
@@ -470,6 +489,7 @@ BOOL usingCache = YES;
         }
         else {
             self.listData = newsArray;
+            self.currentPage = [[[notification userInfo] objectForKey:KeyPageIndex] intValue];
             if (! usingCache) {
                 [MobClick event:MobClickEventIdRefreshNewsList label:@"Succeed to load"];
             }
@@ -494,7 +514,7 @@ BOOL usingCache = YES;
 	
 	if (scrollView.contentOffset.y <= - 65.0f && !_reloading) {
 		_reloading = YES;
-		[self reloadTableViewDataSource];
+		[self reloadTableViewDataWithPageIndex:1];
 		[refreshHeaderView setState:EGOOPullRefreshLoading];
         self.tableView.tableFooterView = nil;
 		[UIView beginAnimations:nil context:NULL];
@@ -525,6 +545,21 @@ BOOL usingCache = YES;
                                      stringByAppendingPathComponent:@"Documents"];
 
     return [documentsDirectory stringByAppendingPathComponent:@"cache.html"];
+}
+
+- (void)setCurrentPage:(NSInteger)_currentPage {
+    currentPage = _currentPage;
+    UIButton *prePageButton = (UIButton *)[self.footerView viewWithTag:TagPreButton];
+    if (currentPage <= 1) {
+        if (prePageButton) {
+            prePageButton.enabled = NO;
+        }
+    }
+    else {
+        if (prePageButton) {
+            prePageButton.enabled = YES;
+        }
+    }
 }
 
 
