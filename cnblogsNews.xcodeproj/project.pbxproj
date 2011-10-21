@@ -19,6 +19,7 @@
 		900F240F143365440090BB49 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 900F2411143365440090BB49 /* Localizable.strings */; };
 		900F2416143367740090BB49 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 900F2415143367740090BB49 /* MainViewController.m */; };
 		900F248114336C9F0090BB49 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 900F248014336C9F0090BB49 /* MainWindow.xib */; };
+		901067461451E4FB00D490BF /* roundButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 901067451451E4FB00D490BF /* roundButton.png */; };
 		901093FD1449F69400840437 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 901093FB1449F69400840437 /* libMobClickLibrary.a */; };
 		901094001449F6F500840437 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 901093FF1449F6F500840437 /* SystemConfiguration.framework */; };
 		901094021449F6FE00840437 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 901094011449F6FE00840437 /* CoreTelephony.framework */; };
@@ -45,8 +46,7 @@
 		907291271445E8D0001DEC1C /* whiteArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9072911B1445E8D0001DEC1C /* whiteArrow@2x.png */; };
 		907291381445F313001DEC1C /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 907291371445F313001DEC1C /* libxml2.dylib */; };
 		9072F8A5144B55D70005C24B /* MTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9072F8A4144B55D70005C24B /* MTableViewCell.xib */; };
-		90762B4F14504FEF00B55A2C /* roundLabelBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 90762B4D14504FEE00B55A2C /* roundLabelBg.png */; };
-		90762B5014504FEF00B55A2C /* roundLabelBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 90762B4E14504FEE00B55A2C /* roundLabelBg@2x.png */; };
+		90762B4F14504FEF00B55A2C /* roundButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 90762B4D14504FEE00B55A2C /* roundButton@2x.png */; };
 		90995C3A144727AA00644B83 /* MTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 90995C39144727AA00644B83 /* MTableViewCell.m */; };
 		90E1A77D144ABC7A00717D6C /* MTStatusBarOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 90E1A77C144ABC7A00717D6C /* MTStatusBarOverlay.m */; };
 		90E1A79D144AEB5700717D6C /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 90E1A79C144AEB5700717D6C /* Icon.png */; };
@@ -81,6 +81,7 @@
 		900F2414143367740090BB49 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		900F2415143367740090BB49 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		900F248014336C9F0090BB49 /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
+		901067451451E4FB00D490BF /* roundButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = roundButton.png; sourceTree = "<group>"; };
 		901093FB1449F69400840437 /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickLibrary.a; sourceTree = "<group>"; };
 		901093FC1449F69400840437 /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
 		901093FF1449F6F500840437 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -114,8 +115,7 @@
 		9072911B1445E8D0001DEC1C /* whiteArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "whiteArrow@2x.png"; sourceTree = "<group>"; };
 		907291371445F313001DEC1C /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		9072F8A4144B55D70005C24B /* MTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MTableViewCell.xib; sourceTree = "<group>"; };
-		90762B4D14504FEE00B55A2C /* roundLabelBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = roundLabelBg.png; sourceTree = "<group>"; };
-		90762B4E14504FEE00B55A2C /* roundLabelBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "roundLabelBg@2x.png"; sourceTree = "<group>"; };
+		90762B4D14504FEE00B55A2C /* roundButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "roundButton@2x.png"; sourceTree = "<group>"; };
 		90995C38144727AA00644B83 /* MTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTableViewCell.h; sourceTree = "<group>"; };
 		90995C39144727AA00644B83 /* MTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTableViewCell.m; sourceTree = "<group>"; };
 		90E1A77B144ABC7A00717D6C /* MTStatusBarOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTStatusBarOverlay.h; sourceTree = "<group>"; };
@@ -244,8 +244,8 @@
 		9011225E1448A2BA004B7F60 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				90762B4D14504FEE00B55A2C /* roundLabelBg.png */,
-				90762B4E14504FEE00B55A2C /* roundLabelBg@2x.png */,
+				901067451451E4FB00D490BF /* roundButton.png */,
+				90762B4D14504FEE00B55A2C /* roundButton@2x.png */,
 				906E2D20144F3C070000C993 /* buttonWhite.png */,
 				906E2D21144F3C070000C993 /* buttonWhite@2x.png */,
 				906E2D1E144F361A0000C993 /* tableBackground.png */,
@@ -382,8 +382,8 @@
 				906E2D1F144F361A0000C993 /* tableBackground.png in Resources */,
 				906E2D24144F3C070000C993 /* buttonWhite.png in Resources */,
 				906E2D25144F3C070000C993 /* buttonWhite@2x.png in Resources */,
-				90762B4F14504FEF00B55A2C /* roundLabelBg.png in Resources */,
-				90762B5014504FEF00B55A2C /* roundLabelBg@2x.png in Resources */,
+				90762B4F14504FEF00B55A2C /* roundButton@2x.png in Resources */,
+				901067461451E4FB00D490BF /* roundButton.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

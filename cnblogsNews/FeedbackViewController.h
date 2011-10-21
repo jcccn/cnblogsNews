@@ -13,7 +13,7 @@
 @interface FeedbackViewController : UIViewController <UITextViewDelegate, UIPickerViewDelegate> {
     UIScrollView *scrollView;
     UILabel *headlineLabel;
-    MyLabel *genderAgeLabel;
+    UIButton *genderAgeButton;
     UITextView *feedbackTextView;
     UIPickerView *pickerView;
     
@@ -30,16 +30,5 @@
 
 - (BOOL)isGenderAgeFilloutOk;
 - (BOOL)isContentFilloutOK;
-
-@end
-
-@interface MyLabel : UILabel {
-    id target;
-    SEL action;
-}
-@property (nonatomic, retain) id target;
-@property (nonatomic, assign) SEL action;
-
-- (void)addTarget:(id)aTarget action:(SEL)anAction forControlEvents:(UIControlEvents)controlEvents;
 
 @end

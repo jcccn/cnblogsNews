@@ -11,6 +11,8 @@
 
 #define KEYBOARD_POP_DURATION 0.3f
 
+#define NAString (@"N/A")
+
 @implementation FeedbackViewController
 
 @synthesize sendButtonItem;
@@ -64,8 +66,8 @@
                  NSLocalizedString(@"AgeText6", @"41 - 50"),
                  NSLocalizedString(@"AgeText7", @"51 - 59"),
                  NSLocalizedString(@"AgeText8", @"60 and above"), nil] retain];
-    genderString = @"N/A";
-    ageString = @"N/A";
+    genderString = NAString;
+    ageString = NAString;
     
     CGRect viewRect = self.view.bounds;
     
@@ -80,17 +82,16 @@
     [scrollView addSubview:headlineLabel];
     [headlineLabel release];
     
-    genderAgeLabel = [[MyLabel alloc] initWithFrame:CGRectMake(10, 110, viewRect.size.width-20, 40)];
-    genderAgeLabel.text = NSLocalizedString(@"GenderAgePlaceholder", @"Tap to select gender and age");
-    genderAgeLabel.textAlignment = UITextAlignmentCenter;
-    [genderAgeLabel addTarget:self action:@selector(calendarAgeLabelClicked:) forControlEvents:UIControlEventTouchUpInside];
-    genderAgeLabel.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"roundLabelBg.png"]];
-    genderAgeLabel.textColor = [UIColor whiteColor];
-    [scrollView addSubview:genderAgeLabel];
-    [genderAgeLabel release];
+    genderAgeButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 110, viewRect.size.width-20, 40)];
+    [genderAgeButton setTitle:NSLocalizedString(@"GenderAgePlaceholder", @"Tap to select gender and age") forState:UIControlStateNormal];
+    [genderAgeButton addTarget:self action:@selector(calendarAgeButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [genderAgeButton setBackgroundImage:[UIImage imageNamed:@"roundButton.png"] forState:UIControlStateNormal];
+    [scrollView addSubview:genderAgeButton];
+    [genderAgeButton release];
     
     feedbackTextView = [[UITextView alloc] initWithFrame:CGRectMake(5, 160, viewRect.size.width - 10, 250)];
     feedbackTextView.text = @"";
+    feedbackTextView.font = [UIFont systemFontOfSize:14];
     feedbackTextView.backgroundColor = [UIColor clearColor];
     UITextField *background = [[UITextField alloc] initWithFrame:feedbackTextView.bounds];
     background.userInteractionEnabled = NO;
@@ -124,40 +125,25 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    // Return YES for supported orientations
-    return YES;
+	// Return YES for supported orientations.
+	return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     
 }
 
-- (void)calendarAgeLabelClicked:(id)sender {
+- (void)calendarAgeButtonClicked:(id)sender {
+    [self setEditing:NO animated:YES];
     if ( ! pickerView.hidden) {
         if ([self isGenderAgeFilloutOk]) {
-            genderAgeLabel.text = [NSString stringWithFormat:@"%@ , %@", genderString, ageString];
+            [genderAgeButton setTitle:[NSString stringWithFormat:@"%@ , %@", genderString, ageString] forState:UIControlStateNormal];
             pickerView.hidden = YES;
         }
-        /*
-        pickerView.hidden = YES;
-        NSString *genderAgePlaceholder = NSLocalizedString(@"GenderAgePlaceholder", @"Tap to select gender and age");
-        if ( ! [genderString isEqualToString:@"N/A"]) {
-            genderAgePlaceholder = genderString;
-            if ( ! [ageString isEqualToString:@"N/A"]) {
-                genderAgePlaceholder = [NSString stringWithFormat:@"%@ , %@", genderString, ageString];
-            }
-        }
-        else {
-            if ( ! [ageString isEqualToString:@"N/A"]) {
-                genderAgePlaceholder = ageString;
-            }
-        }
-        genderAgeLabel.text = genderAgePlaceholder;
-         */
     }
     else {
         pickerView.hidden = NO;
-        genderAgeLabel.text = NSLocalizedString(@"GenderAgeConfirmPlaceholder", @"Tap to confirm gender and age");
+        [genderAgeButton setTitle:NSLocalizedString(@"GenderAgeConfirmPlaceholder", @"Tap to confirm gender and age") forState:UIControlStateNormal];
     }
 }
 
@@ -175,7 +161,7 @@
 
 - (BOOL)isGenderAgeFilloutOk {
     BOOL isOk = YES;
-    if (([genderString isEqualToString:@"N/A"] || [ageString isEqualToString:@"N/A"])) {
+    if (([genderString isEqualToString:NAString] || [ageString isEqualToString:NAString])) {
         isOk = NO;
         UIAlertView *alertView = [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"GenderAgeErrorTitle", "Not filled out")
                                                              message:NSLocalizedString(@"GenderAgeErrorMessage", "Please fill out the gender and age")
@@ -217,6 +203,8 @@
 
 - (void)textViewDidBeginEditing:(UITextView *)textView {
     [self setEditing:YES animated:YES];
+    [genderAgeButton setTitle:(([genderString isEqualToString:NAString] || [ageString isEqualToString:NAString]) ? NSLocalizedString(@"GenderAgePlaceholder", @"Tap to select gender and age") : [NSString stringWithFormat:@"%@ , %@", genderString, ageString]) forState:UIControlStateNormal];
+    pickerView.hidden = YES;
     if (isIPHONE) {
         [UIView beginAnimations:nil context:NULL];
         [UIView setAnimationDuration:KEYBOARD_POP_DURATION];
@@ -227,23 +215,18 @@
         CGRect scrollFrame = scrollView.frame;
         scrollView.frame = CGRectMake(scrollFrame.origin.x, scrollFrame.origin.y, scrollFrame.size.width, scrollFrame.size.height - keyboardHeight);
         [scrollView scrollRectToVisible:CGRectMake(0, feedbackTextView.frame.origin.y, 100, 160) animated:YES];
-//        scrollView.center = CGPointMake(scrollView.center.x, scrollView.center.y - keyboardHeight);
         [UIView commitAnimations];
     }
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView {
     if (isIPHONE) {
-//        [UIView beginAnimations:nil context:NULL];
-//        [UIView setAnimationDuration:KEYBOARD_POP_DURATION];
         int keyboardHeight = 218;
         if (UIDeviceOrientationIsLandscape([[UIDevice currentDevice] orientation])) {
             keyboardHeight = 160;
         }
         CGRect scrollFrame = scrollView.frame;
         scrollView.frame = CGRectMake(scrollFrame.origin.x, scrollFrame.origin.y, scrollFrame.size.width, scrollFrame.size.height + keyboardHeight);
-//        scrollView.center = CGPointMake(scrollView.center.x, scrollView.center.y + keyboardHeight);
-//        [UIView commitAnimations];
     }
 }
 
@@ -269,10 +252,10 @@
     return row;
 }
 
-- (CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component {
-    CGFloat width = 100;
+- (CGFloat)pickerView:(UIPickerView *)apickerView widthForComponent:(NSInteger)component {
+    CGFloat width = (pickerView.bounds.size.width - 20) / 3;
     if (component == 1) {
-        width = 200;
+        width *= 2;
     }
     return width;
 }
@@ -295,7 +278,7 @@
     //NSString *result = [pickerView pickerView:pickerView titleForRow:row forComponent:component];
     if (component == 0) {
         if (row == 0) {
-            genderString = @"N/A";
+            genderString = NAString;
         }
         else {
             genderString = [self pickerView:pickerView titleForRow:row forComponent:component];
@@ -303,35 +286,11 @@
     }
     else {
         if (row == 0) {
-            ageString = @"N/A";
+            ageString = NAString;
         }
         else {
             ageString = [self pickerView:pickerView titleForRow:row forComponent:component];
         }
-    }
-}
-
-@end
-
-@implementation MyLabel
-
-@synthesize target, action;
-
-- (id)initWithFrame:(CGRect)frame {
-    if ((self = [super initWithFrame:frame])) {
-        self.userInteractionEnabled = YES;
-    }
-    return self;
-}
-
-- (void)addTarget:(id)aTarget action:(SEL)anAction forControlEvents:(UIControlEvents)controlEvents {
-    self.target = aTarget;
-    self.action = anAction;
-}
-
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    if ((target != nil) && [target respondsToSelector:action]) {
-        [target performSelector:action withObject:self];
     }
 }
 
