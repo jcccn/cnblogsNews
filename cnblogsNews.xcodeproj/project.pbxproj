@@ -20,6 +20,9 @@
 		900F2416143367740090BB49 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 900F2415143367740090BB49 /* MainViewController.m */; };
 		900F248114336C9F0090BB49 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 900F248014336C9F0090BB49 /* MainWindow.xib */; };
 		901067461451E4FB00D490BF /* roundButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 901067451451E4FB00D490BF /* roundButton.png */; };
+		901067521452161600D490BF /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 901067501452161600D490BF /* Default.png */; };
+		901067531452161600D490BF /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 901067511452161600D490BF /* Default@2x.png */; };
+		901067571452180B00D490BF /* Default-Portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = 901067561452180B00D490BF /* Default-Portrait.png */; };
 		901093FD1449F69400840437 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 901093FB1449F69400840437 /* libMobClickLibrary.a */; };
 		901094001449F6F500840437 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 901093FF1449F6F500840437 /* SystemConfiguration.framework */; };
 		901094021449F6FE00840437 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 901094011449F6FE00840437 /* CoreTelephony.framework */; };
@@ -82,6 +85,9 @@
 		900F2415143367740090BB49 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		900F248014336C9F0090BB49 /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		901067451451E4FB00D490BF /* roundButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = roundButton.png; sourceTree = "<group>"; };
+		901067501452161600D490BF /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		901067511452161600D490BF /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		901067561452180B00D490BF /* Default-Portrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait.png"; sourceTree = "<group>"; };
 		901093FB1449F69400840437 /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickLibrary.a; sourceTree = "<group>"; };
 		901093FC1449F69400840437 /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
 		901093FF1449F6F500840437 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -244,6 +250,9 @@
 		9011225E1448A2BA004B7F60 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				901067561452180B00D490BF /* Default-Portrait.png */,
+				901067501452161600D490BF /* Default.png */,
+				901067511452161600D490BF /* Default@2x.png */,
 				901067451451E4FB00D490BF /* roundButton.png */,
 				90762B4D14504FEE00B55A2C /* roundButton@2x.png */,
 				906E2D20144F3C070000C993 /* buttonWhite.png */,
@@ -384,6 +393,9 @@
 				906E2D25144F3C070000C993 /* buttonWhite@2x.png in Resources */,
 				90762B4F14504FEF00B55A2C /* roundButton@2x.png in Resources */,
 				901067461451E4FB00D490BF /* roundButton.png in Resources */,
+				901067521452161600D490BF /* Default.png in Resources */,
+				901067531452161600D490BF /* Default@2x.png in Resources */,
+				901067571452180B00D490BF /* Default-Portrait.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
