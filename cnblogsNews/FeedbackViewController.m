@@ -105,7 +105,7 @@
     
     [scrollView release];
     
-    pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 200, viewRect.size.width, 200)];
+    pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, viewRect.size.height - 44 - 200, viewRect.size.width, 200)];
     pickerView.showsSelectionIndicator = YES;
     pickerView.hidden = YES;
     pickerView.delegate = self;
