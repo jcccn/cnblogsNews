@@ -53,7 +53,7 @@
 		90995C3A144727AA00644B83 /* MTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 90995C39144727AA00644B83 /* MTableViewCell.m */; };
 		90E1A77D144ABC7A00717D6C /* MTStatusBarOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 90E1A77C144ABC7A00717D6C /* MTStatusBarOverlay.m */; };
 		90E1A79D144AEB5700717D6C /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 90E1A79C144AEB5700717D6C /* Icon.png */; };
-		90EA5664144B31A30001FF7E /* Icon-57.png in Resources */ = {isa = PBXBuildFile; fileRef = 90EA5663144B31A30001FF7E /* Icon-57.png */; };
+		90EA5664144B31A30001FF7E /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 90EA5663144B31A30001FF7E /* Icon-72.png */; };
 		90EA5667144B31AC0001FF7E /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 90EA5666144B31AC0001FF7E /* Icon@2x.png */; };
 		90EA566F144B48B90001FF7E /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 90EA566E144B48B90001FF7E /* MainWindow-iPad.xib */; };
 		90EADCCF144DF36700406A7F /* FeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90EADCCD144DF36700406A7F /* FeedbackViewController.m */; };
@@ -127,7 +127,7 @@
 		90E1A77B144ABC7A00717D6C /* MTStatusBarOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTStatusBarOverlay.h; sourceTree = "<group>"; };
 		90E1A77C144ABC7A00717D6C /* MTStatusBarOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTStatusBarOverlay.m; sourceTree = "<group>"; };
 		90E1A79C144AEB5700717D6C /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
-		90EA5663144B31A30001FF7E /* Icon-57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-57.png"; sourceTree = "<group>"; };
+		90EA5663144B31A30001FF7E /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
 		90EA5666144B31AC0001FF7E /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		90EA566E144B48B90001FF7E /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "MainWindow-iPad.xib"; path = "iPad/MainWindow-iPad.xib"; sourceTree = "<group>"; };
 		90EADCCC144DF36700406A7F /* FeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedbackViewController.h; sourceTree = "<group>"; };
@@ -268,7 +268,7 @@
 				9006D362144C5D2B00FC70EC /* LightCellBg@2x.png */,
 				90E1A79C144AEB5700717D6C /* Icon.png */,
 				90EA5666144B31AC0001FF7E /* Icon@2x.png */,
-				90EA5663144B31A30001FF7E /* Icon-57.png */,
+				90EA5663144B31A30001FF7E /* Icon-72.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -376,7 +376,7 @@
 				907291261445E8D0001DEC1C /* whiteArrow.png in Resources */,
 				907291271445E8D0001DEC1C /* whiteArrow@2x.png in Resources */,
 				90E1A79D144AEB5700717D6C /* Icon.png in Resources */,
-				90EA5664144B31A30001FF7E /* Icon-57.png in Resources */,
+				90EA5664144B31A30001FF7E /* Icon-72.png in Resources */,
 				90EA5667144B31AC0001FF7E /* Icon@2x.png in Resources */,
 				90EA566F144B48B90001FF7E /* MainWindow-iPad.xib in Resources */,
 				9072F8A5144B55D70005C24B /* MTableViewCell.xib in Resources */,

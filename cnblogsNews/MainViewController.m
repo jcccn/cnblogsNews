@@ -435,7 +435,10 @@ BOOL usingCache = YES;
             else if ([[[elementFooter attributes] objectForKey:@"class"] isEqualToString:@"tag"]) {
                 NSMutableArray *tags = [NSMutableArray array];
                 for (TFHppleElement *tagElement in [elementFooter children]) {
-                    [tags addObject:[tagElement content]];
+                    NSString *tag = [tagElement content];
+                    if (tag != nil) {
+                        [tags addObject:[tagElement content]];
+                    }
                 }
                 NSString *newsTag = [tags componentsJoinedByString:@"|"];
                 [news setValue:newsTag forKey:KeyTag]; 
