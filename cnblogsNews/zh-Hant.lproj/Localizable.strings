@@ -6,7 +6,7 @@
   Copyright 2011 SenseForce. All rights reserved.
 */
 
-MainTitle = "博客園新聞";
+MainTitle = "博客園IT新聞";
 WelcomeTip = "歡迎瀏覽博客園IT新聞";
 ViewerText = "人閱讀";
 DiggText = "人頂";

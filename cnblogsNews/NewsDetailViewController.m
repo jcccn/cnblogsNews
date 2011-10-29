@@ -140,7 +140,9 @@
 
 - (void)dealloc {
     [adBannerView release];
-    [webView release];
+    if (webView) {
+        [webView release];
+    }
     [activityIndicator release];
     [super dealloc];
 }
