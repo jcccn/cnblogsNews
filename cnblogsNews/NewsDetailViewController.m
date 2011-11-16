@@ -33,7 +33,7 @@
 
 @implementation NewsDetailViewController
 
-@synthesize urlString, newsTitle, pageHtml;
+@synthesize urlString, newsTitle, pageHtml, connection, bufferData;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -89,6 +89,9 @@
         [self.view addSubview:webView];
     }
     
+    connection = nil;
+    self.bufferData = [NSMutableData data];
+    
     // If the banner wasn't included in the nib, create one.
     if ( ! activityIndicator) {
         activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
@@ -124,8 +127,16 @@
                                              selector:@selector(htmlGettingFinshed:)
                                                  name:HTMLDoneNotification
                                                object:nil];
-//    [self performSelector:@selector(getPageHTMLString) withObject:self.urlString afterDelay:0.5f];
-    [self performSelectorInBackground:@selector(getPageHTMLString:) withObject:self.urlString];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.urlString]];
+    self.connection = [NSURLConnection connectionWithRequest:request delegate:self];
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    if (self.connection != nil) {
+        [self.connection cancel];
+    }
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -242,30 +253,6 @@
 #pragma mark -
 #pragma mark Data
 
-- (void)getPageHTMLString:(NSString *)url {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-    NSData *siteData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:url]];
-    //	TFHpple *xpathParser = [TFHpple hppleWithHTMLData:siteData];
-    //    TFHppleElement *element = [xpathParser peekAtSearchWithXPathQuery:@"//div[id='news_body']"];
-    //    NSString *htmlBody = [element content];
-    NSScanner *aScanner;
-    NSString *htmlBody = @"";
-    aScanner = [NSScanner scannerWithString:[[[NSString alloc] initWithData:siteData encoding:NSUTF8StringEncoding] autorelease]];
-    [aScanner scanUpToString:@"<div id=\"news_body\">" intoString:NULL];
-    [aScanner scanUpToString:@"</div>" intoString:&htmlBody];
-    if ([htmlBody length] > 0) {
-        htmlBody = [htmlBody stringByAppendingString:@"</div>"];
-        
-    }
-    [[NSNotificationCenter defaultCenter] postNotificationName:HTMLDoneNotification
-                                                        object:self
-                                                      userInfo:[NSDictionary dictionaryWithObject:[self convertHTMLWithBody:htmlBody] forKey:KeyHtml]];
-    
-    [pool release];
-}
-
 - (void)htmlGettingFinshed:(NSNotification *)notification {
     if (notification) {
         NSString *html = [[notification userInfo] objectForKey:KeyHtml];
@@ -330,6 +317,36 @@
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+}
+
+#pragma mark -
+#pragma mark NSURLConnection delegate methods
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+    [self.bufferData setLength:0];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+    [self.bufferData appendData:data];
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+    NSScanner *aScanner;
+    NSString *htmlBody = @"";
+    aScanner = [NSScanner scannerWithString:[[[NSString alloc] initWithData:self.bufferData encoding:NSUTF8StringEncoding] autorelease]];
+    [aScanner scanUpToString:@"<div id=\"news_body\">" intoString:NULL];
+    [aScanner scanUpToString:@"</div>" intoString:&htmlBody];
+    if ([htmlBody length] > 0) {
+        htmlBody = [htmlBody stringByAppendingString:@"</div>"];
+        
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:HTMLDoneNotification
+                                                        object:self
+                                                      userInfo:[NSDictionary dictionaryWithObject:[self convertHTMLWithBody:htmlBody] forKey:KeyHtml]];
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+    
 }
 
 #pragma mark -

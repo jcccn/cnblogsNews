@@ -17,12 +17,17 @@
     NSString *pageHtml;
     ADBannerView *adBannerView;
     UIActivityIndicatorView *activityIndicator;
+    
+    NSURLConnection *connection;
+    NSMutableData *bufferData;
+    
 }
 @property (nonatomic, retain) NSString *urlString;
 @property (nonatomic, retain) NSString *newsTitle;
 @property (nonatomic, retain) NSString *pageHtml;
+@property (nonatomic, retain) NSURLConnection *connection;
+@property (nonatomic, retain) NSMutableData *bufferData;
 
-- (void)getPageHTMLString:(NSString *)url;
 - (NSString *)convertHTMLWithBody:(NSString *)htmlBody;
 - (void)htmlGettingFinshed:(NSNotification *)notification;
 
