@@ -54,6 +54,7 @@
 @synthesize reloading=_reloading;
 @synthesize footerView;
 @synthesize currentPage;
+@synthesize connection, bufferData;
 
 #pragma mark -
 #pragma mark View lifecycle
@@ -66,6 +67,9 @@ BOOL usingCache = YES;
     self.title = NSLocalizedString(@"MainTitle", @"cnblogs.com");
     self.listData = [NSMutableArray array];
     self.tableView.scrollsToTop = YES;
+    
+    connection = nil;
+    self.bufferData = [NSMutableData data];
 	
 	if (refreshHeaderView == nil) {
 		refreshHeaderView = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.tableView.bounds.size.height, self.tableView.bounds.size.width, self.tableView.bounds.size.height)];
@@ -114,6 +118,7 @@ BOOL usingCache = YES;
     [barButtonItem release];
     
     currentPage = 1;
+    loadingPageIndex = 1;
 }
 
 
@@ -197,8 +202,16 @@ BOOL usingCache = YES;
 #pragma mark Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (self.connection != nil) {
+        [self.connection cancel];
+        [self.tableView setContentInset:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
+        [refreshHeaderView setState:EGOOPullRefreshNormal];
+        self.tableView.tableFooterView = self.footerView;
+    }
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    NSDictionary *news = (NSDictionary *)[listData objectAtIndex:indexPath.row];
+    NSDictionary *news = (NSDictionary *)[self.listData objectAtIndex:indexPath.row];
     NSString *urlString = [NSString stringWithFormat:@"%@%@",BaseURL, [news objectForKey:KeyUrl]];
     
     NewsDetailViewController *detailViewController = [[NewsDetailViewController alloc] init];
@@ -281,7 +294,7 @@ BOOL usingCache = YES;
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [listData count];
+    return [self.listData count];
 }
 
 
@@ -298,7 +311,7 @@ BOOL usingCache = YES;
     
 	// Configure the cell.
 	NSInteger row = [indexPath row];
-    NSDictionary *news = (NSDictionary *)[listData objectAtIndex:row];
+    NSDictionary *news = (NSDictionary *)[self.listData objectAtIndex:row];
     
     cell.useDarkBackground = (indexPath.row % 2 == 1);
     cell.summary = [news valueForKey:KeyTitle];
@@ -363,25 +376,11 @@ BOOL usingCache = YES;
     }
 }
 
-- (void)loadPageAt:(NSNumber *)anIndex{
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+- (void)loadPageAt:(NSInteger)anIndex{
+    loadingPageIndex = anIndex;
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:PageUrlFormat,anIndex]]];
+    self.connection = [NSURLConnection connectionWithRequest:request delegate:self];
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-	NSData *siteData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:PageUrlFormat,[anIndex intValue]]]];
-	NSMutableArray *newsArray = [self parseArrayWithHTMLData:siteData];
-    [[NSNotificationCenter defaultCenter] postNotificationName:LoadDoneNotification
-                                                        object:self
-                                                      userInfo:[NSDictionary dictionaryWithObjectsAndKeys:newsArray, KeyNews, anIndex, KeyPageIndex, nil]];
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-    if ([newsArray count] > 0) {
-        NSString *cacheHtml = [[NSString alloc] initWithData:siteData encoding:NSUTF8StringEncoding];
-        [cacheHtml writeToFile:[self cacheFilePath]
-                    atomically:YES
-                      encoding:NSUTF8StringEncoding
-                         error:nil];
-        [cacheHtml release];
-    }
-    
-    [pool release];
 }
 
 - (NSMutableArray *)parseArrayWithHTMLData:(NSData *)data {
@@ -466,7 +465,8 @@ BOOL usingCache = YES;
 - (void)reloadTableViewDataWithPageIndex:(NSInteger)index{
 	//  should be calling your tableviews model to reload
 	//  put here just for demo
-    [self performSelectorInBackground:@selector(loadPageAt:) withObject:[NSNumber numberWithInt:index]];
+//    [self performSelectorInBackground:@selector(loadPageAt:) withObject:[NSNumber numberWithInt:index]];
+    [self loadPageAt:index];
 	
 }
 
@@ -477,6 +477,8 @@ BOOL usingCache = YES;
 }
      
 - (void)doneLoading:(NSNotification *)notification {
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+    
     if (notification) {
         NSMutableArray *newsArray = [[notification userInfo] objectForKey:KeyNews];
         if (!newsArray || [newsArray count]==0) {
@@ -491,7 +493,7 @@ BOOL usingCache = YES;
             }
         }
         else {
-            self.listData = newsArray;
+            self.listData = [NSMutableArray arrayWithArray:newsArray];
             self.currentPage = [[[notification userInfo] objectForKey:KeyPageIndex] intValue];
             if (! usingCache) {
                 [MobClick event:MobClickEventIdRefreshNewsList label:@"Succeed to load"];
@@ -565,6 +567,41 @@ BOOL usingCache = YES;
     }
 }
 
+#pragma mark -
+#pragma mark NSURLConnection delegate methods
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+    [self.bufferData setLength:0];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+    [self.bufferData appendData:data];
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+    NSMutableArray *newsArray = [self parseArrayWithHTMLData:self.bufferData];
+    [[NSNotificationCenter defaultCenter] postNotificationName:LoadDoneNotification
+                                                        object:self
+                                                      userInfo:[NSDictionary dictionaryWithObjectsAndKeys:newsArray, KeyNews, [NSNumber numberWithInt:loadingPageIndex], KeyPageIndex, nil]];
+    self.connection = nil;
+    
+    if ([newsArray count] > 0) {
+        NSString *cacheHtml = [[NSString alloc] initWithData:self.bufferData encoding:NSUTF8StringEncoding];
+        [cacheHtml writeToFile:[self cacheFilePath]
+                    atomically:YES
+                      encoding:NSUTF8StringEncoding
+                         error:nil];
+        [cacheHtml release];
+    }
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+    [[NSNotificationCenter defaultCenter] postNotificationName:LoadDoneNotification
+                                                        object:self
+                                                      userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSArray array], KeyNews, [NSNumber numberWithInt:loadingPageIndex], KeyPageIndex, nil]];
+    self.connection = nil;
+}
+
 
 #pragma mark -
 #pragma mark Memory management
@@ -581,7 +618,7 @@ BOOL usingCache = YES;
 }
 
 - (void)dealloc {
-	[listData release];
+	[self.listData release];
     [super dealloc];
 }
 

@@ -24,6 +24,7 @@
 }
 @property (nonatomic, retain) NSString *urlString;
 @property (nonatomic, retain) NSString *newsTitle;
+@property (nonatomic, retain) UIWebView *webView;
 @property (nonatomic, retain) NSString *pageHtml;
 @property (nonatomic, retain) NSURLConnection *connection;
 @property (nonatomic, retain) NSMutableData *bufferData;

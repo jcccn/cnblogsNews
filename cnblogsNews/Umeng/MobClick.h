@@ -1,26 +1,46 @@
-    //
-    //  MobClick.h
-    //  MobClick
-    //
-    //  Created by Aladdin on 3/25/10.
-    //  Copyright 2010 Umeng.com . All rights reserved.
-    //
+//
+//  MobClick.h
+//  MobClick
+//
+//  Created by Aladdin on 3/25/10.
+//  Copyright 2010-2011 Umeng.com . All rights reserved.
+//  Version 1.6.7 , updated_at 2011-11-16.
 
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 
-typedef enum{
-	BATCH = 0,
-	REALTIME
-}ReportPolicy;
+typedef enum {
+    BATCH = 0,
+    REALTIME
+} ReportPolicy;
 
 @protocol MobClickDelegate;
-@interface MobClick : NSObject <UIAlertViewDelegate>{
+
+@interface MobClick : NSObject <UIAlertViewDelegate> {
 @private
-	id _internal;
+    id _internal;
 }
 #pragma mark basics
++ (NSString *)getAgentVersion;  //获取sdk 版本号
 
+/*方法名:
+ *		setCrashReportEnabled:(BOOL)value
+ *介绍:
+ *		类方法设置是否让umeng SDK 捕捉和记录您的crash log
+ *参数说明:
+ *		(BOOL)value:默认值为YES
+ *	    设置为NO,umeng SDK 不再捕捉和记录您的crash log,需要在setDelegate方法之前调用
+ */
++ (void)setCrashReportEnabled:(BOOL)value;
+/*方法名:
+ *		setLogEnabled:(BOOL)value
+ *介绍:
+ *		类方法设置是否打印sdk的log信息
+ *参数说明:
+ *		(BOOL)value:默认值为NO
+ *	    设置为YES,umeng SDK 会输出log信息,记得release产品时要设置回NO
+ */
++ (void)setLogEnabled:(BOOL)value;
 
 /*方法名:
  *		setDelegate:(id<MobClickDelegate>)delegate
@@ -34,28 +54,10 @@ typedef enum{
  *					2.REALTIME	:实时发送。每当有事件（event）产生时，进行发送
  *文档地址: http://www.umeng.com/doc/home.html#op_con_kfzn/iossdk_syzn
  */
-+ (void)setDelegate:(id<MobClickDelegate>)delegate;
-+ (void)setDelegate:(id<MobClickDelegate>)delegate reportPolicy:(ReportPolicy)rp;
++ (void)setDelegate:(id <MobClickDelegate>)delegate;
 
-/*方法名:
- *		appLaunched
- *介绍:
- *		类方法，记录启动时间，模块开始启用。请在调用本方法前，调用setDelegate:或 setDelegate: reportPolicy: 方法
- *参数说明:
- *		无
- *文档地址: http://www.umeng.com/doc/home.html#op_con_kfzn/iossdk_syzn
- */
++ (void)setDelegate:(id <MobClickDelegate>)delegate reportPolicy:(ReportPolicy)rp;
 
-+ (void)appLaunched;
-/*方法名:
- *		appTerminated
- *介绍:
- *		类方法，记录软件终止时间，模块终止。
- *参数说明:
- *		无
- *文档地址: http://www.umeng.com/doc/home.html#op_con_kfzn/iossdk_syzn
- */
-+ (void)appTerminated;
 
 #pragma mark event logs
 /*方法名:
@@ -74,9 +76,13 @@ typedef enum{
  *文档地址: http://www.umeng.com/doc/home.html#op_con_kfzn/iossdk_syzn
  */
 + (void)event:(NSString *)eventId;
+
 + (void)event:(NSString *)eventId label:(NSString *)label;
+
 + (void)event:(NSString *)eventId acc:(NSInteger)accumulation;
+
 + (void)event:(NSString *)eventId label:(NSString *)label acc:(NSInteger)accumulation;
+
 
 #pragma mark feedback Default GUI
 /*方法名:
@@ -114,7 +120,7 @@ typedef enum{
  *
  *文档地址: http://www.umeng.com/doc/home.html#op_con_kfzn/iossdk_syzn
  */
-+ (void)feedbackWithDictionary:(NSDictionary * )feedbackDict;
++ (void)feedbackWithDictionary:(NSDictionary *)feedbackDict;
 #pragma mark helper
 /*方法名:
  *		isJailbroken
@@ -125,17 +131,36 @@ typedef enum{
  *		
  *文档地址: http://www.umeng.com/doc/home.html#op_con_kfzn/iossdk_syzn
  */
+
+#pragma mark utils api
+// 类方法，判断当前设备是否已经越狱
 + (BOOL)isJailbroken;
+// 类方法，判断你的App是否被破解
++ (BOOL)isPirated;
+
+#pragma mark DEPRECATED methods from version 1.6.7
 /*方法名:
- *		isPirated
+ *		appLaunched
  *介绍:
- *		类方法，判断软件是否破解
+ *		类方法，记录启动时间，模块开始启用。请在调用本方法前，调用setDelegate:或 setDelegate: reportPolicy: 方法
  *参数说明:
  *		无
- *		
  *文档地址: http://www.umeng.com/doc/home.html#op_con_kfzn/iossdk_syzn
+ * 此方法在1.6.7及以后的版本中废弃，不再需要手动调用.
  */
-+ (BOOL)isPirated;
+
++ (void)appLaunched;
+/*方法名:
+ *		appTerminated
+ *介绍:
+ *		类方法，记录软件终止时间，模块终止。
+ *参数说明:
+ *		无
+ *文档地址: http://www.umeng.com/doc/home.html#op_con_kfzn/iossdk_syzn
+ * 此方法在1.6.7及以后的版本中废弃，不再需要手动调用.
+ */
++ (void)appTerminated;
+
 
 @end
 
@@ -164,4 +189,5 @@ typedef enum{
  *文档地址: http://www.umeng.com/doc/home.html#op_con_kfzn/iossdk_syzn
  */
 - (NSString *)channelId;
+
 @end

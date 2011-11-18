@@ -19,7 +19,6 @@
     // Override point for customization after application launch.
     [MobClick setDelegate:self];
 //    [MobClick setDelegate:self reportPolicy:REALTIME];
-    [MobClick appLaunched];
     // Add the navigation controller's view to the window and display.
     self.window.rootViewController = self.navigationController;
     [self.window makeKeyAndVisible];
@@ -68,7 +67,6 @@
      Save data if appropriate.
      See also applicationDidEnterBackground:.
      */
-    [MobClick appTerminated];
 }
 
 - (void)dealloc

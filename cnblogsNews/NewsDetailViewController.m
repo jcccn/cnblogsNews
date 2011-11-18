@@ -33,7 +33,7 @@
 
 @implementation NewsDetailViewController
 
-@synthesize urlString, newsTitle, pageHtml, connection, bufferData;
+@synthesize urlString, newsTitle, pageHtml, webView, connection, bufferData;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -68,14 +68,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    if (webView == nil) {
-        webView = [[UIWebView alloc] init];
-        webView.delegate = self;
+    if (self.webView == nil) {
+        self.webView = [[UIWebView alloc] init];
+        self.webView.delegate = self;
 //        webView.frame = CGRectMake(0, 0, 320, 416);
-        webView.frame = self.view.bounds;
-        webView.backgroundColor = [UIColor whiteColor];
-        webView.scalesPageToFit = NO;
-        webView.tag = TagWebView;
+        self.webView.frame = self.view.bounds;
+        self.webView.backgroundColor = [UIColor whiteColor];
+        self.webView.scalesPageToFit = NO;
+        self.webView.tag = TagWebView;
         // remove shadow view when drag web view
         for (UIView *subView in [webView subviews]) {
             if ([subView isKindOfClass:[UIScrollView class]]) {
@@ -151,8 +151,8 @@
 
 - (void)dealloc {
     [adBannerView release];
-    if (webView) {
-        [webView release];
+    if (self.webView) {
+        [webView removeFromSuperview];
     }
     [activityIndicator release];
     [super dealloc];
@@ -257,7 +257,7 @@
     if (notification) {
         NSString *html = [[notification userInfo] objectForKey:KeyHtml];
         self.pageHtml = html;
-        [webView loadHTMLString:html baseURL:[NSURL URLWithString:self.urlString]];
+        [self.webView loadHTMLString:html baseURL:[NSURL URLWithString:self.urlString]];
 //        [self hidePagePictures];
     }
     if (activityIndicator) {
@@ -346,7 +346,10 @@
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-    
+    if (activityIndicator) {
+        [activityIndicator stopAnimating];
+    }
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 }
 
 #pragma mark -
