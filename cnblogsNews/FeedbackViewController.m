@@ -43,7 +43,7 @@
     self.title = NSLocalizedString(@"FeedbackTitle", @"Feed back");
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"tableBackground.png"]];
     
-    self.sendButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"PublishButtonTitle", @"Publish") style:UIBarButtonItemStyleDone target:self action:@selector(feedback:)] autorelease];
+    self.sendButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"PublishButtonTitle", @"Publish") style:UIBarButtonItemStyleDone target:self action:@selector(feedback:)];
     
     #if (__IPHONE_OS_VERSION_MAX_ALLOWED >= 30200)
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
@@ -54,10 +54,10 @@
     }
     #endif
     
-    genderArray = [[NSArray arrayWithObjects:NSLocalizedString(@"GenderText0", @"Gender"),
+    genderArray = [NSArray arrayWithObjects:NSLocalizedString(@"GenderText0", @"Gender"),
                     NSLocalizedString(@"GenderText1", @"Male"),
-                    NSLocalizedString(@"GenderText2", @"Female"), nil] retain];
-    ageArray = [[NSArray arrayWithObjects:NSLocalizedString(@"AgeText0", @"Your age"),
+                    NSLocalizedString(@"GenderText2", @"Female"), nil];
+    ageArray = [NSArray arrayWithObjects:NSLocalizedString(@"AgeText0", @"Your age"),
                  NSLocalizedString(@"AgeText1", @"Below 18(18 not included)"),
                  NSLocalizedString(@"AgeText2", @"18 - 24"),
                  NSLocalizedString(@"AgeText3", @"25 - 30"),
@@ -65,7 +65,7 @@
                  NSLocalizedString(@"AgeText5", @"36 - 40"),
                  NSLocalizedString(@"AgeText6", @"41 - 50"),
                  NSLocalizedString(@"AgeText7", @"51 - 59"),
-                 NSLocalizedString(@"AgeText8", @"60 and above"), nil] retain];
+                 NSLocalizedString(@"AgeText8", @"60 and above"), nil];
     genderString = NAString;
     ageString = NAString;
     
@@ -80,14 +80,12 @@
     headlineLabel.backgroundColor = [UIColor clearColor];
     headlineLabel.text = NSLocalizedString(@"FeedbackHeadline", @"    Welcomes your comments and suggestions. every word you left will be used to improve our products and services.");
     [scrollView addSubview:headlineLabel];
-    [headlineLabel release];
     
     genderAgeButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 110, viewRect.size.width-20, 40)];
     [genderAgeButton setTitle:NSLocalizedString(@"GenderAgePlaceholder", @"Tap to select gender and age") forState:UIControlStateNormal];
     [genderAgeButton addTarget:self action:@selector(calendarAgeButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [genderAgeButton setBackgroundImage:[UIImage imageNamed:@"roundButton.png"] forState:UIControlStateNormal];
+    [genderAgeButton setBackgroundColor:[UIColor grayColor]];
     [scrollView addSubview:genderAgeButton];
-    [genderAgeButton release];
     
     feedbackTextView = [[UITextView alloc] initWithFrame:CGRectMake(5, 160, viewRect.size.width - 10, 250)];
     feedbackTextView.text = @"";
@@ -98,12 +96,8 @@
     background.borderStyle = UITextBorderStyleRoundedRect;
     [feedbackTextView addSubview:background];
     [feedbackTextView sendSubviewToBack:background];
-    [background release];
     feedbackTextView.delegate = self;
-    [scrollView addSubview:feedbackTextView];
-    [feedbackTextView release];
-    
-    [scrollView release];
+    [scrollView addSubview:feedbackTextView];    
     
     pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, viewRect.size.height - 44 - 200, viewRect.size.width, 200)];
     pickerView.showsSelectionIndicator = YES;
@@ -112,7 +106,6 @@
     UIButton *calendarAgeButton = [UIButton buttonWithType:UIButtonTypeCustom];
     calendarAgeButton.frame = CGRectMake(0, 0, 137, 40);
     [self.view addSubview:pickerView];
-    [pickerView release];
 
 }
 
@@ -163,11 +156,11 @@
     BOOL isOk = YES;
     if (([genderString isEqualToString:NAString] || [ageString isEqualToString:NAString])) {
         isOk = NO;
-        UIAlertView *alertView = [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"GenderAgeErrorTitle", "Not filled out")
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"GenderAgeErrorTitle", "Not filled out")
                                                              message:NSLocalizedString(@"GenderAgeErrorMessage", "Please fill out the gender and age")
                                                             delegate:nil
                                                    cancelButtonTitle:NSLocalizedString(@"GenderAgeErrorOK", "OK")
-                                                   otherButtonTitles:nil, nil] autorelease];
+                                                   otherButtonTitles:nil, nil];
         [alertView show];
     }
     return isOk;
@@ -177,11 +170,11 @@
     BOOL isOK = YES;
     if ([feedbackTextView.text length] == 0) {
         isOK = NO;
-        UIAlertView *alertView = [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ContentErrorTitle", "Not filled out")
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ContentErrorTitle", "Not filled out")
                                                              message:NSLocalizedString(@"ContentErrorMessage", "Please fill out the feed back content")
                                                             delegate:nil
                                                    cancelButtonTitle:NSLocalizedString(@"ContentErrorOK", "OK")
-                                                   otherButtonTitles:nil, nil] autorelease];
+                                                   otherButtonTitles:nil, nil];
         [alertView show];
     }
     return isOK;
@@ -193,7 +186,7 @@
         [feedbackDict setValue:[NSString stringWithFormat:@"%d", [genderArray indexOfObject:genderString]] forKey:@"UMengFeedbackGender"];
         [feedbackDict setValue:[NSString stringWithFormat:@"%d", [ageArray indexOfObject:ageString]] forKey:@"UMengFeedbackAge"];
         [feedbackDict setValue:feedbackTextView.text forKey:@"UMengFeedbackContent"];
-        [MobClick feedbackWithDictionary:feedbackDict];
+//        [MobClick feedbackWithDictionary:feedbackDict];
         [self.navigationController popViewControllerAnimated:YES];
     }
 }

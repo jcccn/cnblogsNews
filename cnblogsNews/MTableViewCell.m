@@ -38,7 +38,7 @@
 //        self.backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 //        self.backgroundView.frame = self.bounds;
         
-        self.backgroundView = [[[UIView alloc] initWithFrame:CGRectMake(1, 1, 1, 1)] autorelease];
+        self.backgroundView = [[UIView alloc] initWithFrame:CGRectMake(1, 1, 1, 1)];
         self.backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         self.backgroundView.frame = self.bounds;
         NSString *imageName = useDarkBackground ? @"DarkCellBg.png" : @"LightCellBg.png";

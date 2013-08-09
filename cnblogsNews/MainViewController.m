@@ -15,7 +15,7 @@
 #import "Constants.h"
 #import "FeedbackViewController.h"
 
-@interface MainViewController (Private)
+@interface MainViewController (Private) <EGORefreshTableHeaderDelegate>
 
 - (void)dataSourceDidFinishLoadingNewData;
 
@@ -74,16 +74,15 @@ BOOL usingCache = YES;
 	if (refreshHeaderView == nil) {
 		refreshHeaderView = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.tableView.bounds.size.height, self.tableView.bounds.size.width, self.tableView.bounds.size.height)];
 		refreshHeaderView.backgroundColor = [UIColor colorWithRed:226.0/255.0 green:231.0/255.0 blue:237.0/255.0 alpha:1.0];
+        refreshHeaderView.delegate = self;
 		[self.tableView addSubview:refreshHeaderView];
 		self.tableView.showsVerticalScrollIndicator = YES;
-		[refreshHeaderView release];
 	}
     
     if ( ! self.footerView) {
         UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, TableViewCellHeight)];
         footView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"LightCellBg.png"]];
         self.footerView = footView;
-        [footView release];
         
         CGFloat margin = (((int)self.tableView.bounds.size.width - 2 * 120) / 3) - 1.0;
         UIButton *prePageButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -115,7 +114,6 @@ BOOL usingCache = YES;
     [infoButton addTarget:self action:@selector(infoButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:infoButton];
     self.navigationItem.rightBarButtonItem = barButtonItem;
-    [barButtonItem release];
     
     currentPage = 1;
     loadingPageIndex = 1;
@@ -130,7 +128,6 @@ BOOL usingCache = YES;
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     if (usingCache) {
-        [refreshHeaderView setState:EGOOPullRefreshLoading];
         self.tableView.tableFooterView = nil;
         [UIView beginAnimations:nil context:NULL];
         [UIView setAnimationDuration:0.2];
@@ -145,18 +142,6 @@ BOOL usingCache = YES;
         [[MTStatusBarOverlay sharedInstance] postFinishMessage:NSLocalizedString(@"WelcomeTip", @"Welcome to read cnblogs IT News") duration:3 animated:YES];
     }
 }
-
-/*
- - (void)viewWillDisappear:(BOOL)animated {
- [super viewWillDisappear:animated];
- }
- */
-/*
- - (void)viewDidDisappear:(BOOL)animated {
- [super viewDidDisappear:animated];
- }
- */
-
 
 // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -175,11 +160,6 @@ BOOL usingCache = YES;
     [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
     self.tableView.tableFooterView = nil;
     _reloading = YES;
-    [refreshHeaderView setState:EGOOPullRefreshLoading];
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.2];
-    self.tableView.contentInset = UIEdgeInsetsMake(60.0f, 0.0f, 0.0f, 0.0f);
-    [UIView commitAnimations];
 
     [MobClick event:MobClickEventIdClickPrePage label:[@"At page " stringByAppendingFormat:@"%d", self.currentPage]];
 }
@@ -189,11 +169,6 @@ BOOL usingCache = YES;
     [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
     self.tableView.tableFooterView = nil;
     _reloading = YES;
-    [refreshHeaderView setState:EGOOPullRefreshLoading];
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.2];
-    self.tableView.contentInset = UIEdgeInsetsMake(60.0f, 0.0f, 0.0f, 0.0f);
-    [UIView commitAnimations];
 
     [MobClick event:MobClickEventIdClickNextPage label:[@"At page " stringByAppendingFormat:@"%d", self.currentPage]];
 }
@@ -205,7 +180,6 @@ BOOL usingCache = YES;
     if (self.connection != nil) {
         [self.connection cancel];
         [self.tableView setContentInset:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
-        [refreshHeaderView setState:EGOOPullRefreshNormal];
         self.tableView.tableFooterView = self.footerView;
     }
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
@@ -218,9 +192,8 @@ BOOL usingCache = YES;
     detailViewController.urlString = urlString;
     detailViewController.newsTitle = [news objectForKey:KeyTitle];
     [self.navigationController pushViewController:detailViewController animated:YES];
-    [detailViewController release];
     
-    [MobClick event:MobClickEventIdReadNewsDetail label:[NSString stringWithFormat:@"url=%@",[news objectForKey:KeyUrl], [news objectForKey:KeyTag]]];
+    [MobClick event:MobClickEventIdReadNewsDetail label:[NSString stringWithFormat:@"url=%@",[news objectForKey:KeyUrl]]];
     for (NSString *newsTag in [[news objectForKey:KeyTag] componentsSeparatedByString:@"|"]) {
         [MobClick event:MobClickEventIdReadNewsDetailTag label:newsTag];
     }
@@ -231,57 +204,6 @@ BOOL usingCache = YES;
     return TableViewCellHeight;
 }
 
-
-/*
- // Override to support row selection in the table view.
- - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
- 
- // Navigation logic may go here -- for example, create and push another view controller.
- // AnotherViewController *anotherViewController = [[AnotherViewController alloc] initWithNibName:@"AnotherView" bundle:nil];
- // [self.navigationController pushViewController:anotherViewController animated:YES];
- // [anotherViewController release];
- }
- */
-
-
-/*
- // Override to support conditional editing of the table view.
- - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
- // Return NO if you do not want the specified item to be editable.
- return YES;
- }
- */
-
-
-/*
- // Override to support editing the table view.
- - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
- 
- if (editingStyle == UITableViewCellEditingStyleDelete) {
- // Delete the row from the data source.
- [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
- }   
- else if (editingStyle == UITableViewCellEditingStyleInsert) {
- // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
- }   
- }
- */
-
-
-/*
- // Override to support rearranging the table view.
- - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
- }
- */
-
-
-/*
- // Override to support conditional rearranging of the table view.
- - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
- // Return NO if you do not want the item to be re-orderable.
- return YES;
- }
- */
 
 #pragma mark -
 #pragma mark Table view data source
@@ -315,8 +237,8 @@ BOOL usingCache = YES;
     
     cell.useDarkBackground = (indexPath.row % 2 == 1);
     cell.summary = [news valueForKey:KeyTitle];
-    cell.popularity = [NSString stringWithFormat:@"%@%@, %@%@", 
-                       [news valueForKey:KeyView],
+    cell.popularity = [NSString stringWithFormat:@"%d%@, %@%@", 
+                       [[news valueForKey:KeyView] integerValue],
                        NSLocalizedString(@"ViewerText", @"viewers"),
                        [news valueForKey:KeyDigg],
                        NSLocalizedString(@"DiggText", @"diggs")];
@@ -324,46 +246,6 @@ BOOL usingCache = YES;
     
     return cell;
 }
-
-
-/*
- // Override to support conditional editing of the table view.
- - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
- // Return NO if you do not want the specified item to be editable.
- return YES;
- }
- */
-
-
-/*
- // Override to support editing the table view.
- - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
- 
- if (editingStyle == UITableViewCellEditingStyleDelete) {
- // Delete the row from the data source.
- [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
- }   
- else if (editingStyle == UITableViewCellEditingStyleInsert) {
- // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
- }   
- }
- */
-
-
-/*
- // Override to support rearranging the table view.
- - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
- }
- */
-
-
-/*
- // Override to support conditional rearranging of the table view.
- - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
- // Return NO if you do not want the item to be re-orderable.
- return YES;
- }
- */
 
 #pragma mark-
 #pragma mark data conduction
@@ -391,19 +273,12 @@ BOOL usingCache = YES;
         NSMutableDictionary *news = [NSMutableDictionary dictionaryWithCapacity:9];
         
         //Digg
-        TFHppleElement *elementDigg = [[[element firstChild] firstChild] firstChild];
+        TFHppleElement *elementDigg = [[[[element firstChildWithClassName:@"action"] firstChildWithClassName:@"diggit"] firstChildWithClassName:@"diggnum"] firstTextChild];
         [news setValue:[elementDigg content] forKey:KeyDigg];
         
-        NSArray *children = nil;
-        for (TFHppleElement *ele in [element children]) {
-            if ([[[ele attributes] objectForKey:@"class"] isEqualToString:@"content"]) {
-                children = [ele children];
-            }
-        }
-        
         //Title
-        TFHppleElement *elementTitle = [[[children objectAtIndex:0] children] objectAtIndex:0];
-        NSString *newsTitle = [elementTitle content];
+        TFHppleElement *elementTitle = [[[element firstChildWithClassName:@"content"] firstChildWithClassName:@"news_entry"] firstChildWithTagName:@"a"];
+        NSString *newsTitle = [[elementTitle firstTextChild] content];
         [news setValue:newsTitle forKey:KeyTitle];
         
         //Url
@@ -411,51 +286,36 @@ BOOL usingCache = YES;
         [news setValue:newsUrl forKey:KeyUrl];
         
         //Summary
-        TFHppleElement *elementSummary = [children objectAtIndex:1];
+        TFHppleElement *elementSummary = [[[element firstChildWithClassName:@"content"] firstChildWithClassName:@"entry_summary"] firstTextChild];
         NSString *newsSummary = [elementSummary content];
         [news setValue:newsSummary forKey:KeySummary];
         
-        NSArray *elementsFooter = [[children objectAtIndex:2] children];
-        for (TFHppleElement *elementFooter in elementsFooter) {
-            
-            //Comment
-            if ([[[elementFooter attributes] objectForKey:@"class"] isEqualToString:@"comment"]) {
-                NSString *newsComment = [[[elementFooter children] objectAtIndex:0] content];
-                [news setValue:newsComment forKey:KeyComment]; 
-            }
-            
-            //View
-            else if ([[[elementFooter attributes] objectForKey:@"class"] isEqualToString:@"view"]) {
-                NSString *newsView = [NSString stringWithFormat:@"%d",[[elementFooter content] intValue]];
-                [news setValue:newsView forKey:KeyView]; 
-            }
-            
-            //Tag
-            else if ([[[elementFooter attributes] objectForKey:@"class"] isEqualToString:@"tag"]) {
-                NSMutableArray *tags = [NSMutableArray array];
-                for (TFHppleElement *tagElement in [elementFooter children]) {
-                    NSString *tag = [tagElement content];
-                    if (tag != nil) {
-                        [tags addObject:[tagElement content]];
-                    }
-                }
-                NSString *newsTag = [tags componentsJoinedByString:@"|"];
-                [news setValue:newsTag forKey:KeyTag]; 
-            }
-            
-            else if ([[[elementFooter attributes] objectForKey:@"class"] isEqualToString:@"gray"]) {
-                //Contributer
-                if ([[elementFooter tagName] isEqualToString:@"a"]) {
-                    NSString *newsContributer = [elementFooter content];
-                    [news setValue:newsContributer forKey:KeyContributer];
-                }
-                //Time
-                else if ([[elementFooter tagName] isEqualToString:@"span"]) {
-                    NSString *newsTime = [elementFooter content];
-                    [news setValue:newsTime forKey:KeyTime];
-                }
+        //Comment
+        NSString *newsComment = [[[[[[element firstChildWithClassName:@"content"] firstChildWithClassName:@"entry_footer"] firstChildWithClassName:@"comment"] firstChildWithClassName:@"gray"] firstTextChild] content];
+        [news setValue:newsComment forKey:KeyComment];
+        
+        //View
+        NSString *newsView = [[[[[element firstChildWithClassName:@"content"] firstChildWithClassName:@"entry_footer"] firstChildWithClassName:@"view"] firstTextChild] content];
+        [news setValue:newsView forKey:KeyView];
+        
+        //Tag
+        NSMutableArray *tags = [NSMutableArray array];
+        for (TFHppleElement *tagElement in [[[[element firstChildWithClassName:@"content"] firstChildWithClassName:@"entry_footer"] firstChildWithClassName:@"tag"] childrenWithClassName:@"gray"]) {
+            NSString *tag = [tagElement content];
+            if (tag != nil) {
+                [tags addObject:[tagElement content]];
             }
         }
+        NSString *newsTag = [tags componentsJoinedByString:@"|"];
+        [news setValue:newsTag forKey:KeyTag];
+        
+        //Contributer
+        NSString *newsContributer = [[[[[element firstChildWithClassName:@"content"] firstChildWithClassName:@"entry_footer"] firstChildWithClassName:@"gray"] firstTextChild] content];
+        [news setValue:newsContributer forKey:KeyContributer];
+        
+        //Time
+        NSString *newsTime = [[[[[[element firstChildWithClassName:@"content"] firstChildWithClassName:@"entry_footer"] childrenWithClassName:@"gray"] lastObject] firstTextChild] content];
+        [news setValue:newsTime forKey:KeyTime];
         
         [newsArray addObject:news];
     }
@@ -482,11 +342,11 @@ BOOL usingCache = YES;
     if (notification) {
         NSMutableArray *newsArray = [[notification userInfo] objectForKey:KeyNews];
         if (!newsArray || [newsArray count]==0) {
-            UIAlertView *alertView = [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"NetworkDataErrorTitle", "Data Error")
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"NetworkDataErrorTitle", "Data Error")
                                                                 message:NSLocalizedString(@"NetworkDataErrorMessage", "Please check whether the network is OK")
                                                                delegate:nil
                                                       cancelButtonTitle:NSLocalizedString(@"NetworkDataErrorOK", "OK")
-                                                      otherButtonTitles:nil, nil] autorelease];
+                                                      otherButtonTitles:nil, nil];
             [alertView show];
             if (! usingCache) {
                 [MobClick event:MobClickEventIdRefreshNewsList label:@"Failed to load"];
@@ -501,32 +361,18 @@ BOOL usingCache = YES;
         }
     }
     usingCache = NO;
-    [self performSelector:@selector(doneLoadingTableViewData)];
+    [self performSelectorOnMainThread:@selector(doneLoadingTableViewData) withObject:nil waitUntilDone:NO];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{	
-	
-	if (scrollView.isDragging) {
-		if (refreshHeaderView.state == EGOOPullRefreshPulling && scrollView.contentOffset.y > -65.0f && scrollView.contentOffset.y < 0.0f && !_reloading) {
-			[refreshHeaderView setState:EGOOPullRefreshNormal];
-		} else if (refreshHeaderView.state == EGOOPullRefreshNormal && scrollView.contentOffset.y < -65.0f && !_reloading) {
-			[refreshHeaderView setState:EGOOPullRefreshPulling];
-		}
-	}
+	[refreshHeaderView egoRefreshScrollViewDidScroll:scrollView];
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
 	
-	if (scrollView.contentOffset.y <= - 65.0f && !_reloading) {
-		_reloading = YES;
-		[self reloadTableViewDataWithPageIndex:1];
-		[refreshHeaderView setState:EGOOPullRefreshLoading];
-        self.tableView.tableFooterView = nil;
-		[UIView beginAnimations:nil context:NULL];
-		[UIView setAnimationDuration:0.2];
-		self.tableView.contentInset = UIEdgeInsetsMake(60.0f, 0.0f, 0.0f, 0.0f);
-		[UIView commitAnimations];
-        
+    [refreshHeaderView egoRefreshScrollViewDidEndDragging:scrollView];
+    
+	if (scrollView.contentOffset.y <= - 65.0f && !_reloading) {        
         [MobClick event:MobClickEventIdRefreshNewsList label:@"Start to load"];
 	}
 }
@@ -534,15 +380,11 @@ BOOL usingCache = YES;
 - (void)dataSourceDidFinishLoadingNewData{
 	
 	_reloading = NO;
-	
-	[UIView beginAnimations:nil context:NULL];
-	[UIView setAnimationDuration:.3];
-	[self.tableView setContentInset:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
-	[UIView commitAnimations];
+
 	[self.tableView reloadData];
-	[refreshHeaderView setState:EGOOPullRefreshNormal];
     self.tableView.tableFooterView = self.footerView;
-	[refreshHeaderView setCurrentDate];  //  should check if data reload was successful 
+    
+    [refreshHeaderView performSelector:@selector(egoRefreshScrollViewDataSourceDidFinishedLoading:) withObject:self.tableView afterDelay:0.2];
 }
 
 - (NSString *)cacheFilePath {
@@ -591,7 +433,6 @@ BOOL usingCache = YES;
                     atomically:YES
                       encoding:NSUTF8StringEncoding
                          error:nil];
-        [cacheHtml release];
     }
 }
 
@@ -602,6 +443,26 @@ BOOL usingCache = YES;
     self.connection = nil;
 }
 
+#pragma mark -
+#pragma mark EGORefreshTableHeaderDelegate Methods
+
+- (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view{
+	
+    _reloading = YES;
+	[self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:3.0];
+}
+
+- (BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view{
+	
+	return _reloading;
+	
+}
+
+- (NSDate*)egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view{
+	
+	return [NSDate date]; // should return date data source was last changed
+	
+}
 
 #pragma mark -
 #pragma mark Memory management
@@ -618,8 +479,7 @@ BOOL usingCache = YES;
 }
 
 - (void)dealloc {
-	[self.listData release];
-    [super dealloc];
+	[self.listData removeAllObjects];
 }
 
 

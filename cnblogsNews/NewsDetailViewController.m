@@ -60,7 +60,6 @@
     CGFloat height = [[UIScreen mainScreen] applicationFrame].size.height - self.navigationController.navigationBar.frame.size.height;
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] applicationFrame].size.width, height)];
     self.view = view;
-    [view release];
 }
 
 
@@ -68,11 +67,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.title = NSLocalizedString(@"MainTitle", @"cnblogs.com");
     if (self.webView == nil) {
         self.webView = [[UIWebView alloc] init];
         self.webView.delegate = self;
-//        webView.frame = CGRectMake(0, 0, 320, 416);
         self.webView.frame = self.view.bounds;
+        self.webView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         self.webView.backgroundColor = [UIColor whiteColor];
         self.webView.scalesPageToFit = NO;
         self.webView.tag = TagWebView;
@@ -108,14 +108,6 @@
     
 }
 
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self layoutForCurrentOrientation:NO];
@@ -147,15 +139,6 @@
 
 -(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     [self layoutForCurrentOrientation:YES];
-}
-
-- (void)dealloc {
-    [adBannerView release];
-    if (self.webView) {
-        [webView removeFromSuperview];
-    }
-    [activityIndicator release];
-    [super dealloc];
 }
 
 -(void)createADBannerView
@@ -289,7 +272,8 @@
         }
     } while (! seekOver);
 //    NSString *defaultPicUrl = [NSString stringWithFormat:@"<img src=\"file:/%@\" width=\"210\" height=\"50\" border=\"0\">",[[NSBundle mainBundle] pathForResource:@"Icon" ofType:@"png"]];
-    NSString *defaultPicUrl = [NSString stringWithFormat:@"<img src=\"http://news.cnblogs.com/images/logo.png\" width=\"210\" height=\"50\" border=\"0\">",[[NSBundle mainBundle] pathForResource:@"Icon" ofType:@"png"]];
+    NSString *defaultPicUrl = [NSString stringWithFormat:@"<img src=\"%@\" width=\"210\" height=\"50\" border=\"0\">", [[[NSBundle mainBundle] URLForResource:@"Icon" withExtension:@"png"] absoluteString]];
+    NSLog(@"defaultPicUrl = %@", defaultPicUrl);
     htmlNoPic = [htmlNoPic stringByReplacingOccurrencesOfString:picTag withString:defaultPicUrl];
 
     
@@ -333,7 +317,7 @@
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
     NSScanner *aScanner;
     NSString *htmlBody = @"";
-    aScanner = [NSScanner scannerWithString:[[[NSString alloc] initWithData:self.bufferData encoding:NSUTF8StringEncoding] autorelease]];
+    aScanner = [NSScanner scannerWithString:[[NSString alloc] initWithData:self.bufferData encoding:NSUTF8StringEncoding]];
     [aScanner scanUpToString:@"<div id=\"news_body\">" intoString:NULL];
     [aScanner scanUpToString:@"</div>" intoString:&htmlBody];
     if ([htmlBody length] > 0) {
