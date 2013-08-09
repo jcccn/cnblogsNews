@@ -8,6 +8,7 @@
 
 #import "FeedbackViewController.h"
 #import "MobClick.h"
+#import "UMFeedback.h"
 
 #define KEYBOARD_POP_DURATION 0.3f
 
@@ -183,10 +184,10 @@
 - (void)feedback:(id)sender {
     if ([self isGenderAgeFilloutOk] && [self isContentFilloutOK]) {
         NSMutableDictionary *feedbackDict = [NSMutableDictionary dictionaryWithCapacity:3];
-        [feedbackDict setValue:[NSString stringWithFormat:@"%d", [genderArray indexOfObject:genderString]] forKey:@"UMengFeedbackGender"];
-        [feedbackDict setValue:[NSString stringWithFormat:@"%d", [ageArray indexOfObject:ageString]] forKey:@"UMengFeedbackAge"];
-        [feedbackDict setValue:feedbackTextView.text forKey:@"UMengFeedbackContent"];
-//        [MobClick feedbackWithDictionary:feedbackDict];
+        [feedbackDict setValue:[NSString stringWithFormat:@"%d", [genderArray indexOfObject:genderString]] forKey:@"gender"];
+        [feedbackDict setValue:[NSString stringWithFormat:@"%d", [ageArray indexOfObject:ageString]] forKey:@"age_group"];
+        [feedbackDict setValue:feedbackTextView.text forKey:@"content"];
+        [[UMFeedback sharedInstance] post:feedbackDict];
         [self.navigationController popViewControllerAnimated:YES];
     }
 }

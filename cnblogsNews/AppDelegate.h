@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "MobClick.h"
+#import "UMFeedback.h"
 #import "MTStatusBarOverlay.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate, MobClickDelegate, MTStatusBarOverlayDelegate>

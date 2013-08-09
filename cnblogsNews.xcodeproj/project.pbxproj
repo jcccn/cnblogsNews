@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		90E7265617B5757B00476517 /* MTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 90E7265517B5757B00476517 /* MTableViewCell.xib */; };
+		90E7265817B5951800476517 /* libUMFeedback.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 90E7265717B5951800476517 /* libUMFeedback.a */; };
 		90F960C017B5661A001E2270 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90F960BF17B5661A001E2270 /* UIKit.framework */; };
 		90F960C217B5661A001E2270 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90F960C117B5661A001E2270 /* Foundation.framework */; };
 		90F960C417B5661A001E2270 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90F960C317B5661A001E2270 /* CoreGraphics.framework */; };
@@ -46,6 +47,8 @@
 
 /* Begin PBXFileReference section */
 		90E7265517B5757B00476517 /* MTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MTableViewCell.xib; sourceTree = "<group>"; };
+		90E7265717B5951800476517 /* libUMFeedback.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUMFeedback.a; sourceTree = "<group>"; };
+		90E7265917B5952000476517 /* UMFeedback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMFeedback.h; sourceTree = "<group>"; };
 		90F960BC17B5661A001E2270 /* cnblogsNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cnblogsNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		90F960BF17B5661A001E2270 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		90F960C117B5661A001E2270 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -109,6 +112,7 @@
 				90F960C417B5661A001E2270 /* CoreGraphics.framework in Frameworks */,
 				F2C6E919D5B84531B03D5ED8 /* libPods.a in Frameworks */,
 				90F960E017B5690F001E2270 /* libMobClickLibrary.a in Frameworks */,
+				90E7265817B5951800476517 /* libUMFeedback.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -182,6 +186,8 @@
 		90F960DD17B5690F001E2270 /* Umeng */ = {
 			isa = PBXGroup;
 			children = (
+				90E7265717B5951800476517 /* libUMFeedback.a */,
+				90E7265917B5952000476517 /* UMFeedback.h */,
 				90F960DE17B5690F001E2270 /* libMobClickLibrary.a */,
 				90F960DF17B5690F001E2270 /* MobClick.h */,
 			);

@@ -26,6 +26,9 @@
     
     [MobClick updateOnlineConfig];
     
+    [[UMFeedback sharedInstance] setAppkey:MobClickAppKey delegate:nil];
+    [UMFeedback setLogEnabled:YES];
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[[MainViewController alloc] initWithStyle:UITableViewStylePlain]];
     self.window.backgroundColor = [UIColor whiteColor];
