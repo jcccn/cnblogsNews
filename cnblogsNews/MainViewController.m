@@ -94,6 +94,7 @@ BOOL usingCache = YES;
         [prePageButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
         [prePageButton setTitle:NSLocalizedString(@"PrePageText", @"Pre Page") forState:UIControlStateNormal];
         [prePageButton addTarget:self action:@selector(preButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+        prePageButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
         [self.footerView addSubview:prePageButton];
         
         UIButton *nextPageButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -105,6 +106,7 @@ BOOL usingCache = YES;
         [nextPageButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
         [nextPageButton setTitle:NSLocalizedString(@"NextPageText", @"Next Page") forState:UIControlStateNormal];
         [nextPageButton addTarget:self action:@selector(nextButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+        nextPageButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
         [self.footerView addSubview:nextPageButton];
     }
     
