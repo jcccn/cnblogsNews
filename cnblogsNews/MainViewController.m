@@ -386,7 +386,7 @@ BOOL usingCache = YES;
 	[self.tableView reloadData];
     self.tableView.tableFooterView = self.footerView;
     
-    [refreshHeaderView performSelector:@selector(egoRefreshScrollViewDataSourceDidFinishedLoading:) withObject:self.tableView afterDelay:0.2];
+    [refreshHeaderView performSelector:@selector(egoRefreshScrollViewDataSourceDidFinishedLoading:) withObject:self.tableView afterDelay:0.5];
 }
 
 - (NSString *)cacheFilePath {
@@ -451,7 +451,8 @@ BOOL usingCache = YES;
 - (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view{
 	
     _reloading = YES;
-	[self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:3.0];
+	
+    [self reloadTableViewDataWithPageIndex:1];
 }
 
 - (BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view{
