@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		905770EA17C25D96001D1FFC /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 905770E917C25D96001D1FFC /* Default-568h@2x.png */; };
 		90E7265617B5757B00476517 /* MTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 90E7265517B5757B00476517 /* MTableViewCell.xib */; };
 		90E7265817B5951800476517 /* libUMFeedback.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 90E7265717B5951800476517 /* libUMFeedback.a */; };
 		90F960C017B5661A001E2270 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90F960BF17B5661A001E2270 /* UIKit.framework */; };
@@ -46,6 +47,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		905770E917C25D96001D1FFC /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		90E7265517B5757B00476517 /* MTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MTableViewCell.xib; sourceTree = "<group>"; };
 		90E7265717B5951800476517 /* libUMFeedback.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUMFeedback.a; sourceTree = "<group>"; };
 		90E7265917B5952000476517 /* UMFeedback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMFeedback.h; sourceTree = "<group>"; };
@@ -217,6 +219,7 @@
 				90F9610117B56B5B001E2270 /* Default-Portrait.png */,
 				90F9610217B56B5B001E2270 /* Default.png */,
 				90F9610317B56B5B001E2270 /* Default@2x.png */,
+				905770E917C25D96001D1FFC /* Default-568h@2x.png */,
 				90F9610417B56B5B001E2270 /* Icon-72.png */,
 				90F9610517B56B5B001E2270 /* Icon.png */,
 				90F9610617B56B5B001E2270 /* Icon@2x.png */,
@@ -259,6 +262,11 @@
 			attributes = {
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = SenseForce;
+				TargetAttributes = {
+					90F960BB17B5661A001E2270 = {
+						DevelopmentTeam = DW6YCKY3X4;
+					};
+				};
 			};
 			buildConfigurationList = 90F960B717B5661A001E2270 /* Build configuration list for PBXProject "cnblogsNews" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -306,6 +314,7 @@
 				90F9611D17B56B5B001E2270 /* roundButton@2x.png in Resources */,
 				90F9611E17B56B5B001E2270 /* tableBackground.png in Resources */,
 				90E7265617B5757B00476517 /* MTableViewCell.xib in Resources */,
+				905770EA17C25D96001D1FFC /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -396,6 +405,7 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -409,8 +419,10 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -428,14 +440,17 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -446,15 +461,19 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A08448E060294E90B3FC9E1A /* Pods.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "cnblogsNews/cnblogsNews-Prefix.pch";
 				INFOPLIST_FILE = "cnblogsNews/cnblogsNews-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/cnblogsNews/Umeng\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -463,15 +482,20 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A08448E060294E90B3FC9E1A /* Pods.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "cnblogsNews/cnblogsNews-Prefix.pch";
 				INFOPLIST_FILE = "cnblogsNews/cnblogsNews-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/cnblogsNews/Umeng\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
