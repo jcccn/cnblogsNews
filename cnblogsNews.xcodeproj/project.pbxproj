@@ -37,12 +37,6 @@
 		90F960EB17B56A7D001E2270 /* NewsDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90F960E617B56A7D001E2270 /* NewsDetailViewController.m */; };
 		90F960F117B56AF1001E2270 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 90F960ED17B56AF1001E2270 /* InfoPlist.strings */; };
 		90F960F217B56AF1001E2270 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 90F960EF17B56AF1001E2270 /* Localizable.strings */; };
-		90F9610C17B56B5B001E2270 /* buttonGray.png in Resources */ = {isa = PBXBuildFile; fileRef = 90F960F917B56B5B001E2270 /* buttonGray.png */; };
-		90F9610D17B56B5B001E2270 /* buttonGray@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 90F960FA17B56B5B001E2270 /* buttonGray@2x.png */; };
-		90F9610E17B56B5B001E2270 /* buttonWhite.png in Resources */ = {isa = PBXBuildFile; fileRef = 90F960FB17B56B5B001E2270 /* buttonWhite.png */; };
-		90F9610F17B56B5B001E2270 /* buttonWhite@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 90F960FC17B56B5B001E2270 /* buttonWhite@2x.png */; };
-		90F9611017B56B5B001E2270 /* buttonYellow.png in Resources */ = {isa = PBXBuildFile; fileRef = 90F960FD17B56B5B001E2270 /* buttonYellow.png */; };
-		90F9611117B56B5B001E2270 /* buttonYellow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 90F960FE17B56B5B001E2270 /* buttonYellow@2x.png */; };
 		90F9611217B56B5B001E2270 /* DarkCellBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 90F960FF17B56B5B001E2270 /* DarkCellBg.png */; };
 		90F9611317B56B5B001E2270 /* DarkCellBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 90F9610017B56B5B001E2270 /* DarkCellBg@2x.png */; };
 		90F9611417B56B5B001E2270 /* Default-Portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = 90F9610117B56B5B001E2270 /* Default-Portrait.png */; };
@@ -50,9 +44,6 @@
 		90F9611617B56B5B001E2270 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 90F9610317B56B5B001E2270 /* Default@2x.png */; };
 		90F9611A17B56B5B001E2270 /* LightCellBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 90F9610717B56B5B001E2270 /* LightCellBg.png */; };
 		90F9611B17B56B5B001E2270 /* LightCellBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 90F9610817B56B5B001E2270 /* LightCellBg@2x.png */; };
-		90F9611C17B56B5B001E2270 /* roundButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 90F9610917B56B5B001E2270 /* roundButton.png */; };
-		90F9611D17B56B5B001E2270 /* roundButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 90F9610A17B56B5B001E2270 /* roundButton@2x.png */; };
-		90F9611E17B56B5B001E2270 /* tableBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 90F9610B17B56B5B001E2270 /* tableBackground.png */; };
 		90F9612017B57056001E2270 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 90F9611F17B57056001E2270 /* libz.dylib */; };
 		90F9612217B57075001E2270 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90F9612117B57075001E2270 /* iAd.framework */; };
 		F2C6E919D5B84531B03D5ED8 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FC14F1A0AF0F4504B9D97151 /* libPods.a */; };
@@ -103,12 +94,6 @@
 		90F960F417B56B2C001E2270 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		90F960F517B56B34001E2270 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		90F960F617B56B34001E2270 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		90F960F917B56B5B001E2270 /* buttonGray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonGray.png; sourceTree = "<group>"; };
-		90F960FA17B56B5B001E2270 /* buttonGray@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buttonGray@2x.png"; sourceTree = "<group>"; };
-		90F960FB17B56B5B001E2270 /* buttonWhite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonWhite.png; sourceTree = "<group>"; };
-		90F960FC17B56B5B001E2270 /* buttonWhite@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buttonWhite@2x.png"; sourceTree = "<group>"; };
-		90F960FD17B56B5B001E2270 /* buttonYellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonYellow.png; sourceTree = "<group>"; };
-		90F960FE17B56B5B001E2270 /* buttonYellow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buttonYellow@2x.png"; sourceTree = "<group>"; };
 		90F960FF17B56B5B001E2270 /* DarkCellBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DarkCellBg.png; sourceTree = "<group>"; };
 		90F9610017B56B5B001E2270 /* DarkCellBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DarkCellBg@2x.png"; sourceTree = "<group>"; };
 		90F9610117B56B5B001E2270 /* Default-Portrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait.png"; sourceTree = "<group>"; };
@@ -116,9 +101,6 @@
 		90F9610317B56B5B001E2270 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		90F9610717B56B5B001E2270 /* LightCellBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LightCellBg.png; sourceTree = "<group>"; };
 		90F9610817B56B5B001E2270 /* LightCellBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LightCellBg@2x.png"; sourceTree = "<group>"; };
-		90F9610917B56B5B001E2270 /* roundButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = roundButton.png; sourceTree = "<group>"; };
-		90F9610A17B56B5B001E2270 /* roundButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "roundButton@2x.png"; sourceTree = "<group>"; };
-		90F9610B17B56B5B001E2270 /* tableBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tableBackground.png; sourceTree = "<group>"; };
 		90F9611F17B57056001E2270 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		90F9612117B57075001E2270 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		A08448E060294E90B3FC9E1A /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
@@ -264,12 +246,6 @@
 				90C4D1C318181D8B0016792C /* Icon-Spotlight-40@2x.png */,
 				90C4D1C418181D8B0016792C /* Icon.png */,
 				90C4D1C518181D8B0016792C /* Icon@2x.png */,
-				90F960F917B56B5B001E2270 /* buttonGray.png */,
-				90F960FA17B56B5B001E2270 /* buttonGray@2x.png */,
-				90F960FB17B56B5B001E2270 /* buttonWhite.png */,
-				90F960FC17B56B5B001E2270 /* buttonWhite@2x.png */,
-				90F960FD17B56B5B001E2270 /* buttonYellow.png */,
-				90F960FE17B56B5B001E2270 /* buttonYellow@2x.png */,
 				90F960FF17B56B5B001E2270 /* DarkCellBg.png */,
 				90F9610017B56B5B001E2270 /* DarkCellBg@2x.png */,
 				90F9610117B56B5B001E2270 /* Default-Portrait.png */,
@@ -278,9 +254,6 @@
 				905770E917C25D96001D1FFC /* Default-568h@2x.png */,
 				90F9610717B56B5B001E2270 /* LightCellBg.png */,
 				90F9610817B56B5B001E2270 /* LightCellBg@2x.png */,
-				90F9610917B56B5B001E2270 /* roundButton.png */,
-				90F9610A17B56B5B001E2270 /* roundButton@2x.png */,
-				90F9610B17B56B5B001E2270 /* tableBackground.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -351,14 +324,8 @@
 				90C4D1CF18181D8B0016792C /* Icon-Small@2x.png in Resources */,
 				90C4D1C918181D8B0016792C /* Icon-72@2x.png in Resources */,
 				90C4D1FA18181E480016792C /* umFeedback.bundle in Resources */,
-				90F9610C17B56B5B001E2270 /* buttonGray.png in Resources */,
 				90C4D1C818181D8B0016792C /* Icon-72.png in Resources */,
-				90F9610D17B56B5B001E2270 /* buttonGray@2x.png in Resources */,
-				90F9610E17B56B5B001E2270 /* buttonWhite.png in Resources */,
 				90C4D1C618181D8B0016792C /* Icon-60.png in Resources */,
-				90F9610F17B56B5B001E2270 /* buttonWhite@2x.png in Resources */,
-				90F9611017B56B5B001E2270 /* buttonYellow.png in Resources */,
-				90F9611117B56B5B001E2270 /* buttonYellow@2x.png in Resources */,
 				90C4D1D318181D8B0016792C /* Icon@2x.png in Resources */,
 				90F9611217B56B5B001E2270 /* DarkCellBg.png in Resources */,
 				90C4D1CC18181D8B0016792C /* Icon-Small-50.png in Resources */,
@@ -372,10 +339,7 @@
 				90C4D1C718181D8B0016792C /* Icon-60@2x.png in Resources */,
 				90F9611B17B56B5B001E2270 /* LightCellBg@2x.png in Resources */,
 				90C4D1CE18181D8B0016792C /* Icon-Small.png in Resources */,
-				90F9611C17B56B5B001E2270 /* roundButton.png in Resources */,
 				90C4D1D118181D8B0016792C /* Icon-Spotlight-40@2x.png in Resources */,
-				90F9611D17B56B5B001E2270 /* roundButton@2x.png in Resources */,
-				90F9611E17B56B5B001E2270 /* tableBackground.png in Resources */,
 				90C4D1CA18181D8B0016792C /* Icon-76.png in Resources */,
 				90C4D1D218181D8B0016792C /* Icon.png in Resources */,
 				90E7265617B5757B00476517 /* MTableViewCell.xib in Resources */,

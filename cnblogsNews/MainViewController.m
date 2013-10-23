@@ -72,6 +72,7 @@
     self.listData = [NSMutableArray array];
     
     self.tableView.scrollsToTop = YES;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     if([self respondsToSelector:@selector(edgesForExtendedLayout)]) {
         [self setEdgesForExtendedLayout:UIRectEdgeBottom];
     }
