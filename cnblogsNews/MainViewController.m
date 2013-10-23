@@ -7,17 +7,31 @@
 //
 
 #import "MainViewController.h"
+#import <SVPullToRefresh/SVPullToRefresh.h>
+#import <MTStatusBarOverlay/MTStatusBarOverlay.h>
+#import "UMFeedback.h"
+#import "MobClick.h"
 #import "MTableViewCell.h"
 #import "NewsDetailViewController.h"
-#import <SVPullToRefresh/SVPullToRefresh.h>
-#import "MobClick.h"
-#import "MTStatusBarOverlay.h"
 #import "Constants.h"
-#import "UMFeedback.h"
 
-@interface MainViewController (Private)
+@interface MainViewController ()
 
-- (void)dataSourceDidFinishLoadingNewData;
+@property (nonatomic, strong) NSMutableArray *listData;
+@property (nonatomic, assign) NSInteger currentPage;
+@property (nonatomic, assign) NSInteger loadingPage;
+
+@property (nonatomic, strong) NSURLConnection *connection;
+@property (nonatomic, strong) NSMutableData *bufferData;
+
+- (void)loadDataWithCache;
+- (void)loadDataAtPage:(NSInteger)page;
+
+- (void)dataLoaded:(NSArray *)items atPage:(NSInteger)page success:(BOOL)success;
+
+- (NSMutableArray *)parseArrayWithHTMLData:(NSData *)data;
+
+- (NSString *)cacheFilePath;
 
 @end
 
@@ -46,14 +60,10 @@
 
 #define TableViewCellHeight 70.0f
 
-#define LoadDoneNotification    @"LoadDoneNotification"
-
 @implementation MainViewController
 
 #pragma mark -
 #pragma mark View lifecycle
-
-BOOL usingCache = YES;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -71,39 +81,16 @@ BOOL usingCache = YES;
     __weak MainViewController *weakSelf = self;
 	[self.tableView addPullToRefreshWithActionHandler:^{
         [MobClick event:MobClickEventIdRefreshNewsList label:@"Start to load"];
-        [weakSelf reloadTableViewDataWithPageIndex:1];
+        [weakSelf loadDataAtPage:1];
     }];
+    [self.tableView.pullToRefreshView setTitle:NSLocalizedString(@"PullRefresh", @"Pull down to refresh") forState:SVPullToRefreshStateAll];
+    [self.tableView.pullToRefreshView setTitle:NSLocalizedString(@"ReleaseRrefresh", @"Release to refresh") forState:SVPullToRefreshStateTriggered];
+    [self.tableView.pullToRefreshView setTitle:NSLocalizedString(@"LoadingStatus", @"Loading...") forState:SVPullToRefreshStateLoading];
     
-    if ( ! self.footerView) {
-        UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, TableViewCellHeight)];
-        footView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"LightCellBg.png"]];
-        self.footerView = footView;
-        
-        CGFloat margin = (((int)self.tableView.bounds.size.width - 2 * 120) / 3) - 1.0;
-        UIButton *prePageButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        prePageButton.frame = CGRectMake(margin, 15, 120, 43 );
-        prePageButton.tag = TagPreButton;
-        [prePageButton setBackgroundImage:[UIImage imageNamed:@"buttonGray.png"] forState:UIControlStateNormal];
-        [prePageButton setBackgroundImage:[UIImage imageNamed:@"buttonYellow.png"] forState:UIControlStateHighlighted];
-        [prePageButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [prePageButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
-        [prePageButton setTitle:NSLocalizedString(@"PrePageText", @"Pre Page") forState:UIControlStateNormal];
-        [prePageButton addTarget:self action:@selector(preButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-        prePageButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-        [self.footerView addSubview:prePageButton];
-        
-        UIButton *nextPageButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        nextPageButton.frame = CGRectMake(self.tableView.bounds.size.width - 120 - margin, 15, 119, 43 );
-        nextPageButton.tag = TagNextButton;
-        [nextPageButton setBackgroundImage:[UIImage imageNamed:@"buttonGray.png"] forState:UIControlStateNormal];
-        [nextPageButton setBackgroundImage:[UIImage imageNamed:@"buttonYellow.png"] forState:UIControlStateHighlighted];
-        [nextPageButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [nextPageButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
-        [nextPageButton setTitle:NSLocalizedString(@"NextPageText", @"Next Page") forState:UIControlStateNormal];
-        [nextPageButton addTarget:self action:@selector(nextButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-        nextPageButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-        [self.footerView addSubview:nextPageButton];
-    }
+    [self.tableView addInfiniteScrollingWithActionHandler:^{
+        [MobClick event:MobClickEventIdClickNextPage label:[@"At page " stringByAppendingFormat:@"%d", weakSelf.currentPage]];
+        [weakSelf loadDataAtPage:weakSelf.currentPage + 1];
+    }];
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
@@ -113,27 +100,10 @@ BOOL usingCache = YES;
     self.navigationItem.rightBarButtonItem = barButtonItem;
     
     self.currentPage = 1;
-    loadingPageIndex = 1;
-}
-
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-}
-
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    if (usingCache) {
-        self.tableView.tableFooterView = nil;
-        [self loadDataWithCache];
-        [[NSNotificationCenter defaultCenter] addObserver:self 
-                                                 selector:@selector(doneLoading:)
-                                                     name:LoadDoneNotification
-                                                   object:nil];
-        [self reloadTableViewDataWithPageIndex:1];
-        [[MTStatusBarOverlay sharedInstance] postFinishMessage:NSLocalizedString(@"WelcomeTip", @"Welcome to read cnblogs IT News") duration:3 animated:YES];
-    }
+    
+    [self loadDataWithCache];
+    
+    [[MTStatusBarOverlay sharedInstance] postFinishMessage:NSLocalizedString(@"WelcomeTip", @"Welcome to read cnblogs IT News") duration:3 animated:YES];
 }
 
 - (void)infoButtonClicked:(id)sender {
@@ -141,32 +111,120 @@ BOOL usingCache = YES;
     [UMFeedback showFeedback:self withAppkey:MobClickAppKey];
 }
 
-- (void)preButtonClicked:(id)sender {
-    [self reloadTableViewDataWithPageIndex:self.currentPage - 1];
-    self.tableView.tableFooterView = nil;
-    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
-    self.reloading = YES;
+#pragma mark-
+#pragma mark data conduction
 
-    [MobClick event:MobClickEventIdClickPrePage label:[@"At page " stringByAppendingFormat:@"%d", self.currentPage]];
+- (void)loadDataWithCache {
+    NSData *cacheData = [NSData dataWithContentsOfFile:[self cacheFilePath]];
+    if (cacheData) {
+        self.listData = [self parseArrayWithHTMLData:cacheData];
+        [self.tableView reloadData];
+    }
 }
 
-- (void)nextButtonClicked:(id)sender {
-    [self reloadTableViewDataWithPageIndex:self.currentPage + 1];
-        self.tableView.tableFooterView = nil;
-    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
-    self.reloading = YES;
+- (void)loadDataAtPage:(NSInteger)page{
+    self.loadingPage = page;
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:PageUrlFormat,page]]];
+    self.connection = [NSURLConnection connectionWithRequest:request delegate:self];
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+}
 
-    [MobClick event:MobClickEventIdClickNextPage label:[@"At page " stringByAppendingFormat:@"%d", self.currentPage]];
+- (void)dataLoaded:(NSArray *)items atPage:(NSInteger)page success:(BOOL)success {
+    if (success) {
+        [MobClick event:MobClickEventIdRefreshNewsList label:@"Succeed to load"];
+        if ([items count]) {
+            if (page == 1) { //加载了第一页则是刷新
+                [self.listData removeAllObjects];
+            }
+            self.currentPage = page;
+            [self.listData addObjectsFromArray:items];
+            [self.tableView reloadData];
+            
+            if (page == 1) {
+                NSString *cacheHtml = [[NSString alloc] initWithData:self.bufferData encoding:NSUTF8StringEncoding];
+                [cacheHtml writeToFile:[self cacheFilePath]
+                            atomically:YES
+                              encoding:NSUTF8StringEncoding
+                                 error:nil];
+            }
+        }
+    }
+    else {
+        [MobClick event:MobClickEventIdRefreshNewsList label:@"Failed to load"];
+    }
+    
+    [self.tableView.pullToRefreshView stopAnimating];
+    [self.tableView.infiniteScrollingView stopAnimating];
+}
+
+- (NSString *)cacheFilePath {
+    NSString* documentsDirectory  = [NSHomeDirectory()
+                                     stringByAppendingPathComponent:@"Documents"];
+    
+    return [documentsDirectory stringByAppendingPathComponent:@"cache.html"];
+}
+
+- (NSMutableArray *)parseArrayWithHTMLData:(NSData *)data {
+    TFHpple *xpathParser = [TFHpple hppleWithHTMLData:data];
+    NSMutableArray *newsArray = [NSMutableArray arrayWithCapacity:30];
+    NSArray *elements = [xpathParser searchWithXPathQuery:@"//div[@class='news_block']"];
+    for (TFHppleElement *element in elements) {
+        NSMutableDictionary *news = [NSMutableDictionary dictionaryWithCapacity:9];
+        
+        //Digg
+        TFHppleElement *elementDigg = [[[[element firstChildWithClassName:@"action"] firstChildWithClassName:@"diggit"] firstChildWithClassName:@"diggnum"] firstTextChild];
+        [news setValue:[elementDigg content] forKey:KeyDigg];
+        
+        //Title
+        TFHppleElement *elementTitle = [[[element firstChildWithClassName:@"content"] firstChildWithClassName:@"news_entry"] firstChildWithTagName:@"a"];
+        NSString *newsTitle = [[elementTitle firstTextChild] content];
+        [news setValue:newsTitle forKey:KeyTitle];
+        
+        //Url
+        NSString *newsUrl = [elementTitle objectForKey:@"href"];
+        [news setValue:newsUrl forKey:KeyUrl];
+        
+        //Summary
+        TFHppleElement *elementSummary = [[[element firstChildWithClassName:@"content"] firstChildWithClassName:@"entry_summary"] firstTextChild];
+        NSString *newsSummary = [elementSummary content];
+        [news setValue:newsSummary forKey:KeySummary];
+        
+        //Comment
+        NSString *newsComment = [[[[[[element firstChildWithClassName:@"content"] firstChildWithClassName:@"entry_footer"] firstChildWithClassName:@"comment"] firstChildWithClassName:@"gray"] firstTextChild] content];
+        [news setValue:newsComment forKey:KeyComment];
+        
+        //View
+        NSString *newsView = [[[[[element firstChildWithClassName:@"content"] firstChildWithClassName:@"entry_footer"] firstChildWithClassName:@"view"] firstTextChild] content];
+        [news setValue:newsView forKey:KeyView];
+        
+        //Tag
+        NSMutableArray *tags = [NSMutableArray array];
+        for (TFHppleElement *tagElement in [[[[element firstChildWithClassName:@"content"] firstChildWithClassName:@"entry_footer"] firstChildWithClassName:@"tag"] childrenWithClassName:@"gray"]) {
+            NSString *tag = [tagElement content];
+            if (tag != nil) {
+                [tags addObject:[tagElement content]];
+            }
+        }
+        NSString *newsTag = [tags componentsJoinedByString:@"|"];
+        [news setValue:newsTag forKey:KeyTag];
+        
+        //Contributer
+        NSString *newsContributer = [[[[[element firstChildWithClassName:@"content"] firstChildWithClassName:@"entry_footer"] firstChildWithClassName:@"gray"] firstTextChild] content];
+        [news setValue:newsContributer forKey:KeyContributer];
+        
+        //Time
+        NSString *newsTime = [[[[[[element firstChildWithClassName:@"content"] firstChildWithClassName:@"entry_footer"] childrenWithClassName:@"gray"] lastObject] firstTextChild] content];
+        [news setValue:newsTime forKey:KeyTime];
+        
+        [newsArray addObject:news];
+    }
+    return newsArray;
 }
 
 #pragma mark -
 #pragma mark Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (self.connection != nil) {
-        [self.connection cancel];
-        self.tableView.tableFooterView = self.footerView;
-    }
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -232,138 +290,6 @@ BOOL usingCache = YES;
     return cell;
 }
 
-#pragma mark-
-#pragma mark data conduction
-
-- (void)loadDataWithCache {
-    NSData *cacheData = [NSData dataWithContentsOfFile:[self cacheFilePath]];
-    if (cacheData) {
-        self.listData = [self parseArrayWithHTMLData:cacheData];
-        [self.tableView reloadData];
-    }
-}
-
-- (NSMutableArray *)parseArrayWithHTMLData:(NSData *)data {
-    TFHpple *xpathParser = [TFHpple hppleWithHTMLData:data];
-    NSMutableArray *newsArray = [NSMutableArray arrayWithCapacity:30];
-    NSArray *elements = [xpathParser searchWithXPathQuery:@"//div[@class='news_block']"];
-    for (TFHppleElement *element in elements) {
-        NSMutableDictionary *news = [NSMutableDictionary dictionaryWithCapacity:9];
-        
-        //Digg
-        TFHppleElement *elementDigg = [[[[element firstChildWithClassName:@"action"] firstChildWithClassName:@"diggit"] firstChildWithClassName:@"diggnum"] firstTextChild];
-        [news setValue:[elementDigg content] forKey:KeyDigg];
-        
-        //Title
-        TFHppleElement *elementTitle = [[[element firstChildWithClassName:@"content"] firstChildWithClassName:@"news_entry"] firstChildWithTagName:@"a"];
-        NSString *newsTitle = [[elementTitle firstTextChild] content];
-        [news setValue:newsTitle forKey:KeyTitle];
-        
-        //Url
-        NSString *newsUrl = [elementTitle objectForKey:@"href"];
-        [news setValue:newsUrl forKey:KeyUrl];
-        
-        //Summary
-        TFHppleElement *elementSummary = [[[element firstChildWithClassName:@"content"] firstChildWithClassName:@"entry_summary"] firstTextChild];
-        NSString *newsSummary = [elementSummary content];
-        [news setValue:newsSummary forKey:KeySummary];
-        
-        //Comment
-        NSString *newsComment = [[[[[[element firstChildWithClassName:@"content"] firstChildWithClassName:@"entry_footer"] firstChildWithClassName:@"comment"] firstChildWithClassName:@"gray"] firstTextChild] content];
-        [news setValue:newsComment forKey:KeyComment];
-        
-        //View
-        NSString *newsView = [[[[[element firstChildWithClassName:@"content"] firstChildWithClassName:@"entry_footer"] firstChildWithClassName:@"view"] firstTextChild] content];
-        [news setValue:newsView forKey:KeyView];
-        
-        //Tag
-        NSMutableArray *tags = [NSMutableArray array];
-        for (TFHppleElement *tagElement in [[[[element firstChildWithClassName:@"content"] firstChildWithClassName:@"entry_footer"] firstChildWithClassName:@"tag"] childrenWithClassName:@"gray"]) {
-            NSString *tag = [tagElement content];
-            if (tag != nil) {
-                [tags addObject:[tagElement content]];
-            }
-        }
-        NSString *newsTag = [tags componentsJoinedByString:@"|"];
-        [news setValue:newsTag forKey:KeyTag];
-        
-        //Contributer
-        NSString *newsContributer = [[[[[element firstChildWithClassName:@"content"] firstChildWithClassName:@"entry_footer"] firstChildWithClassName:@"gray"] firstTextChild] content];
-        [news setValue:newsContributer forKey:KeyContributer];
-        
-        //Time
-        NSString *newsTime = [[[[[[element firstChildWithClassName:@"content"] firstChildWithClassName:@"entry_footer"] childrenWithClassName:@"gray"] lastObject] firstTextChild] content];
-        [news setValue:newsTime forKey:KeyTime];
-        
-        [newsArray addObject:news];
-    }
-    return newsArray;
-}
-
-- (void)reloadTableViewDataWithPageIndex:(NSInteger)index{
-    loadingPageIndex = index;
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:PageUrlFormat,index]]];
-    self.connection = [NSURLConnection connectionWithRequest:request delegate:self];
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-	
-}
-     
-- (void)doneLoading:(NSNotification *)notification {
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-    
-    if (notification) {
-        NSMutableArray *newsArray = [[notification userInfo] objectForKey:KeyNews];
-        if (!newsArray || [newsArray count]==0) {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"NetworkDataErrorTitle", "Data Error")
-                                                                message:NSLocalizedString(@"NetworkDataErrorMessage", "Please check whether the network is OK")
-                                                               delegate:nil
-                                                      cancelButtonTitle:NSLocalizedString(@"NetworkDataErrorOK", "OK")
-                                                      otherButtonTitles:nil, nil];
-            [alertView show];
-            if (! usingCache) {
-                [MobClick event:MobClickEventIdRefreshNewsList label:@"Failed to load"];
-            }
-        }
-        else {
-            self.listData = [NSMutableArray arrayWithArray:newsArray];
-            self.currentPage = [[[notification userInfo] objectForKey:KeyPageIndex] intValue];
-            if (! usingCache) {
-                [MobClick event:MobClickEventIdRefreshNewsList label:@"Succeed to load"];
-            }
-        }
-    }
-    usingCache = NO;
-    
-    self.reloading = NO;
-    
-	[self.tableView reloadData];
-    self.tableView.tableFooterView = self.footerView;
-    
-    [self.tableView.pullToRefreshView stopAnimating];
-}
-
-- (NSString *)cacheFilePath {
-    NSString* documentsDirectory  = [NSHomeDirectory() 
-                                     stringByAppendingPathComponent:@"Documents"];
-
-    return [documentsDirectory stringByAppendingPathComponent:@"cache.html"];
-}
-
-- (void)setCurrentPage:(NSInteger)currentPage {
-    _currentPage = currentPage;
-    UIButton *prePageButton = (UIButton *)[self.footerView viewWithTag:TagPreButton];
-    if (currentPage <= 1) {
-        if (prePageButton) {
-            prePageButton.enabled = NO;
-        }
-    }
-    else {
-        if (prePageButton) {
-            prePageButton.enabled = YES;
-        }
-    }
-}
-
 #pragma mark -
 #pragma mark NSURLConnection delegate methods
 
@@ -377,25 +303,17 @@ BOOL usingCache = YES;
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
     NSMutableArray *newsArray = [self parseArrayWithHTMLData:self.bufferData];
-    [[NSNotificationCenter defaultCenter] postNotificationName:LoadDoneNotification
-                                                        object:self
-                                                      userInfo:[NSDictionary dictionaryWithObjectsAndKeys:newsArray, KeyNews, [NSNumber numberWithInt:loadingPageIndex], KeyPageIndex, nil]];
-    self.connection = nil;
+    [self dataLoaded:newsArray atPage:self.loadingPage success:YES];
     
-    if ([newsArray count] > 0) {
-        NSString *cacheHtml = [[NSString alloc] initWithData:self.bufferData encoding:NSUTF8StringEncoding];
-        [cacheHtml writeToFile:[self cacheFilePath]
-                    atomically:YES
-                      encoding:NSUTF8StringEncoding
-                         error:nil];
-    }
+    self.connection = nil;
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-    [[NSNotificationCenter defaultCenter] postNotificationName:LoadDoneNotification
-                                                        object:self
-                                                      userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSArray array], KeyNews, [NSNumber numberWithInt:loadingPageIndex], KeyPageIndex, nil]];
+    [self dataLoaded:nil atPage:self.loadingPage success:NO];
+    
     self.connection = nil;
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 }
 
 #pragma mark -
@@ -405,7 +323,8 @@ BOOL usingCache = YES;
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
     
-    // Relinquish ownership any cached data, images, etc that aren't in use.
+    [self.listData removeAllObjects];
+    [self.tableView reloadData];
 }
 
 - (void)dealloc {

@@ -157,14 +157,7 @@
     // Depending on our orientation when this method is called, we set our initial content size.
     // If you only support portrait or landscape orientations, then you can remove this check and
     // select either ADBannerContentSizeIdentifierPortrait (if portrait only) or ADBannerContentSizeIdentifierLandscape (if landscape only).
-	NSString *contentSize;
-	if (&ADBannerContentSizeIdentifierPortrait != nil) {
-		contentSize = UIInterfaceOrientationIsPortrait(self.interfaceOrientation) ? ADBannerContentSizeIdentifierPortrait : ADBannerContentSizeIdentifierLandscape;
-    }
-	else {
-		// user the older sizes 
-		contentSize = UIInterfaceOrientationIsPortrait(self.interfaceOrientation) ? ADBannerContentSizeIdentifier320x50 : ADBannerContentSizeIdentifier480x32;
-    }
+	NSString *contentSize = UIInterfaceOrientationIsPortrait(self.interfaceOrientation) ? ADBannerContentSizeIdentifierPortrait : ADBannerContentSizeIdentifierLandscape;
 	
     // Calculate the intial location for the banner.
     // We want this banner to be at the bottom of the view controller, but placed
@@ -182,10 +175,6 @@
     adBannerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleTopMargin;
     // Since we support all orientations in this view controller, support portrait and landscape content sizes.
     // If you only supported landscape or portrait, you could remove the other from this set.
-    
-	adBannerView.requiredContentSizeIdentifiers = (&ADBannerContentSizeIdentifierPortrait != nil) ?
-    [NSSet setWithObjects:ADBannerContentSizeIdentifierPortrait, ADBannerContentSizeIdentifierLandscape, nil] : 
-    [NSSet setWithObjects:ADBannerContentSizeIdentifier320x50, ADBannerContentSizeIdentifier480x32, nil];
     
     // At this point the ad banner is now be visible and looking for an ad.
     [self.view addSubview:adBannerView];
@@ -205,12 +194,7 @@
     CGFloat bannerHeight = 0.0f;
     
     // First, setup the banner's content size and adjustment based on the current orientation
-    if(UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
-		adBannerView.currentContentSizeIdentifier = (&ADBannerContentSizeIdentifierLandscape != nil) ? ADBannerContentSizeIdentifierLandscape : ADBannerContentSizeIdentifier480x32;
-    }
-    else {
-        adBannerView.currentContentSizeIdentifier = (&ADBannerContentSizeIdentifierPortrait != nil) ? ADBannerContentSizeIdentifierPortrait : ADBannerContentSizeIdentifier320x50;
-    }
+    adBannerView.currentContentSizeIdentifier = (UIInterfaceOrientationIsLandscape(self.interfaceOrientation) ? ADBannerContentSizeIdentifierLandscape : ADBannerContentSizeIdentifierPortrait);
     bannerHeight = adBannerView.bounds.size.height; 
 	
     // Depending on if the banner has been loaded, we adjust the content frame and banner location
