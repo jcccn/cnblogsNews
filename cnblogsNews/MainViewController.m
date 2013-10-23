@@ -9,13 +9,13 @@
 #import "MainViewController.h"
 #import "MTableViewCell.h"
 #import "NewsDetailViewController.h"
-#import "EGORefreshTableHeaderView.h"
+#import <SVPullToRefresh/SVPullToRefresh.h>
 #import "MobClick.h"
 #import "MTStatusBarOverlay.h"
 #import "Constants.h"
 #import "UMFeedback.h"
 
-@interface MainViewController (Private) <EGORefreshTableHeaderDelegate>
+@interface MainViewController (Private)
 
 - (void)dataSourceDidFinishLoadingNewData;
 
@@ -50,12 +50,6 @@
 
 @implementation MainViewController
 
-@synthesize listData;
-@synthesize reloading=_reloading;
-@synthesize footerView;
-@synthesize currentPage;
-@synthesize connection, bufferData;
-
 #pragma mark -
 #pragma mark View lifecycle
 
@@ -66,18 +60,19 @@ BOOL usingCache = YES;
     
     self.title = NSLocalizedString(@"MainTitle", @"cnblogs.com");
     self.listData = [NSMutableArray array];
-    self.tableView.scrollsToTop = YES;
     
-    connection = nil;
+    self.tableView.scrollsToTop = YES;
+    if([self respondsToSelector:@selector(edgesForExtendedLayout)]) {
+        [self setEdgesForExtendedLayout:UIRectEdgeBottom];
+    }
+    
     self.bufferData = [NSMutableData data];
 	
-	if (refreshHeaderView == nil) {
-		refreshHeaderView = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.tableView.bounds.size.height, self.tableView.bounds.size.width, self.tableView.bounds.size.height)];
-		refreshHeaderView.backgroundColor = [UIColor colorWithRed:226.0/255.0 green:231.0/255.0 blue:237.0/255.0 alpha:1.0];
-        refreshHeaderView.delegate = self;
-		[self.tableView addSubview:refreshHeaderView];
-		self.tableView.showsVerticalScrollIndicator = YES;
-	}
+    __weak MainViewController *weakSelf = self;
+	[self.tableView addPullToRefreshWithActionHandler:^{
+        [MobClick event:MobClickEventIdRefreshNewsList label:@"Start to load"];
+        [weakSelf reloadTableViewDataWithPageIndex:1];
+    }];
     
     if ( ! self.footerView) {
         UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, TableViewCellHeight)];
@@ -117,7 +112,7 @@ BOOL usingCache = YES;
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:infoButton];
     self.navigationItem.rightBarButtonItem = barButtonItem;
     
-    currentPage = 1;
+    self.currentPage = 1;
     loadingPageIndex = 1;
 }
 
@@ -131,10 +126,6 @@ BOOL usingCache = YES;
     [super viewDidAppear:animated];
     if (usingCache) {
         self.tableView.tableFooterView = nil;
-        [UIView beginAnimations:nil context:NULL];
-        [UIView setAnimationDuration:0.2];
-        self.tableView.contentInset = UIEdgeInsetsMake(60.0f, 0.0f, 0.0f, 0.0f);
-        [UIView commitAnimations];
         [self loadDataWithCache];
         [[NSNotificationCenter defaultCenter] addObserver:self 
                                                  selector:@selector(doneLoading:)
@@ -145,12 +136,6 @@ BOOL usingCache = YES;
     }
 }
 
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-	// Return YES for supported orientations.
-	return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
 - (void)infoButtonClicked:(id)sender {
     [MobClick event:MobClickEventIdClickInfoButton];
     [UMFeedback showFeedback:self withAppkey:MobClickAppKey];
@@ -158,18 +143,18 @@ BOOL usingCache = YES;
 
 - (void)preButtonClicked:(id)sender {
     [self reloadTableViewDataWithPageIndex:self.currentPage - 1];
-    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
     self.tableView.tableFooterView = nil;
-    _reloading = YES;
+    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    self.reloading = YES;
 
     [MobClick event:MobClickEventIdClickPrePage label:[@"At page " stringByAppendingFormat:@"%d", self.currentPage]];
 }
 
 - (void)nextButtonClicked:(id)sender {
     [self reloadTableViewDataWithPageIndex:self.currentPage + 1];
+        self.tableView.tableFooterView = nil;
     [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
-    self.tableView.tableFooterView = nil;
-    _reloading = YES;
+    self.reloading = YES;
 
     [MobClick event:MobClickEventIdClickNextPage label:[@"At page " stringByAppendingFormat:@"%d", self.currentPage]];
 }
@@ -180,7 +165,6 @@ BOOL usingCache = YES;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (self.connection != nil) {
         [self.connection cancel];
-        [self.tableView setContentInset:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
         self.tableView.tableFooterView = self.footerView;
     }
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
@@ -259,13 +243,6 @@ BOOL usingCache = YES;
     }
 }
 
-- (void)loadPageAt:(NSInteger)anIndex{
-    loadingPageIndex = anIndex;
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:PageUrlFormat,anIndex]]];
-    self.connection = [NSURLConnection connectionWithRequest:request delegate:self];
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-}
-
 - (NSMutableArray *)parseArrayWithHTMLData:(NSData *)data {
     TFHpple *xpathParser = [TFHpple hppleWithHTMLData:data];
     NSMutableArray *newsArray = [NSMutableArray arrayWithCapacity:30];
@@ -324,17 +301,11 @@ BOOL usingCache = YES;
 }
 
 - (void)reloadTableViewDataWithPageIndex:(NSInteger)index{
-	//  should be calling your tableviews model to reload
-	//  put here just for demo
-//    [self performSelectorInBackground:@selector(loadPageAt:) withObject:[NSNumber numberWithInt:index]];
-    [self loadPageAt:index];
+    loadingPageIndex = index;
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:PageUrlFormat,index]]];
+    self.connection = [NSURLConnection connectionWithRequest:request delegate:self];
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 	
-}
-
-
-- (void)doneLoadingTableViewData{
-	//  model should call this when its done loading
-	[self dataSourceDidFinishLoadingNewData];
 }
      
 - (void)doneLoading:(NSNotification *)notification {
@@ -362,30 +333,13 @@ BOOL usingCache = YES;
         }
     }
     usingCache = NO;
-    [self performSelectorOnMainThread:@selector(doneLoadingTableViewData) withObject:nil waitUntilDone:NO];
-}
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView{	
-	[refreshHeaderView egoRefreshScrollViewDidScroll:scrollView];
-}
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
-	
-    [refreshHeaderView egoRefreshScrollViewDidEndDragging:scrollView];
     
-	if (scrollView.contentOffset.y <= - 65.0f && !_reloading) {        
-        [MobClick event:MobClickEventIdRefreshNewsList label:@"Start to load"];
-	}
-}
-
-- (void)dataSourceDidFinishLoadingNewData{
-	
-	_reloading = NO;
-
+    self.reloading = NO;
+    
 	[self.tableView reloadData];
     self.tableView.tableFooterView = self.footerView;
     
-    [refreshHeaderView performSelector:@selector(egoRefreshScrollViewDataSourceDidFinishedLoading:) withObject:self.tableView afterDelay:0.5];
+    [self.tableView.pullToRefreshView stopAnimating];
 }
 
 - (NSString *)cacheFilePath {
@@ -395,8 +349,8 @@ BOOL usingCache = YES;
     return [documentsDirectory stringByAppendingPathComponent:@"cache.html"];
 }
 
-- (void)setCurrentPage:(NSInteger)_currentPage {
-    currentPage = _currentPage;
+- (void)setCurrentPage:(NSInteger)currentPage {
+    _currentPage = currentPage;
     UIButton *prePageButton = (UIButton *)[self.footerView viewWithTag:TagPreButton];
     if (currentPage <= 1) {
         if (prePageButton) {
@@ -445,28 +399,6 @@ BOOL usingCache = YES;
 }
 
 #pragma mark -
-#pragma mark EGORefreshTableHeaderDelegate Methods
-
-- (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view{
-	
-    _reloading = YES;
-	
-    [self reloadTableViewDataWithPageIndex:1];
-}
-
-- (BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view{
-	
-	return _reloading;
-	
-}
-
-- (NSDate*)egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view{
-	
-	return [NSDate date]; // should return date data source was last changed
-	
-}
-
-#pragma mark -
 #pragma mark Memory management
 
 - (void)didReceiveMemoryWarning {
@@ -474,10 +406,6 @@ BOOL usingCache = YES;
     [super didReceiveMemoryWarning];
     
     // Relinquish ownership any cached data, images, etc that aren't in use.
-}
-
-- (void)viewDidUnload {
-	refreshHeaderView=nil;
 }
 
 - (void)dealloc {
