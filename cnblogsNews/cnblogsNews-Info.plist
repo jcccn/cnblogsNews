@@ -8,6 +8,35 @@
 	<string>${PRODUCT_NAME}</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
+	<key>CFBundleIcons</key>
+	<dict>
+		<key>CFBundlePrimaryIcon</key>
+		<dict>
+			<key>CFBundleIconFiles</key>
+			<array>
+				<string>Icon-Spotlight-40</string>
+				<string>Icon-Small</string>
+				<string>Icon-60</string>
+				<string>Icon</string>
+			</array>
+		</dict>
+	</dict>
+	<key>CFBundleIcons~ipad</key>
+	<dict>
+		<key>CFBundlePrimaryIcon</key>
+		<dict>
+			<key>CFBundleIconFiles</key>
+			<array>
+				<string>Icon-Small</string>
+				<string>Icon-Spotlight-40</string>
+				<string>Icon-Small-50</string>
+				<string>Icon-76</string>
+				<string>Icon-72</string>
+				<string>Icon-60</string>
+				<string>Icon</string>
+			</array>
+		</dict>
+	</dict>
 	<key>CFBundleIdentifier</key>
 	<string>com.senseforce.cnblogsnews</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -17,11 +46,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.2.0</string>
+	<string>1.3.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>2</string>
+	<string>3</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -37,7 +66,6 @@
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>

@@ -1,0 +1,6 @@
+[submodule "cnblogsNews/External/UMAnalytics"]
+	path = cnblogsNews/External/UMAnalytics
+	url = https://github.com/jcccn/UMeng-Analytics-iOS.git
+[submodule "cnblogsNews/External/UMFeedback"]
+	path = cnblogsNews/External/UMFeedback
+	url = https://github.com/jcccn/UMeng-Feedback-iOS.git

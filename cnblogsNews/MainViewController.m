@@ -13,7 +13,7 @@
 #import "MobClick.h"
 #import "MTStatusBarOverlay.h"
 #import "Constants.h"
-#import "FeedbackViewController.h"
+#import "UMFeedback.h"
 
 @interface MainViewController (Private) <EGORefreshTableHeaderDelegate>
 
@@ -153,8 +153,7 @@ BOOL usingCache = YES;
 
 - (void)infoButtonClicked:(id)sender {
     [MobClick event:MobClickEventIdClickInfoButton];
-    FeedbackViewController *viewController = [[FeedbackViewController alloc] init];
-    [self.navigationController pushViewController:viewController animated:YES];
+    [UMFeedback showFeedback:self withAppkey:MobClickAppKey];
 }
 
 - (void)preButtonClicked:(id)sender {
