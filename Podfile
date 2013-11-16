@@ -6,3 +6,4 @@ pod 'hpple', :head
 
 pod 'SVPullToRefresh', :head
 
+pod 'BlocksKit', :head

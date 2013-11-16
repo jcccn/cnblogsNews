@@ -10,6 +10,12 @@
 #import "Constants.h"
 #import "MainViewController.h"
 
+#import <ShareSDK/ShareSDK.h>
+#import <TencentOpenAPI/QQApiInterface.h>
+#import <TencentOpenAPI/TencentOAuth.h>
+
+#import "WXApi.h"
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -28,6 +34,8 @@
     
     [[UMFeedback sharedInstance] setAppkey:MobClickAppKey delegate:nil];
     [UMFeedback setLogEnabled:YES];
+    
+    [self configShareSDK];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[[MainViewController alloc] initWithStyle:UITableViewStylePlain]];
@@ -67,6 +75,43 @@
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
+
+- (void)configShareSDK {
+    [ShareSDK registerApp:ShareSDKAppKey];
+    
+    //添加新浪微博应用
+    [ShareSDK connectSinaWeiboWithAppKey:SinaWeiboAppKey
+                               appSecret:SinaWeiboAppSecret
+                             redirectUri:SinaWeiboCallbackUrl];
+    
+    //添加腾讯微博应用
+    [ShareSDK connectTencentWeiboWithAppKey:TencentWeiboAppKey
+                                  appSecret:TencentWeiboAppSecret
+                                redirectUri:TencentWeiboCallbackUrl];
+    
+    //添加微信应用
+    [ShareSDK connectWeChatWithAppId:WeChatAppKey
+                           wechatCls:[WXApi class]];
+    
+    //添加QQ空间应用
+    [ShareSDK connectQZoneWithAppKey:QZoneAppKey
+                           appSecret:QZoneAppSecret];
+    
+    //添加QQ应用
+    [ShareSDK connectQQWithQZoneAppKey:QZoneAppKey
+                     qqApiInterfaceCls:[QQApiInterface class]
+                       tencentOAuthCls:[TencentOAuth class]];
+    
+    //添加Pocket应用
+    [ShareSDK connectPocketWithConsumerKey:PocketAppSecret
+                               redirectUri:PocketCallbackUrl];
+    
+    //添加印象笔记应用
+    [ShareSDK connectEvernoteWithType:SSEverNoteTypeCN
+                          consumerKey:YinXiangAppKey
+                       consumerSecret:YinXiangAppSecret];
+}
+
 
 #pragma mark -
 #pragma mark MTStatusBarOverlay Delegate Methods

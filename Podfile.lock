@@ -1,15 +1,21 @@
 PODS:
+  - BlocksKit (HEAD based on 1.8.3):
+    - libffi
   - hpple (HEAD based on 0.2.0)
+  - libffi (3.0.13)
   - MTStatusBarOverlay (HEAD based on 0.9.1)
   - SVPullToRefresh (HEAD based on 0.4.1)
 
 DEPENDENCIES:
+  - BlocksKit (HEAD)
   - hpple (HEAD)
   - MTStatusBarOverlay (HEAD)
   - SVPullToRefresh (HEAD)
 
 SPEC CHECKSUMS:
+  BlocksKit: 27257f9cbbec0ea98c80ba83cc2ea7111ae62eb2
   hpple: dde62f905f482bbec50186280d1a1be2c881241b
+  libffi: 64ef39353e747bb2b25e1026afd96a157bf9231c
   MTStatusBarOverlay: 2cee705996e4e307191d423bf49e583b9b2c14ac
   SVPullToRefresh: 61a0e4bd12bd6f8e3465909810b0fbeb1a28d5f2
 
