@@ -38,7 +38,6 @@
 
 #pragma mark -
 #pragma mark Umeng MobClick
-#define MobClickAppKey                  @"senseforce.com"
 #define MobClickEventIdRefreshNewsList  @"RefreshNewsList"
 #define MobClickEventIdReadNewsDetail   @"ReadNewsDetail"
 #define MobClickEventIdReadNewsDetailTag    @"ReadNewsDetailTag"

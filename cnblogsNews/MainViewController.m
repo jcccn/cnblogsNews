@@ -105,11 +105,13 @@
     [self loadDataWithCache];
     
     [[MTStatusBarOverlay sharedInstance] postFinishMessage:NSLocalizedString(@"WelcomeTip", @"Welcome to read cnblogs IT News") duration:3 animated:YES];
+    
+    [self loadDataAtPage:1];
 }
 
 - (void)infoButtonClicked:(id)sender {
     [MobClick event:MobClickEventIdClickInfoButton];
-    [UMFeedback showFeedback:self withAppkey:MobClickAppKey];
+    [UMFeedback showFeedback:self withAppkey:UmengAppKey];
 }
 
 #pragma mark-
