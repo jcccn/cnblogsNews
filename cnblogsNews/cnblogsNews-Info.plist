@@ -69,5 +69,19 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>wb2257674641</string>
+				<string>wb801444280</string>
+				<string>wx89ac0e84230e7cdd</string>
+				<string>QQ05FE6561</string>
+				<string>tencent100558177</string>
+				<string>pocketapp20460</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>
