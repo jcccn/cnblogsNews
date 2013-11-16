@@ -4,3 +4,6 @@
 [submodule "cnblogsNews/External/UMFeedback"]
 	path = cnblogsNews/External/UMFeedback
 	url = https://github.com/jcccn/UMeng-Feedback-iOS.git
+[submodule "cnblogsNews/External/ShareSDK"]
+	path = cnblogsNews/External/ShareSDK
+	url = https://github.com/jcccn/ShareSDK-iOS.git
