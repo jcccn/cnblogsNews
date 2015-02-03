@@ -14,7 +14,7 @@
 #import <BlocksKit/UIBarButtonItem+BlocksKit.h>
 #import <TencentOpenAPI/QQApiInterface.h>
 #import "WXApi.h"
-
+#import "DNEvernoteUtil.h"
 
 #define TagWebView  1001
 
@@ -25,6 +25,8 @@
 
 @property (nonatomic, copy) NSString *url;
 
+@property (nonatomic, strong) NSString *htmlBody;
+
 - (void)refreshTheNews;
 
 - (void)shareTheNews;
@@ -32,6 +34,8 @@
 -(void)layoutForCurrentOrientation:(BOOL)animated;
 
 -(void)createADBannerView;
+
+- (NSString *)evernoteContentForHtml:(NSString *)html;
 
 @end
 
@@ -272,6 +276,15 @@
                                           description:content
                                             mediaType:SSPublishContentMediaTypeText];
     
+    //定制不同平台的分享内容
+    //微信
+    //印象笔记
+    [publishContent addEvernoteUnitWithContent:[self evernoteContentForHtml:self.htmlBody]
+                                         title:(self.newsTitle ? self.newsTitle : @"")
+                                     resources:nil];
+    //有道
+    //QQ
+    
     id<ISSAuthOptions> authOptions = [ShareSDK authOptionsWithAutoAuth:YES
                                                          allowCallback:NO
                                                          authViewStyle:SSAuthViewStylePopup
@@ -324,6 +337,23 @@
                             }];
 }
 
+- (NSString *)evernoteContentForHtml:(NSString *)html {
+    if ( ! [html length]) {
+        return @"";
+    }
+    NSString *content = [[DNEvernoteUtil sharedClient] convertToENML:html];
+    
+    TFHpple *hpple = [TFHpple hppleWithData:[content dataUsingEncoding:NSUTF8StringEncoding] isXML:YES];
+    TFHppleElement *element = [hpple peekAtSearchWithXPathQuery:@"//en-note"];
+    
+    //TODO:产生太多的中间字符串，可以优化
+    content = [element raw];
+    content = [content stringByReplacingOccurrencesOfString:@"<en-note>" withString:@""];
+    content = [content stringByReplacingOccurrencesOfString:@"</en-note>" withString:@""];
+    
+    return content;
+}
+
 
 #pragma mark -
 #pragma mark WebviewDeledate methods
@@ -361,6 +391,9 @@
         htmlBody = [htmlBody stringByAppendingString:@"</div>"];
         
     }
+    
+    self.htmlBody = htmlBody;
+    
     [[NSNotificationCenter defaultCenter] postNotificationName:HTMLDoneNotification
                                                         object:self
                                                       userInfo:[NSDictionary dictionaryWithObject:[self convertHTMLWithBody:htmlBody] forKey:KeyHtml]];
