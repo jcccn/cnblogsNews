@@ -11,7 +11,7 @@
 #import "UMFeedback.h"
 #import "MTStatusBarOverlay.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, MobClickDelegate, MTStatusBarOverlayDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, MTStatusBarOverlayDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

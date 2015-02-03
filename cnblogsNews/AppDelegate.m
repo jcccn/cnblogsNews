@@ -110,6 +110,15 @@
     [ShareSDK connectEvernoteWithType:SSEverNoteTypeCN
                           consumerKey:YinXiangAppKey
                        consumerSecret:YinXiangAppSecret];
+    
+    //添加邮件
+    [ShareSDK connectMail];
+    
+    //添加拷贝
+    [ShareSDK connectCopy];
+    
+    //添加打印
+    [ShareSDK connectAirPrint];
 }
 
 - (BOOL)application:(UIApplication *)application  handleOpenURL:(NSURL *)url {

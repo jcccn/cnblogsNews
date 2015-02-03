@@ -12,6 +12,9 @@
 #import "Constants.h"
 #import <ShareSDK/ShareSDK.h>
 #import <BlocksKit/UIBarButtonItem+BlocksKit.h>
+#import <TencentOpenAPI/QQApiInterface.h>
+#import "WXApi.h"
+
 
 #define TagWebView  1001
 
@@ -108,14 +111,14 @@
     [self layoutForCurrentOrientation:NO];
     
     __weak NewsDetailViewController *blockSelf = self;
-    UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
-                                                                                  handler:^(id sender) {
-                                                                                      [blockSelf refreshTheNews];
-                                                                                  }];
-    UIBarButtonItem *shareButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction
-                                                                                handler:^(id sender) {
-                                                                                    [blockSelf shareTheNews];
-                                                                                }];
+    UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] bk_initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
+                                                                                     handler:^(id sender) {
+                                                                                         [blockSelf refreshTheNews];
+                                                                                     }];
+    UIBarButtonItem *shareButton = [[UIBarButtonItem alloc] bk_initWithBarButtonSystemItem:UIBarButtonSystemItemAction
+                                                                                   handler:^(id sender) {
+                                                                                       [blockSelf shareTheNews];
+                                                                                   }];
     self.navigationItem.rightBarButtonItems = @[refreshButton, shareButton];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -259,7 +262,7 @@
 }
 
 - (void)shareTheNews {
-    NSString *content = [NSString stringWithFormat:@"%@ %@ (来自【博客园新闻iOS客户端】%@)", self.newsTitle, self.urlString, AppStoreShortUrl];
+    NSString *content = [NSString stringWithFormat:@"%@ %@ 下载「博客园新闻」看更多：%@", self.newsTitle, self.urlString, AppStoreShortUrl];
     
     id<ISSContent> publishContent = [ShareSDK content:content
                                        defaultContent:[@"博客园新闻 " stringByAppendingString:AppStoreUrl]
@@ -276,20 +279,21 @@
                                                authManagerViewDelegate:nil];
     [authOptions setPowerByHidden:YES];
     
-    NSArray *shareList = [ShareSDK getShareListWithType:
-                          ShareTypeSinaWeibo,
-                          ShareTypeTencentWeibo,
-                          ShareTypeWeixiTimeline,
-                          ShareTypeWeixiSession,
-                          ShareTypePocket,
-                          ShareTypeEvernote,
-                          ShareTypeMail,
-                          ShareTypeCopy,
-                          ShareTypeAirPrint,
-                          ShareTypeQQSpace,
-                          ShareTypeQQ,
-                          nil];
-    id<ISSShareOptions> shareOptions = [ShareSDK defaultShareOptionsWithTitle:@"分享好新闻"
+    NSMutableArray *shareList = [NSMutableArray array];
+    [shareList addObjectsFromArray:[ShareSDK getShareListWithType:ShareTypeSinaWeibo, ShareTypeTencentWeibo, ShareTypeEvernote, nil]];
+    if ([WXApi isWXAppInstalled]) {
+        [shareList addObjectsFromArray:[ShareSDK getShareListWithType:ShareTypeWeixiTimeline, ShareTypeWeixiSession, ShareTypeWeixiFav, nil]];
+    }
+    if ([QQApiInterface isQQInstalled] || [QQApiInterface isQQSupportApi]) {
+        [shareList addObjectsFromArray:[ShareSDK getShareListWithType:ShareTypeQQ, ShareTypeQQSpace, nil]];
+    }
+    [shareList addObjectsFromArray:[ShareSDK getShareListWithType:
+                                    ShareTypePocket,
+                                    ShareTypeMail,
+                                    ShareTypeCopy,
+                                    ShareTypeAirPrint,nil]];
+    
+    id<ISSShareOptions> shareOptions = [ShareSDK defaultShareOptionsWithTitle:@"博客园新闻"
                                                               oneKeyShareList:shareList
                                                                qqButtonHidden:NO
                                                         wxSessionButtonHidden:NO
@@ -310,12 +314,12 @@
                      statusBarTips:YES
                        authOptions:authOptions
                       shareOptions:shareOptions
-                            result:^(ShareType type, SSPublishContentState state, id<ISSStatusInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
+                            result:^(ShareType type, SSResponseState state, id<ISSPlatformShareInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
                                 if (state == SSResponseStateSuccess) {
                                     NSLog(@"分享成功");
                                 }
                                 else if (state == SSResponseStateFail) {
-                                    NSLog(@"分享失败,错误码:%d,错误描述:%@", [error errorCode], [error errorDescription]);
+                                    NSLog(@"分享失败,错误码:%ld,错误描述:%@", (long)[error errorCode], [error errorDescription]);
                                 }
                             }];
 }

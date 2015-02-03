@@ -10,8 +10,8 @@
 #define cnblogsNews_Constants_h
 
 #define AppId               @"468638662"
-#define AppStoreUrl         @"https://itunes.apple.com/cn/app/bo-ke-yuan-xin-wen/id468638662"
-#define AppStoreShortUrl    @"http://t.cn/8DsEjOq"
+#define AppStoreUrl         @"https://itunes.apple.com/cn/app/id468638662"
+#define AppStoreShortUrl    @"http://t.cn/RZsoBzm"
 
 #define UmengAppKey             @"senseforce.com"
 

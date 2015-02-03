@@ -1,4 +1,4 @@
-# Xcode
+ Xcode
 .DS_Store
 */build/*
 *.pbxuser
@@ -18,3 +18,5 @@ DerivedData
 
 #CocoaPods
 Pods
+
+xcshareddata

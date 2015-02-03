@@ -1,22 +1,115 @@
 PODS:
-  - BlocksKit (HEAD based on 1.8.3):
-    - libffi
-  - hpple (HEAD based on 0.2.0)
-  - libffi (3.0.13)
-  - MTStatusBarOverlay (HEAD based on 0.9.1)
-  - SVPullToRefresh (HEAD based on 0.4.1)
+  - BlocksKit (2.2.5):
+    - BlocksKit/All (= 2.2.5)
+  - BlocksKit/All (2.2.5):
+    - BlocksKit/Core
+    - BlocksKit/DynamicDelegate
+    - BlocksKit/MessageUI
+    - BlocksKit/UIKit
+  - BlocksKit/Core (2.2.5)
+  - BlocksKit/DynamicDelegate (2.2.5)
+  - BlocksKit/MessageUI (2.2.5):
+    - BlocksKit/Core
+    - BlocksKit/DynamicDelegate
+  - BlocksKit/UIKit (2.2.5):
+    - BlocksKit/Core
+    - BlocksKit/DynamicDelegate
+  - hpple (0.2.0)
+  - MTStatusBarOverlay (0.9.1)
+  - ShareSDK/Copy (2.10.5):
+    - ShareSDK/Core
+  - ShareSDK/Core (2.10.5)
+  - ShareSDK/EverNote (2.10.5):
+    - ShareSDK/Core
+  - ShareSDK/Lite (2.10.5):
+    - ShareSDK/Copy
+    - ShareSDK/Mail
+    - ShareSDK/QQConnect
+    - ShareSDK/QZone
+    - ShareSDK/WeChat
+    - ShareSDK/Weibo
+  - ShareSDK/Mail (2.10.5):
+    - ShareSDK/Core
+  - ShareSDK/Normal (2.10.5):
+    - ShareSDK/EverNote
+    - ShareSDK/Lite
+    - ShareSDK/Pocket
+    - ShareSDK/YouDaoNote
+  - ShareSDK/Pocket (2.10.5):
+    - ShareSDK/Core
+  - ShareSDK/QQConnect (2.10.5):
+    - ShareSDK/Core
+  - ShareSDK/QZone (2.10.5):
+    - ShareSDK/Core
+  - ShareSDK/SinaWeibo (2.10.5):
+    - ShareSDK/Core
+  - ShareSDK/TencentWeibo (2.10.5):
+    - ShareSDK/Core
+  - ShareSDK/UI (2.10.5):
+    - ShareSDK/UI/Full (= 2.10.5)
+  - ShareSDK/UI/Flat (2.10.5)
+  - ShareSDK/UI/Full (2.10.5):
+    - ShareSDK/UI/Flat
+    - ShareSDK/UI/iPadDefault
+    - ShareSDK/UI/iPadSimple
+    - ShareSDK/UI/iPhoneAppRecommend
+    - ShareSDK/UI/iPhoneDefault
+    - ShareSDK/UI/iPhoneSimple
+    - ShareSDK/UI/ShareActionSheet
+  - ShareSDK/UI/iPadDefault (2.10.5)
+  - ShareSDK/UI/iPadSimple (2.10.5)
+  - ShareSDK/UI/iPhoneAppRecommend (2.10.5)
+  - ShareSDK/UI/iPhoneDefault (2.10.5)
+  - ShareSDK/UI/iPhoneSimple (2.10.5)
+  - ShareSDK/UI/ShareActionSheet (2.10.5)
+  - ShareSDK/WeChat (2.10.5):
+    - ShareSDK/Core
+  - ShareSDK/Weibo (2.10.5):
+    - ShareSDK/Core
+    - ShareSDK/SinaWeibo
+    - ShareSDK/TencentWeibo
+    - ShareSDK/UI
+  - ShareSDK/YouDaoNote (2.10.5):
+    - ShareSDK/Core
+  - SVPullToRefresh (0.4.1)
+  - UMAnalytics (3.1.9)
+  - UMFeedback (2.1)
 
 DEPENDENCIES:
-  - BlocksKit (HEAD)
-  - hpple (HEAD)
-  - MTStatusBarOverlay (HEAD)
-  - SVPullToRefresh (HEAD)
+  - BlocksKit
+  - hpple
+  - MTStatusBarOverlay
+  - ShareSDK/Normal (from `https://github.com/jcccn/ShareSDK-iOS.git`)
+  - SVPullToRefresh
+  - UMAnalytics (from `https://github.com/jcccn/UMeng-Analytics-iOS.git`)
+  - UMFeedback (from `https://github.com/jcccn/UMeng-Feedback-iOS.git`)
+
+EXTERNAL SOURCES:
+  ShareSDK:
+    :git: https://github.com/jcccn/ShareSDK-iOS.git
+  UMAnalytics:
+    :git: https://github.com/jcccn/UMeng-Analytics-iOS.git
+  UMFeedback:
+    :git: https://github.com/jcccn/UMeng-Feedback-iOS.git
+
+CHECKOUT OPTIONS:
+  ShareSDK:
+    :commit: 96cbf03af9928ad7075d72183192aa4cbc53c392
+    :git: https://github.com/jcccn/ShareSDK-iOS.git
+  UMAnalytics:
+    :commit: 88dede0d3d98e581739d54d9779a03874b09779b
+    :git: https://github.com/jcccn/UMeng-Analytics-iOS.git
+  UMFeedback:
+    :commit: 002716df9406f3bbe56c7bf2cce60f142a90ed22
+    :git: https://github.com/jcccn/UMeng-Feedback-iOS.git
 
 SPEC CHECKSUMS:
-  BlocksKit: 27257f9cbbec0ea98c80ba83cc2ea7111ae62eb2
-  hpple: dde62f905f482bbec50186280d1a1be2c881241b
-  libffi: 64ef39353e747bb2b25e1026afd96a157bf9231c
-  MTStatusBarOverlay: 2cee705996e4e307191d423bf49e583b9b2c14ac
-  SVPullToRefresh: 61a0e4bd12bd6f8e3465909810b0fbeb1a28d5f2
+  BlocksKit: 4439e7f30a9f90743462ca63545a15c1f4304cef
+  hpple: f4eb7c21a8db83ec264e5d614ec7509e10e5adec
+  MTStatusBarOverlay: f1fef7143ed3e9ce3d2c6ee3f297079e5cab905f
+  ShareSDK: b0f128dd1bd5686456220b4c1b986f80eec843fa
+  SVPullToRefresh: d5161ebc833a38b465364412e5e307ca80bbb190
+  UMAnalytics: adfc8e3556403cb3470f275e4793c87dc3c53b6d
+  UMFeedback: 64911b9038ba07e5a004efc935d4893465c1af7f
 
-COCOAPODS: 0.26.2
+COCOAPODS: 0.35.0

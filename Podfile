@@ -1,9 +1,20 @@
-platform :ios,'5.0'
+source 'https://github.com/CocoaPods/Specs.git'
 
-pod 'MTStatusBarOverlay', :head
+platform :ios,'6.0'
 
-pod 'hpple', :head
+# ignore all warnings from all pods
+inhibit_all_warnings!
 
-pod 'SVPullToRefresh', :head
+pod 'MTStatusBarOverlay'
 
-pod 'BlocksKit', :head
+pod 'hpple'
+
+pod 'SVPullToRefresh'
+
+pod 'BlocksKit'
+
+pod 'ShareSDK/Normal', :git => 'https://github.com/jcccn/ShareSDK-iOS.git'
+
+pod 'UMAnalytics', :git => 'https://github.com/jcccn/UMeng-Analytics-iOS.git'
+
+pod 'UMFeedback', :git => 'https://github.com/jcccn/UMeng-Feedback-iOS.git'
