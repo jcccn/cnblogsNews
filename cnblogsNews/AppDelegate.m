@@ -42,10 +42,6 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     
-    [MTStatusBarOverlay sharedInstance].animation = MTStatusBarOverlayAnimationFallDown;
-    [MTStatusBarOverlay sharedInstance].historyEnabled = YES;
-    [MTStatusBarOverlay sharedInstance].delegate = self;
-    
     return YES;
 }
 
@@ -134,22 +130,6 @@
                  sourceApplication:sourceApplication
                         annotation:annotation
                         wxDelegate:self];
-}
-
-
-#pragma mark -
-#pragma mark MTStatusBarOverlay Delegate Methods
-
-- (void)statusBarOverlayDidHide {
-    
-}
-
-- (void)statusBarOverlayDidSwitchFromOldMessage:(NSString *)oldMessage toNewMessage:(NSString *)newMessage {
-    
-}
-
-- (void)statusBarOverlayDidClearMessageQueue:(NSArray *)messageQueue {
-    
 }
 
 @end

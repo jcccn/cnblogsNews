@@ -8,7 +8,6 @@
 
 #import "MainViewController.h"
 #import <SVPullToRefresh/SVPullToRefresh.h>
-#import <MTStatusBarOverlay/MTStatusBarOverlay.h>
 #import "UMFeedback.h"
 #import "MobClick.h"
 #import "MTableViewCell.h"
@@ -103,8 +102,6 @@
     self.currentPage = 1;
     
     [self loadDataWithCache];
-    
-    [[MTStatusBarOverlay sharedInstance] postFinishMessage:NSLocalizedString(@"WelcomeTip", @"Welcome to read cnblogs IT News") duration:3 animated:YES];
     
     [self loadDataAtPage:1];
 }

@@ -5,8 +5,6 @@ platform :ios,'6.0'
 # ignore all warnings from all pods
 inhibit_all_warnings!
 
-pod 'MTStatusBarOverlay'
-
 pod 'hpple'
 
 pod 'SVPullToRefresh'
