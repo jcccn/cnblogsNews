@@ -8,35 +8,6 @@
 	<string>${PRODUCT_NAME}</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
-	<key>CFBundleIcons</key>
-	<dict>
-		<key>CFBundlePrimaryIcon</key>
-		<dict>
-			<key>CFBundleIconFiles</key>
-			<array>
-				<string>Icon-Spotlight-40</string>
-				<string>Icon-Small</string>
-				<string>Icon-60</string>
-				<string>Icon</string>
-			</array>
-		</dict>
-	</dict>
-	<key>CFBundleIcons~ipad</key>
-	<dict>
-		<key>CFBundlePrimaryIcon</key>
-		<dict>
-			<key>CFBundleIconFiles</key>
-			<array>
-				<string>Icon-Small</string>
-				<string>Icon-Spotlight-40</string>
-				<string>Icon-Small-50</string>
-				<string>Icon-76</string>
-				<string>Icon-72</string>
-				<string>Icon-60</string>
-				<string>Icon</string>
-			</array>
-		</dict>
-	</dict>
 	<key>CFBundleIdentifier</key>
 	<string>com.senseforce.cnblogsnews</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -49,6 +20,20 @@
 	<string>1.5.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>wb2257674641</string>
+				<string>wb801444280</string>
+				<string>wx89ac0e84230e7cdd</string>
+				<string>QQ05FE6561</string>
+				<string>tencent100558177</string>
+				<string>pocketapp20460</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>5</string>
 	<key>LSRequiresIPhoneOS</key>
@@ -68,20 +53,6 @@
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>wb2257674641</string>
-				<string>wb801444280</string>
-				<string>wx89ac0e84230e7cdd</string>
-				<string>QQ05FE6561</string>
-				<string>tencent100558177</string>
-				<string>pocketapp20460</string>
-			</array>
-		</dict>
 	</array>
 </dict>
 </plist>

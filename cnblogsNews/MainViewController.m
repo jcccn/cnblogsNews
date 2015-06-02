@@ -35,7 +35,7 @@
 @end
 
 #define DefaultPageURL  @"http://news.cnblogs.com/n/page/1/"
-#define PageUrlFormat   @"http://news.cnblogs.com/n/page/%d/"
+#define PageUrlFormat   @"http://news.cnblogs.com/n/page/%ld/"
 #define BaseURL         @"http://news.cnblogs.com"
 
 #define KeyTitle    @"KeyTitle"
@@ -88,7 +88,7 @@
     [self.tableView.pullToRefreshView setTitle:NSLocalizedString(@"LoadingStatus", @"Loading...") forState:SVPullToRefreshStateLoading];
     
     [self.tableView addInfiniteScrollingWithActionHandler:^{
-        [MobClick event:MobClickEventIdClickNextPage label:[@"At page " stringByAppendingFormat:@"%d", weakSelf.currentPage]];
+        [MobClick event:MobClickEventIdClickNextPage label:[@"At page " stringByAppendingFormat:@"%ld", (long)weakSelf.currentPage]];
         [weakSelf loadDataAtPage:weakSelf.currentPage + 1];
     }];
     
@@ -124,7 +124,7 @@
 
 - (void)loadDataAtPage:(NSInteger)page{
     self.loadingPage = page;
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:PageUrlFormat,page]]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:PageUrlFormat,(long)page]]];
     self.connection = [NSURLConnection connectionWithRequest:request delegate:self];
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 }
@@ -280,8 +280,8 @@
     
     cell.useDarkBackground = (indexPath.row % 2 == 1);
     cell.summary = [news valueForKey:KeyTitle];
-    cell.popularity = [NSString stringWithFormat:@"%d%@, %@%@", 
-                       [[news valueForKey:KeyView] integerValue],
+    cell.popularity = [NSString stringWithFormat:@"%ld%@, %@%@", 
+                       (long)[[news valueForKey:KeyView] integerValue],
                        NSLocalizedString(@"ViewerText", @"viewers"),
                        [news valueForKey:KeyDigg],
                        NSLocalizedString(@"DiggText", @"diggs")];

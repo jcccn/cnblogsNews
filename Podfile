@@ -1,3 +1,7 @@
+# The front repo is prior if conflicted
+# CocoaPods private repo
+source 'https://github.com/jcccn/PodSpecs.git'
+# CocoaPods master repo
 source 'https://github.com/CocoaPods/Specs.git'
 
 platform :ios,'6.0'
@@ -5,14 +9,17 @@ platform :ios,'6.0'
 # ignore all warnings from all pods
 inhibit_all_warnings!
 
+pod 'MTStatusBarOverlay'
+
 pod 'hpple'
 
 pod 'SVPullToRefresh'
 
 pod 'BlocksKit'
 
-pod 'ShareSDK/Normal', :git => 'https://github.com/jcccn/ShareSDK-iOS.git'
 
-pod 'UMAnalytics', :git => 'https://github.com/jcccn/UMeng-Analytics-iOS.git'
+pod 'ShareSDK'
 
-pod 'UMFeedback', :git => 'https://github.com/jcccn/UMeng-Feedback-iOS.git'
+pod 'UMAnalytics'
+
+pod 'UMFeedback'
